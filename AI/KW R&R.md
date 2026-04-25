@@ -1,0 +1,185 @@
+# Knowledge Represenataion
+
+Knowledge representation is a field in artificial intelligence that focuses on how to structure and encode information so that a computer system can understand and use it to solve problems or make decisions.
+
+## 1. Truth Table
+
+| P | Q | ¬P | P ∧ Q | P ∨ Q | P → Q | P ↔ Q |
+|---|---|---|---|---|---|---|
+| T | T | F | T | T | T | T |
+| T | F | F | F | T | F | F |
+| F | T | T | F | T | T | F |
+| F | F | T | F | F | T | T |
+
+## 2. Rules of Inference
+Rules of Inference are logical rules that allow us to derive new valid conclusions from existing statements.
+
+<img width="600" height="fit-content" alt="image" src="https://github.com/user-attachments/assets/55af4b4d-7c12-4181-81e5-536da8409fc2" />
+
+### Rules of inference can be used when:
+
+**1. Statements are in logical form**
+Natural language must first be converted to propositional logic or FOPL before any rule can be applied.
+
+**2. Premises are known to be true**
+Rules only produce valid conclusions if the statements they operate on are actually true.
+
+**3. Pattern of the rule matches**
+Each rule has a specific structure that must be satisfied. For example Modus Ponens needs exactly P and P → Q to fire.
+
+**4. For Resolution — statements must be in CNF**
+Complementary literals must exist in two separate clauses before resolution can be applied.
+
+**5. For Forward/Backward Chaining — statements must be Horn clauses**
+Both chaining methods only work on clauses with at most one positive literal.
+
+## 3. First Order Logic (FOPL)
+
+**Predicate Logic** (First Order Predicate Logic / FOPL) is an extension of propositional logic that allows reasoning about objects, their properties, and relationships between them using predicates, quantifiers, and variables.
+
+**Key Components:**
+
+**1. Predicate**
+A function that returns true or false based on properties of objects.
+- Example: Animal(x) — true if x is an animal
+
+**2. Constants**
+Specific fixed individuals in the domain.
+- Example: Jack, Nono, Rudolph
+
+**3. Variables**
+Placeholders representing any individual in the domain.
+- Example: x, y, z — must always be bound by a quantifier
+
+**4. Quantifiers**
+- **Universal (∀)** — statement applies to all individuals. Example: ∀x: Human(x) → Mortal(x)
+- **Existential (∃)** — at least one individual satisfies the statement. Example: ∃x: Bird(x) ∧ CanFly(x)
+
+**5. Connectives**
+Logical operators used to combine predicates — ∧ (and), ∨ (or), ¬ (not), → (implies), ↔ (biconditional)
+
+**6. Functions**
+Map objects to other objects.
+- Example: FatherOf(Jack) refers to Jack's father as an object
+
+**Advantages over Propositional Logic:**
+- Can represent complex real world knowledge involving objects and relationships
+- Supports quantified statements — something propositional logic cannot express
+- Basis for automated reasoning systems like resolution and forward/backward chaining
+
+### English Statementa To FOPL
+**Universal (∀) — use →**
+
+- "Every / All X is Y" → ∀x: X(x) → Y(x)
+- "No X is Y" → ∀x: X(x) → ¬Y(x)
+- "Nobody does Y" → ∀x: ¬Y(x)
+- "Every X that is Y is also Z" → ∀x: X(x) ∧ Y(x) → Z(x)
+- "Not any X is Y" → ∀x: X(x) → ¬Y(x)
+
+
+**Existential (∃) — use ∧**
+
+- "Some X is Y" → ∃x: X(x) ∧ Y(x)
+- "Some X is not Y" → ∃x: X(x) ∧ ¬Y(x)
+- "At least one X is Y" → ∃x: X(x) ∧ Y(x)
+
+**Tricky ones**
+
+- "Not all X are Y" → ∃x: X(x) ∧ ¬Y(x) — sounds universal but is existential
+- "Not every X is Y" → ∃x: X(x) ∧ ¬Y(x) — same as not all
+- "Either X or Y" → X ∨ Y — not biconditional
+- "Neither X nor Y" → ¬X ∧ ¬Y — both negated
+
+
+**If...then**
+
+- Specific individual named → no quantifier needed, just →
+   - "If John is hungry, John eats" → Hungry(John) → Eats(John, Food)
+- General group → ∀ with →
+   - "If a person is a doctor, they are educated" → ∀x: Doctor(x) → Educated(x)
+
+**Multiple individuals**
+
+- Count distinct individuals → that many variables and quantifiers
+- Each individual — ask is it "all" → ∀ or "some" → ∃
+   - "Every country has a capital" → two individuals → ∀x ∃y: Country(x) → Capital(y, x)
+   - "Every parent loves their child" → two individuals → ∀x ∀y: Parent(x,y) → Loves(x,y)
+
+**Multiple conditions on subject**
+
+- "Every X that is Y" → two conditions joined by ∧ on LHS
+   - "Every student who studies passes" → ∀x: Student(x) ∧ Studies(x) → Passes(x)
+
+**Golden rules — never forget**
+
+- ∀ → always pairs with **→**
+- ∃ → always pairs with **∧**
+- Specific name → **no quantifier**
+- General noun → **∀ (implicit universal)**
+
+## 4. Some Terminologies
+**Unification** — Unification is the process of finding a substitution for variables such that two expressions become identical. It is used in forward chaining, backward chaining, and resolution to match a rule's LHS with known facts by replacing variables with constants.
+- ∀x: Missile(x) → Weapon(x) + fact Missile(M1) → substitute {x = M1} → rule fires → Weapon(M1)
+
+**Skolemization** — replacing ∃ variables with a constant or function to eliminate existential quantifiers.
+- ∃x: Missile(x) ∧ Owns(Nono, x) → replace x with constant M1 → Missile(M1) ∧ Owns(Nono, M1)
+- ∀x ∃y: Loves(x, y) → y depends on x → replace with function f(x) → ∀x: Loves(x, f(x))
+
+## 5. CNF
+**CNF (Conjunctive Normal Form)** is a standard form of representing logical statements as a conjunction (AND) of clauses, where each clause is a disjunction (OR) of literals, and a literal is either a positive or negated atomic formula.
+
+
+**Example:** ∀x: Child(x) → Loves(x, Santa) converts to ¬Child(x) ∨ Loves(x, Santa)
+
+### FOL to CNF
+- Eliminate biconditionals (**A ↔ B becomes (A → B) ∧ (B → A) which then becomes (¬A ∨ B) ∧ (¬B ∨ A)**)
+- Eliminate implications (A → B becomes ¬A ∨ B)
+- Push negations inward using De Morgan's law (¬(A ∧ B) becomes ¬A ∨ ¬B)
+- Eliminate existential quantifiers using Skolemization
+- Drop universal quantifiers
+- Distribute OR over AND if needed
+
+
+CNF is required for resolution-based proof methods like Resolution Refutation.
+
+## Resolution
+
+Resolution is an inference rule that works on CNF clauses by cancelling complementary literals (P and ¬P) from two clauses to derive a new clause.
+
+
+### 6.1 Proof by Contradiction (Refutation)
+
+1. Convert all statements to FOPL
+2. Convert all FOPL to CNF
+3. **Negate the goal** and add as a new clause
+4. Resolve pairs of clauses with complementary literals
+5. Keep deriving new clauses until **□ (empty clause)** is reached
+6. □ means contradiction — so original goal is **proved true**
+
+
+### 6.2 Answer by Extraction
+
+1. Convert all statements to FOPL
+2. Convert all FOPL to CNF
+3. **Negate the goal but keep a variable** — e.g. to find "who is criminal" negate as ¬Criminal(x)
+4. Resolve clauses as usual, tracking substitutions {x = ...} at each step
+5. When □ is reached, the substitution applied to the variable **gives the answer**
+6. e.g. {x = West} found during resolution → **answer is West**
+
+   
+
+**CNF is necessary because resolution rule can only be applied on clauses**, and a clause is specifically a disjunction (OR) of literals. Resolution works by cancelling complementary literals (P and ¬P) from two clauses — this cancellation is only possible when statements are in the standard clause form that CNF provides.
+
+Without CNF:
+- Statements have implications (→), nested quantifiers, conjunctions mixed with disjunctions — resolution cannot be directly applied on these
+- There is no standard form, so automated reasoning systems cannot systematically process the statements
+
+With CNF:
+- Every statement is broken down into simple OR clauses
+- Complementary literals are easy to identify and cancel
+- Resolution can be applied mechanically step by step until □ is derived
+- It provides a **complete and sound** proof procedure — if a contradiction exists, resolution on CNF will always find it
+
+In short, CNF acts as a **common language** that all statements must be converted to before the resolution inference engine can work on them.
+
+
