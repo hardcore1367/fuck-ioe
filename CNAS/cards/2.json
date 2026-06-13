@@ -1,0 +1,124 @@
+[
+  {
+    "question": "What is Transmission Media? What are its two broad categories?",
+    "answer": "The physical path through which data signals travel from sender to receiver. Divided into:\n- **Guided media** — signals confined within a physical medium (wires/cables)\n- **Unguided media** — signals travel freely through air/space as electromagnetic waves\n\nChoice of medium affects speed, distance, and quality of communication."
+  },
+ {
+  "question": "What is a Twisted Pair Cable and how does twisting help?",
+  "answer": "A Twisted Pair Cable consists of two insulated copper wires twisted around each other. It is the most widely used cable in LANs and telephone networks.\n\nTwisting helps cancel electromagnetic interference (EMI) from neighboring wires by causing induced noise to cancel out, reducing signal distortion and improving communication quality."
+},{
+  "question": "What are the types of Twisted Pair Cable? Compare UTP and STP.",
+  "answer": "Two types of Twisted Pair Cable:\n\n1. UTP (Unshielded Twisted Pair) – No extra shielding around the wire pairs.\n2. STP (Shielded Twisted Pair) – Has a metallic foil or braided shield around the pairs.\n\n| Feature | UTP | STP |\n|---|---|---|\n| Shielding | None | Metallic foil/braid |\n| EMI resistance | Lower | Much better |\n| Cost | Cheap | More expensive |\n| Installation | Easy | Harder (shield must be grounded) |\n| Use case | LAN, telephone | Noisy environments (factories) |"
+},
+  {
+    "question": "What is a Coaxial Cable and what are its characteristics?",
+    "answer": "Central copper conductor → dielectric insulator → metallic shield → outer plastic jacket, all sharing the **same axis**. This layered structure gives better noise immunity and higher bandwidth than twisted pair, suitable for both analog and digital signals over longer distances.\n\n- **Advantages:** Higher bandwidth, better EMI resistance, longer distances with less attenuation\n- **Disadvantages:** More expensive and bulkier than twisted pair; largely replaced by fiber for high-speed links"
+  },
+  {
+    "question": "What is a Fiber Optic Cable and how does it work?",
+    "answer": "Transmits data as **pulses of light** through a glass/plastic core using **total internal reflection** — light bounces along the fiber without escaping. Highest bandwidth, lowest attenuation, complete immunity to EMI.\n\n**Structure (inside → out):**\n- **Core** — thin glass/plastic through which light travels\n- **Cladding** — lower refractive index layer causing total internal reflection\n- **Jacket** — physical protection"
+  },
+  {
+    "question": "What are the two types of fiber optic cable?",
+    "answer": "| | SMF (Single-Mode) | MMF (Multimode) |\n|---|---|---|\n| Core diameter | Very small | Much larger |\n| Light paths | One straight path | Multiple paths at different angles |\n| Light source | Laser | LED |\n| Modal dispersion | None | Present (different paths arrive at different times) |\n| Distance | Very long (backbone/telecom) | Short (LAN within a building) |\n\n**MMF subtypes:**\n- *Step-Index* — refractive index changes abruptly; high modal dispersion, poor long-distance performance\n- *Graded-Index* — refractive index decreases gradually; outer rays travel faster, lower dispersion, better performance"
+  },
+
+  {
+    "question": "What are the propagation methods in unguided media?",
+    "answer": "- **Ground Wave** — radio waves travel along the earth's surface following its curvature; effective at low frequencies (<3 MHz); covers thousands of km. Used in AM radio and maritime communication.\n- **Sky Wave** — signals transmitted upward and reflected back by the **ionosphere**; works at 3–30 MHz; enables very long-distance communication without relay stations. Used in shortwave radio.\n- **Line-of-Sight (LOS)** — signals travel in a straight line between transmitter and receiver; both must be within visual range; used above 30 MHz (microwave, satellite); towers/relay stations compensate for earth's curvature."
+  },
+  {
+    "question": "What are the types of unguided media and their characteristics?",
+    "answer": "- **Radio Waves** (3 kHz–1 GHz) — travel in all directions, can penetrate walls and obstacles, follow ground or sky wave propagation. Used in AM/FM radio, Wi-Fi, Bluetooth.\n- **Microwave** (1–40 GHz) — travel in straight lines (LOS). *Terrestrial:* dish antennas on towers 20–80 km apart for telephone backbones. *Satellite:* uses an orbiting satellite as relay for long-distance communication.\n- **Infrared** — very short range, LOS only, cannot penetrate walls, immune to radio frequency interference. Used in TV remotes and short-range devices."
+  },
+  {
+  "question": "What are the components of a satellite communication system?",
+  "answer": "Satellite communication uses a satellite as a relay station for ground-to-ground communication over oceans, mountains, or remote regions.\n\nKey components:\n- Space Segment — Satellite with a transponder that receives the uplink, amplifies it, shifts its frequency, and retransmits it as a downlink.\n- Ground Segment — Dish antenna with transmitter/receiver; includes uplink stations (transmit to satellite) and downlink stations (receive from satellite).\n- Control Station — Monitors satellite position and health using TT&C (Telemetry, Tracking, and Command)."
+},{
+  "question": "What are the orbital types used in satellite communication?",
+  "answer": "The three main satellite orbits are GEO (Geostationary Earth Orbit), MEO (Medium Earth Orbit), and LEO (Low Earth Orbit)."
+},{
+  "question": "GEO vs MEO vs LEO satellites.",
+  "answer": "| Feature | GEO | MEO | LEO |\n|---|---|---|---|\n| Altitude | ~35,786 km | 2,000–35,000 km | 160–2,000 km |\n| Fixed relative to Earth? | Yes | No | No (moves fast) |\n| Latency | High | Medium | Very low |\n| Coverage | ~1/3 of Earth per satellite | Medium | Small area per satellite |\n| Use | TV broadcast, weather | GPS, navigation | Satellite internet (Starlink) |"
+},
+  {
+    "question": "Guided vs Unguided Media",
+    "answer": "| | Guided | Unguided |\n|---|---|---|\n| Signal path | Confined within physical medium | Travels freely through air/space |\n| Medium | Twisted pair, coaxial, fiber | Air, vacuum, water |\n| Installation | Requires physical cabling | No cables needed |\n| Mobility | Fixed — devices must be wired | Supports mobile/remote devices |\n| Security | More secure | Less secure — signal can be intercepted |\n| EMI | Susceptible (except fiber) | Highly susceptible |\n| Distance | Limited by cable/attenuation | Can cover very large distances (satellite) |"
+  },
+  {
+    "question": "What is Switching and what are its main types?",
+    "answer": "The process of forwarding data from a source to a destination through a network of interconnected nodes, directing data through the optimal path.\n\nMain types:\n- **Circuit Switching** — dedicated path established before communication\n- **Message Switching** — entire message stored and forwarded hop by hop\n- **Packet Switching** — data broken into packets sent independently (Datagram or Virtual Circuit)"
+  },
+  {
+    "question": "How does Circuit Switching work?",
+    "answer": "A **dedicated path** is established between two devices before any data is sent. Resources (bandwidth) are reserved for the entire session.\n\n**Three phases:**\n1. **Setup** — dedicated circuit established, resources reserved along the entire path\n2. **Data Transfer** — data flows continuously in order with no delay (path is fixed and reserved)\n3. **Termination** — circuit released and all reserved resources freed\n\n*Real-world example: traditional telephone network*"
+  },
+  {
+    "question": "How does Message Switching work and what are its drawbacks?",
+    "answer": "The **entire message** is sent from source to destination through intermediate nodes with **no dedicated path**. Each node receives the complete message, stores it temporarily, then forwards it — known as **store-and-forward**.\n\n**Drawbacks:**\n- Significant delays, especially for large messages (each node must store the whole message before forwarding)\n- Requires large storage capacity at each intermediate node\n- If an intermediate node fails, the stored message can be lost → unreliable"
+  },
+  {
+    "question": "How does Datagram Switching work?",
+    "answer": "A **connectionless** approach where each packet is treated as an **independent unit** and routed separately. Each packet carries source address, destination address, and sequence number.\n\n- No dedicated path established before transmission\n- Each router makes its own forwarding decision per packet based on its routing table\n- Two consecutive packets from the same message can take completely different routes\n- Packets may arrive **out of order, late, or not at all**\n- Destination is responsible for collecting, reordering, and reassembling packets using sequence numbers\n\n**Strength:** If a node fails or route is congested, packets are automatically rerouted → **fault tolerant and flexible**\n\n**Trade-off:** Higher overhead — each packet carries full addressing info and every router makes individual routing decisions per packet."
+  },
+  {
+    "question": "How does Virtual Circuit Switching work?",
+    "answer": "A **connection-oriented** approach where a **logical path (virtual circuit)** is established before any data is sent. All packets follow the same fixed path in order.\n\n**Three phases:**\n1. **Setup** — virtual circuit established, each node along path informed, a **virtual circuit identifier (VCI)** assigned\n2. **Data Transfer** — all packets follow same path using VCI instead of full destination address (lower overhead); packets arrive **in order**\n3. **Termination** — virtual circuit released, resources freed\n\n**Strength:** Predictable delay and performance; easier and faster reassembly at destination.\n\n**Trade-off:** If any node on the circuit fails, entire communication is disrupted and a new virtual circuit must be established. Also has initial setup delay."
+  },
+  {
+    "question": "Datagram Switching vs Virtual Circuit Switching?",
+    "answer": "| | Datagram | Virtual Circuit |\n|---|---|---|\n| Connection type | Connectionless | Connection-oriented |\n| Path | Each packet routed independently | All packets follow same fixed logical path |\n| Packet header | Full source + destination address (higher overhead) | Only VCI (lower overhead) |\n| Packet order at destination | May arrive out of order | Always arrive in order |\n| Setup delay | None | Yes — virtual circuit must be set up first |\n| Fault tolerance | Node failure → packets rerouted automatically | Node failure → entire communication disrupted |\n| Flexibility | High | Lower — packets locked to fixed path |"
+  },
+  {
+    "question": "Circuit Switching vs Packet Switching?",
+    "answer": "| Circuit Switching | Packet Switching |\n|---|---|\n| Dedicated path established before transmission | No dedicated path — each packet routed independently |\n| Resources fully reserved throughout session | Resources shared, used only when transmitting |\n| Fixed bandwidth allocated even during idle periods | Bandwidth used on demand, no waste during idle |\n| Setup delay at start, no delay during transmission | No setup delay, but each packet experiences node delay |\n| Data sent as continuous stream | Data broken into packets, may take different routes |\n| Less efficient — reserved resources sit idle | More efficient — resources shared dynamically |\n| Example: telephone network | Example: the internet |"
+  },
+  {
+    "question": "What is Frame Relay and how does SVC work?",
+    "answer": "A **WAN protocol** based on virtual circuit switching. Uses virtual circuits to establish logical connections between endpoints.\n\n**SVC (Switched Virtual Circuit)** — dynamically established on demand and released after communication, similar to a phone call. Works in three stages:\n1. **Call Setup** — device sends call request, network finds a path, establishes virtual circuit, assigns a **DLCI (Data Link Connection Identifier)**\n2. **Data Transfer** — data sent as frames through the logical path using the DLCI number\n3. **Call Termination** — disconnection signal sent, DLCI freed and resources released"
+  },
+  {
+    "question": "What is X.25 and how does it work?",
+    "answer": "An older **WAN protocol** defining how devices connect to a packet-switched network. Operates across **3 layers** (physical, data link, network). Uses virtual circuits and provides reliable, error-free delivery through **extensive error checking and flow control at every node**.\n\n**Three phases:** Call Setup (virtual circuit + logical channel number assigned) → Data Transfer (packets follow same path) → Call Clearing (virtual circuit terminated, channel number released)\n\n**Packet Format:** Header (logical channel number + control info) | Data field | Error checking field"
+  },
+  {
+    "question": "X.25 vs Frame Relay?",
+    "answer": "| X.25 | Frame Relay |\n|---|---|\n| Error checking and flow control at **every node** → slower | Error checking only at **endpoints** → faster |\n| Designed for analog/noisy transmission lines | Designed for digital/reliable lines |\n| Higher overhead — extensive control info at each node | Lower overhead — no node-by-node error checking |\n| Lower speed, low bandwidth networks | Much higher speed, high bandwidth networks |\n| Uses 3-layer protocol stack | Operates mainly at data link layer |\n| Older, largely outdated | More modern; replaced by newer tech |"
+  },
+  {
+    "question": "What is Multiplexing and what are MUX and DEMUX?",
+    "answer": "A method of **combining multiple signals/data streams into a single signal** for transmission over a shared medium, maximizing bandwidth utilization and efficiency. Physical links are expensive — multiplexing maximizes their utilization.\n\n- **MUX (Multiplexer)** — combines signals at the sender side\n- **DEMUX (Demultiplexer)** — separates them back at the receiver side\n\nMain types: **FDM** (frequency), **TDM** (time), **WDM** (wavelength/light)"
+  },
+  {
+    "question": "How does Frequency Division Multiplexing (FDM) work?",
+    "answer": "An **analog multiplexing** technique where total bandwidth is divided into smaller **frequency bands**, each assigned to a different signal. All signals travel **simultaneously** — separated by frequency, not time.\n\n**Multiplexing:** Each baseband signal is **modulated** onto a unique carrier frequency → signals occupy non-overlapping bands → combined into composite signal.\n\n**Demultiplexing:** Composite signal separated using **bandpass filters** (one per channel) → each filtered signal demodulated back to original.\n\nUsed in: radio broadcasting, cable TV, DSL."
+  },
+  {
+    "question": "How does Wavelength Division Multiplexing (WDM) work and how does it differ from FDM?",
+    "answer": "The **optical equivalent of FDM**, designed specifically for **fiber optic cables**. Combines multiple light beams of different **wavelengths (colors)** onto a single fiber — each wavelength acts as an independent channel.\n\n**Working:** Each input is carried on a different wavelength (λ₁, λ₂, λ₃...) → **optical prism/multiplexer** combines all wavelengths into one composite light beam through the fiber → at receiver, prism/demultiplexer splits it back into individual wavelengths. Done using **optical prisms or diffraction gratings** — no electronic conversion needed.\n\nDWDM (Dense WDM) can reach **Tbps** capacity."
+  },
+  {
+    "question": "How does Time Division Multiplexing (TDM) work? What are its two types?",
+    "answer": "A **digital multiplexing** technique where multiple signals share a link by **taking turns** — each gets full bandwidth but only for a brief repeating **time slot**. Link time is divided into repeating **frames**, each frame split into fixed slots.\n\n| | Synchronous TDM | Statistical TDM |\n|---|---|---|\n| Slot assignment | Fixed — every channel gets a slot every frame regardless | Dynamic — only channels with data get a slot |\n| Idle channels | Slot sent empty (wasted) | No slot allocated (no waste) |\n| Packet header needed? | No — slot position implies channel identity | Yes — each slot has a header to identify the channel |\n| Efficiency | Lower | Higher |\n| Complexity | Simple | More complex |"
+  },
+  {
+    "question": "FDM vs TDM vs WDM comparison?",
+    "answer": "| | FDM | TDM | WDM |\n|---|---|---|---|\n| Divides by | Frequency | Time slots | Wavelength of light |\n| Signal type | Analog | Digital | Optical (light) |\n| Medium | Copper wire / radio | Copper or fiber | Fiber optic only |\n| Simultaneous? | All channels active at once | Channels take turns | All wavelengths active at once |\n| Separation method | Bandpass filters | Time slot position / headers | Optical prisms / diffraction gratings |\n| Idle waste | Yes | Yes (sync) / No (statistical) | Yes |\n| Capacity | Moderate | Moderate | Extremely high (DWDM = Tbps) |\n| Used in | Radio, cable TV, DSL | Phone networks, ISDN | Fiber backbone, undersea cables |"
+  },
+  {
+    "question": "What is ISDN and what is its purpose?",
+    "answer": "**Integrated Services Digital Network** — a set of communication standards for **digital transmission of voice, video, data, and other services** over the traditional telephone network infrastructure.\n\nDeveloped to replace the old analog telephone system with a **fully digital end-to-end network**. Allows multiple digital signals to be transmitted simultaneously over a single telephone line — providing higher speed and better quality than analog. Main purpose: a **single unified digital network** for voice, video conferencing, data transfer, and fax all over the same line."
+  },
+  {
+    "question": "What are the key components in ISDN architecture?",
+    "answer": "- **TE1** — natively ISDN-compatible device (ISDN phone); connects directly to network\n- **TE2** — non-ISDN device (regular analog phone, standard PC); requires a Terminal Adapter\n- **TA (Terminal Adapter)** — converts non-ISDN equipment signals to ISDN format; bridge between TE2 and network\n- **NT1** — connects user premises to the ISDN local loop; handles physical/electrical connection\n- **NT2** — intelligent device (e.g. PBX) handling internal switching and distribution within a building\n- **ISDN Switch** — at telephone exchange; handles call routing, switching, and connection management"
+  },
+  {
+    "question": "What are the interface types in ISDN and their configurations?",
+    "answer": "- **BRI (Basic Rate Interface)** — **2B + D** configuration; 2 Bearer channels (64 Kbps each) + 1 Delta channel (signaling). For home users and small businesses.\n\n- **PRI (Primary Rate Interface)** — higher capacity for large businesses:\n  - **PRI Type 1** (North America/Japan) — **23B + D**\n  - **PRI Type 2** (Europe) — **30B + D**"
+  },
+  {
+    "question": "What channel types does ISDN use and what does each do?",
+    "answer": "- **B Channel (Bearer)** — primary data-carrying channel; transmits actual user content (voice, video, file transfers) at **64 Kbps per channel**\n- **D Channel (Delta)** — does **not** carry user data; handles signaling, call setup, teardown, and control information; can occasionally carry small amounts of packet data\n- **H Channel (High-speed)** — for bandwidth-intensive applications like video conferencing and high-speed data transfer; comes in variants (H0, H11, H12) with progressively higher capacity than a standard B channel"
+  }
+]
