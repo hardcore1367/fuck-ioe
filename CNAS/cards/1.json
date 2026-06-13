@@ -1,0 +1,115 @@
+[
+  {
+    "question": "What is a Computer Network?",
+    "answer": "Infrastructure that allows computers and networking devices to exchange data. A collection of devices using a **common network protocol** to share information over a network medium."
+  },
+  {
+    "question": "What is a Client-Server Network?",
+    "answer": "A model with two fixed, never-swapping roles — **clients** (devices that request services) and **servers** (powerful, always-on machines that store data and provide services).\n\n*Example: your browser is the client; the machine hosting the website is the server.*"
+  },
+  {
+    "question": "What is a Peer-to-Peer (P2P) Network?",
+    "answer": "A model where every device (peer) acts as **both client and server** simultaneously. No central machine in control — peers share resources directly with each other.\n\n*Example: BitTorrent, where users simultaneously download from and upload to others.*"
+  },
+  {
+    "question": "What is an Active Network?",
+    "answer": "A network model where intermediate nodes (routers, switches) **don't just forward packets** — they can process, modify, or execute code inside them. Nodes are programmable and perform custom computations on data in transit.\n\n*Example: a router that compresses or encrypts data on the fly before forwarding, without the sender/receiver doing anything extra.*"
+  },
+  {
+    "question": "What is Network Topology?",
+    "answer": "The arrangement or layout of **devices (nodes)** and **connections (links)** in a network. Defines how devices are physically or logically connected to each other."
+  },
+  {
+    "question": "What is a Protocol?",
+    "answer": "A set of rules defining how data is transmitted and received between devices — ensures communication even across different manufacturers. Examples: HTTP, FTP, TCP, IP."
+  },
+{
+    "question": "What is a Standard?",
+    "answer": "Officially approved rules adopted by a recognized body so different systems can interoperate. Two types:\n- *De facto* — widely used in practice (e.g. QWERTY keyboard)\n- *De jure* — officially approved by organizations like ISO, IEEE, ITU"
+  },
+
+  {
+    "question": "What is Layered Architecture?",
+    "answer": "A design approach where the communication system is broken into **distinct layers**, each responsible for a specific task. Each layer provides services to the layer above it and uses services from the layer below it."
+  },
+  {
+    "question": "Why use Layered Architecture?",
+    "answer": "- Breaks complex networking into smaller, manageable pieces\n- Each layer can be developed, tested, and updated **independently** without affecting others\n- Allows different manufacturers to build compatible products by following the same layer rules\n- Easier troubleshooting — each layer has a defined responsibility\n- Promotes **modularity and reusability** across different network systems"
+  },
+  {
+    "question": "What are the Design Issues in Layered Architecture?",
+    "answer": "- **Addressing** — identifying sender/receiver at each layer\n- **Error Control** — detecting and correcting transmission errors at appropriate layers\n- **Flow Control** — preventing a fast sender from overwhelming a slow receiver\n- **Multiplexing** — multiple conversations sharing the same physical connection simultaneously\n- **Routing** — choosing the best path when multiple paths exist\n- **Encapsulation** — each layer adds its own header before passing data down"
+  },
+   {
+    "question": "What is the OSI Model and what are its 7 layers in order?",
+    "answer": "A **conceptual framework by ISO** that standardizes how different network systems communicate. Divides communication into **7 layers**, each with a specific responsibility, communicating only with adjacent layers.\n\n| # | Layer |\n|---|---|\n| 7. | Application Layer|\n| 6. | Presentation Layer|\n| 5. | Session Layer|\n| 4. | Transport Layer |\n| 3. | Network Layer |\n| 2. | Data Link Layer |\n| 1. | Physical Layer |"
+  },
+  {
+    "question": "OSI: Layer 7 — Application Layer",
+    "answer": "The **topmost layer**, closest to the end user. Provides network services directly to user applications like browsers, email clients, and file transfer programs.\n\n**Protocols:** HTTP, FTP, SMTP, DNS"
+  },
+  {
+    "question": "OSI: Layer 6 — Presentation Layer",
+    "answer": "Acts as a **translator between the network and application**. Responsible for translating, encrypting, and compressing data so the application layer can understand it.\n\n**Handles:** JPEG, MP3, SSL encryption formats"
+  },
+  {
+    "question": "OSI: Layer 5 — Session Layer",
+    "answer": "Manages and controls **connections (sessions)** between two communicating devices. Responsible for establishing, maintaining, and terminating sessions. Also handles **session recovery** if a connection drops mid-transfer."
+  },
+  {
+    "question": "OSI: Layer 4 — Transport Layer",
+    "answer": "Responsible for **end-to-end communication** and reliable data delivery. Breaks data into segments, sends them, and reassembles at the destination. Also handles error control and flow control.\n\n**Protocols:** TCP (reliable) and UDP (fast but unreliable)"
+  },
+  {
+    "question": "OSI: Layer 3 — Network Layer",
+    "answer": "Responsible for **logical addressing and routing** of data packets across multiple networks. Determines the best path from source to destination.\n\n**Protocol:** IP (Internet Protocol) | **Device:** Routers"
+  },
+  {
+    "question": "OSI: Layer 2 — Data Link Layer",
+    "answer": "Responsible for **node-to-node delivery** within the same network. Takes raw bits from the physical layer and organizes them into **frames**. Handles error detection and MAC addressing.\n\n**Devices:** Switches and Bridges"
+  },
+  {
+    "question": "OSI: Layer 1 — Physical Layer",
+    "answer": "The **lowest layer**. Deals with actual physical transmission of raw bits (0s and 1s) over a physical medium — cables, fiber optics, or radio waves. Defines hardware specs like voltage levels, cable types, and data rates."
+  },
+  {
+    "question": "What is the TCP/IP Model?",
+    "answer": "A **practical 4-layer networking model** developed by the US Department of Defense. Unlike OSI (theoretical), TCP/IP is the **actual model used in the real world** and forms the foundation of the modern internet. Simpler than OSI as it merges several OSI layers into one."
+  },
+  {
+    "question": "TCP/IP: All 4 layers in order?",
+    "answer": "| # | Layer |\n|---|---|\n| 4. | Application Layer |\n| 3. | Transport Layer |\n| 2. | Internet Layer |\n| 1. | Network Access Layer |"
+  },
+  {
+    "question": "TCP/IP: Layer 4 — Application Layer",
+    "answer": "Topmost layer. Combines the functions of OSI's **Application + Presentation + Session** layers into one. Provides protocols that applications use to communicate over the network.\n\n**Protocols:** HTTP, FTP, SMTP, DNS, Telnet"
+  },
+  {
+    "question": "TCP/IP: Layer 3 — Transport Layer",
+    "answer": "Responsible for **end-to-end communication** and reliable data delivery. Breaks data into segments and ensures correct delivery using:\n- **TCP** — reliable, connection-oriented\n- **UDP** — fast, connectionless"
+  },
+  {
+    "question": "TCP/IP: Layer 2 — Internet Layer",
+    "answer": "Responsible for **logical addressing and routing** of packets across multiple networks. Determines the best path to destination.\n\n**Protocols:** IP (main), ICMP (error reporting), ARP (address resolution)"
+  },
+  {
+    "question": "TCP/IP: Layer 1 — Network Access Layer",
+    "answer": "Lowest layer. Combines OSI's **Data Link + Physical** layers. Handles physical transmission over the network medium including MAC addressing, framing, and bit transmission over cables, fiber, or wireless."
+  },
+  {
+  "question": "OSI vs TCP/IP",
+  "answer": "| SN | OSI | TCP/IP |\n|---|---|---|\n| 1 | 7 layers | 4 layers |\n| 2 | Protocols independent of model → more flexible | Protocols built into model → less flexible |\n| 3 | Strict, clearly defined layer boundaries | Layer boundaries less strict, functions can overlap |\n| 4 | Separate Presentation layer (encryption, compression, translation) | No separate Presentation layer — handled by Application |\n| 5 | Separate Session layer | No separate Session layer — handled by Application |\n| 6 | Error control at both Data Link and Transport | Error control primarily at Transport only |\n| 7 | Network layer supports connection-oriented & connectionless | Internet layer is connectionless only |\n| 8 | Better for large/complex enterprise networks | Better for real-world internet communication |"
+},
+  {
+    "question": "What is Data Encapsulation in the OSI Model?",
+    "answer": "The process where **each layer adds its own header** (and sometimes trailer) to the data before passing it down to the next layer. At the receiving end, each layer strips its own header as data moves up — this reverse process is called **de-encapsulation**."
+  },
+  {
+    "question": "Data Encapsulation — what happens at each layer?",
+    "answer": "- **Application** — user data is created\n- **Presentation** — data is formatted, encrypted, or compressed\n- **Session** — session info added to manage communication\n- **Transport** — header with port numbers, sequence numbers, error control added\n- **Network** — header with source & destination IP addresses added\n- **Data Link** — header (MAC address) + trailer (CRC for error detection) added\n- **Physical** — data converted to raw bits and transmitted over physical medium"
+  },
+  {
+    "question": "Data unit names at each OSI layer?",
+    "answer": "| Layer(s) | Data Unit |\n|---|---|\n| Application / Presentation / Session | **Data** |\n| Transport | **Segment** |\n| Network | **Packet** |\n| Data Link | **Frame** |\n| Physical | **Bits** |"
+  }
+]
