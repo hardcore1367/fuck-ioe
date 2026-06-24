@@ -19,4 +19,14 @@
      - [High Level Data Link Control HDLC Normal Response Mode NRM and Asynchronous Balanced Mode](https://www.youtube.com/watch?v=bFoLt22XmTc)
   7. [MAC Sublayer](https://www.youtube.com/watch?v=JnNSA_kAIjE)
   8. [Multiple Access Protocals](https://www.youtube.com/watch?v=G0h0dC4Zycs)
-     1. 
+     1. [ALOHA](https://www.youtube.com/watch?v=9lEvqxp9ODQ)
+     2. [Pure ALOHA](https://www.youtube.com/watch?v=ANuoGgUJs5g)
+     3. [CSMA](https://www.youtube.com/watch?v=ATV4uoYpV8w) , ([Persistence Methods](https://www.youtube.com/watch?v=HyPiw5XWV0c))
+     4. [CSMA/CD](https://www.youtube.com/watch?v=Cm6Vv0Ds8tk)
+     5. [CSMA/CA](https://www.youtube.com/watch?v=pF8n3j9ucds)
+  9. IEE Standards
+      1. [Ethernet](https://www.youtube.com/watch?v=ewpq3qxx5Ls)
+      2. [Token Bus](https://www.youtube.com/watch?v=OpdwfKSjhn8)
+      3. [Token Ring](https://www.youtube.com/watch?v=-u4Dzu63eZc)
+      4. FDDI
+  10. [VLAN](https://www.youtube.com/watch?v=ez24W5oTU3U)
