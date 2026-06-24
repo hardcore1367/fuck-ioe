@@ -15,5 +15,7 @@
      - [Selective Repeat ARQ](https://youtu.be/WfIhQ3o2xow?si=6v3e0XAFZVZzlXJ-)
   5. Error Detection and Correction
   6. HDLC
+     - [High-Level Data Link Control (HDLC)](https://www.youtube.com/watch?v=N2tgsPUPEBE)
+     - [High Level Data Link Control HDLC Normal Response Mode NRM and Asynchronous Balanced Mode](https://www.youtube.com/watch?v=bFoLt22XmTc)
      
      
