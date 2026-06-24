@@ -17,5 +17,6 @@
   6. HDLC
      - [High-Level Data Link Control (HDLC)](https://www.youtube.com/watch?v=N2tgsPUPEBE)
      - [High Level Data Link Control HDLC Normal Response Mode NRM and Asynchronous Balanced Mode](https://www.youtube.com/watch?v=bFoLt22XmTc)
-     
-     
+  7. [MAC Sublayer](https://www.youtube.com/watch?v=JnNSA_kAIjE)
+  8. [Multiple Access Protocals](https://www.youtube.com/watch?v=G0h0dC4Zycs)
+     1. 
