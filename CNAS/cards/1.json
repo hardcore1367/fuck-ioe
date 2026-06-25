@@ -1,115 +1,346 @@
 [
   {
-    "question": "What is a Computer Network?",
-    "answer": "Infrastructure that allows computers and networking devices to exchange data. A collection of devices using a **common network protocol** to share information over a network medium."
+    "question": "What is a **computer network**?",
+    "answer": "A **computer network** is an infrastructure that allows computers and networking devices to exchange data using a common network protocol over a network medium."
   },
   {
-    "question": "What is a Client-Server Network?",
-    "answer": "A model with two fixed, never-swapping roles — **clients** (devices that request services) and **servers** (powerful, always-on machines that store data and provide services).\n\n*Example: your browser is the client; the machine hosting the website is the server.*"
+    "question": "What are the main uses of computer networks?",
+    "answer": "- **Resource sharing**: share hardware, software, files, and storage\n- **Communication**: email, messaging, video calls, VoIP\n- **Remote access**: access systems from another location\n- **Centralized data management**: easier backup, security, and access control\n- **Distributed computing**: split complex tasks across multiple machines"
   },
   {
-    "question": "What is a Peer-to-Peer (P2P) Network?",
-    "answer": "A model where every device (peer) acts as **both client and server** simultaneously. No central machine in control — peers share resources directly with each other.\n\n*Example: BitTorrent, where users simultaneously download from and upload to others.*"
+    "question": "What is a **client-server network**?",
+    "answer": "A **client-server network** is a model where clients request services and a dedicated server stores data or provides those services. The roles are fixed and do not swap."
   },
   {
-    "question": "What is an Active Network?",
-    "answer": "A network model where intermediate nodes (routers, switches) **don't just forward packets** — they can process, modify, or execute code inside them. Nodes are programmable and perform custom computations on data in transit.\n\n*Example: a router that compresses or encrypts data on the fly before forwarding, without the sender/receiver doing anything extra.*"
+    "question": "Give an example of a client-server network.",
+    "answer": "Opening a website is a client-server example: the **browser** acts as the client, and the machine hosting the website acts as the **server**."
   },
   {
-    "question": "What is Network Topology?",
-    "answer": "The arrangement or layout of **devices (nodes)** and **connections (links)** in a network. Defines how devices are physically or logically connected to each other."
+    "question": "What is a **peer-to-peer network**?",
+    "answer": "A **peer-to-peer network** is a model where every device, called a peer, acts as both a client and a server. There is no central controlling machine."
   },
   {
-    "question": "What is a Protocol?",
-    "answer": "A set of rules defining how data is transmitted and received between devices — ensures communication even across different manufacturers. Examples: HTTP, FTP, TCP, IP."
-  },
-{
-    "question": "What is a Standard?",
-    "answer": "Officially approved rules adopted by a recognized body so different systems can interoperate. Two types:\n- *De facto* — widely used in practice (e.g. QWERTY keyboard)\n- *De jure* — officially approved by organizations like ISO, IEEE, ITU"
-  },
-
-  {
-    "question": "What is Layered Architecture?",
-    "answer": "A design approach where the communication system is broken into **distinct layers**, each responsible for a specific task. Each layer provides services to the layer above it and uses services from the layer below it."
+    "question": "Give an example of a peer-to-peer network.",
+    "answer": "**BitTorrent** is a peer-to-peer example because users download from and upload to other users at the same time."
   },
   {
-    "question": "Why use Layered Architecture?",
-    "answer": "- Breaks complex networking into smaller, manageable pieces\n- Each layer can be developed, tested, and updated **independently** without affecting others\n- Allows different manufacturers to build compatible products by following the same layer rules\n- Easier troubleshooting — each layer has a defined responsibility\n- Promotes **modularity and reusability** across different network systems"
+    "question": "What is an **active network**?",
+    "answer": "An **active network** is a network model where intermediate nodes like routers and switches can process, modify, or execute code inside packets instead of only forwarding them."
   },
   {
-    "question": "What are the Design Issues in Layered Architecture?",
-    "answer": "- **Addressing** — identifying sender/receiver at each layer\n- **Error Control** — detecting and correcting transmission errors at appropriate layers\n- **Flow Control** — preventing a fast sender from overwhelming a slow receiver\n- **Multiplexing** — multiple conversations sharing the same physical connection simultaneously\n- **Routing** — choosing the best path when multiple paths exist\n- **Encapsulation** — each layer adds its own header before passing data down"
-  },
-   {
-    "question": "What is the OSI Model and what are its 7 layers in order?",
-    "answer": "A **conceptual framework by ISO** that standardizes how different network systems communicate. Divides communication into **7 layers**, each with a specific responsibility, communicating only with adjacent layers.\n\n| # | Layer |\n|---|---|\n| 7. | Application Layer|\n| 6. | Presentation Layer|\n| 5. | Session Layer|\n| 4. | Transport Layer |\n| 3. | Network Layer |\n| 2. | Data Link Layer |\n| 1. | Physical Layer |"
+    "question": "How is an active network different from a traditional network?",
+    "answer": "In a traditional network, intermediate nodes mainly forward packets. In an **active network**, nodes are programmable and can perform custom operations such as compression or encryption while data travels."
   },
   {
-    "question": "OSI: Layer 7 — Application Layer",
-    "answer": "The **topmost layer**, closest to the end user. Provides network services directly to user applications like browsers, email clients, and file transfer programs.\n\n**Protocols:** HTTP, FTP, SMTP, DNS"
+    "question": "Compare **client-server** and **peer-to-peer** networks.",
+    "answer": "| Basis | Client-Server | Peer-to-Peer |\n|---|---|---|\n| Control | Centralized server | No central authority |\n| Role | Fixed client and server roles | Every peer can be client and server |\n| Failure | Server failure can stop service | No single point of failure |\n| Cost | Higher server cost | Lower setup cost |\n| Security | Easier to control centrally | Harder to enforce security |\n| Example | Web hosting, banking | BitTorrent, blockchain |"
   },
   {
-    "question": "OSI: Layer 6 — Presentation Layer",
-    "answer": "Acts as a **translator between the network and application**. Responsible for translating, encrypting, and compressing data so the application layer can understand it.\n\n**Handles:** JPEG, MP3, SSL encryption formats"
+    "question": "What are the advantages of a client-server network?",
+    "answer": "- Centralized backup and recovery\n- Consistent security policies\n- Easier management at scale\n- Reliable performance for many simultaneous users"
   },
   {
-    "question": "OSI: Layer 5 — Session Layer",
-    "answer": "Manages and controls **connections (sessions)** between two communicating devices. Responsible for establishing, maintaining, and terminating sessions. Also handles **session recovery** if a connection drops mid-transfer."
+    "question": "What are the disadvantages of a client-server network?",
+    "answer": "- Server is a single point of failure\n- High hardware and maintenance cost\n- Server can become a bottleneck under heavy load"
   },
   {
-    "question": "OSI: Layer 4 — Transport Layer",
-    "answer": "Responsible for **end-to-end communication** and reliable data delivery. Breaks data into segments, sends them, and reassembles at the destination. Also handles error control and flow control.\n\n**Protocols:** TCP (reliable) and UDP (fast but unreliable)"
+    "question": "What are the advantages of a peer-to-peer network?",
+    "answer": "- No single point of failure\n- Low setup cost\n- Easy to expand by adding peers\n- Each peer contributes resources"
   },
   {
-    "question": "OSI: Layer 3 — Network Layer",
-    "answer": "Responsible for **logical addressing and routing** of data packets across multiple networks. Determines the best path from source to destination.\n\n**Protocol:** IP (Internet Protocol) | **Device:** Routers"
+    "question": "What are the disadvantages of a peer-to-peer network?",
+    "answer": "- Difficult to manage and secure\n- Performance depends on peer availability\n- No centralized backup\n- No strong data integrity guarantee"
   },
   {
-    "question": "OSI: Layer 2 — Data Link Layer",
-    "answer": "Responsible for **node-to-node delivery** within the same network. Takes raw bits from the physical layer and organizes them into **frames**. Handles error detection and MAC addressing.\n\n**Devices:** Switches and Bridges"
+    "question": "What is **network topology**?",
+    "answer": "**Network topology** is the physical or logical arrangement of devices, called nodes, and connections, called links, in a network."
   },
   {
-    "question": "OSI: Layer 1 — Physical Layer",
-    "answer": "The **lowest layer**. Deals with actual physical transmission of raw bits (0s and 1s) over a physical medium — cables, fiber optics, or radio waves. Defines hardware specs like voltage levels, cable types, and data rates."
+    "question": "What are the main types of network topology?",
+    "answer": "- **Bus**: all devices share one backbone cable\n- **Star**: all devices connect to a central hub or switch\n- **Ring**: devices form a circular loop\n- **Mesh**: devices connect to multiple other devices\n- **Tree**: hierarchical arrangement of star networks\n- **Hybrid**: combination of two or more topologies"
   },
   {
-    "question": "What is the TCP/IP Model?",
-    "answer": "A **practical 4-layer networking model** developed by the US Department of Defense. Unlike OSI (theoretical), TCP/IP is the **actual model used in the real world** and forms the foundation of the modern internet. Simpler than OSI as it merges several OSI layers into one."
+    "question": "What is a **bus topology**?",
+    "answer": "A **bus topology** connects all devices to a single backbone cable."
   },
   {
-    "question": "TCP/IP: All 4 layers in order?",
-    "answer": "| # | Layer |\n|---|---|\n| 4. | Application Layer |\n| 3. | Transport Layer |\n| 2. | Internet Layer |\n| 1. | Network Access Layer |"
+    "question": "What is a **star topology**?",
+    "answer": "A **star topology** connects all devices to a central hub or switch."
   },
   {
-    "question": "TCP/IP: Layer 4 — Application Layer",
-    "answer": "Topmost layer. Combines the functions of OSI's **Application + Presentation + Session** layers into one. Provides protocols that applications use to communicate over the network.\n\n**Protocols:** HTTP, FTP, SMTP, DNS, Telnet"
+    "question": "What is a **ring topology**?",
+    "answer": "A **ring topology** connects devices in a circular loop."
   },
   {
-    "question": "TCP/IP: Layer 3 — Transport Layer",
-    "answer": "Responsible for **end-to-end communication** and reliable data delivery. Breaks data into segments and ensures correct delivery using:\n- **TCP** — reliable, connection-oriented\n- **UDP** — fast, connectionless"
+    "question": "What is a **mesh topology**?",
+    "answer": "A **mesh topology** connects every device to multiple other devices, providing multiple paths for communication."
   },
   {
-    "question": "TCP/IP: Layer 2 — Internet Layer",
-    "answer": "Responsible for **logical addressing and routing** of packets across multiple networks. Determines the best path to destination.\n\n**Protocols:** IP (main), ICMP (error reporting), ARP (address resolution)"
+    "question": "What is a **tree topology**?",
+    "answer": "A **tree topology** is a hierarchical arrangement of connected star networks."
   },
   {
-    "question": "TCP/IP: Layer 1 — Network Access Layer",
-    "answer": "Lowest layer. Combines OSI's **Data Link + Physical** layers. Handles physical transmission over the network medium including MAC addressing, framing, and bit transmission over cables, fiber, or wireless."
+    "question": "What is a **hybrid topology**?",
+    "answer": "A **hybrid topology** combines two or more different topologies, such as star-bus or star-ring."
   },
   {
-  "question": "OSI vs TCP/IP",
-  "answer": "| SN | OSI | TCP/IP |\n|---|---|---|\n| 1 | 7 layers | 4 layers |\n| 2 | Protocols independent of model → more flexible | Protocols built into model → less flexible |\n| 3 | Strict, clearly defined layer boundaries | Layer boundaries less strict, functions can overlap |\n| 4 | Separate Presentation layer (encryption, compression, translation) | No separate Presentation layer — handled by Application |\n| 5 | Separate Session layer | No separate Session layer — handled by Application |\n| 6 | Error control at both Data Link and Transport | Error control primarily at Transport only |\n| 7 | Network layer supports connection-oriented & connectionless | Internet layer is connectionless only |\n| 8 | Better for large/complex enterprise networks | Better for real-world internet communication |"
-},
-  {
-    "question": "What is Data Encapsulation in the OSI Model?",
-    "answer": "The process where **each layer adds its own header** (and sometimes trailer) to the data before passing it down to the next layer. At the receiving end, each layer strips its own header as data moves up — this reverse process is called **de-encapsulation**."
+    "question": "What is a **network protocol**?",
+    "answer": "A **protocol** is a set of rules that defines how data is transmitted and received between devices in a network."
   },
   {
-    "question": "Data Encapsulation — what happens at each layer?",
-    "answer": "- **Application** — user data is created\n- **Presentation** — data is formatted, encrypted, or compressed\n- **Session** — session info added to manage communication\n- **Transport** — header with port numbers, sequence numbers, error control added\n- **Network** — header with source & destination IP addresses added\n- **Data Link** — header (MAC address) + trailer (CRC for error detection) added\n- **Physical** — data converted to raw bits and transmitted over physical medium"
+    "question": "Why are protocols important in networking?",
+    "answer": "Protocols allow devices from different manufacturers to communicate correctly by following the same communication rules."
   },
   {
-    "question": "Data unit names at each OSI layer?",
-    "answer": "| Layer(s) | Data Unit |\n|---|---|\n| Application / Presentation / Session | **Data** |\n| Transport | **Segment** |\n| Network | **Packet** |\n| Data Link | **Frame** |\n| Physical | **Bits** |"
+    "question": "Give examples of network protocols.",
+    "answer": "Examples of network protocols include **HTTP**, **FTP**, **TCP**, and **IP**."
+  },
+  {
+    "question": "What is a **network standard**?",
+    "answer": "A **standard** is an officially approved or widely accepted set of rules that allows different systems and devices to work together."
+  },
+  {
+    "question": "Compare **protocol** and **standard**.",
+    "answer": "| Term | Meaning |\n|---|---|\n| **Protocol** | Rules for communication between devices |\n| **Standard** | Approved or widely accepted rules that ensure compatibility between systems |"
+  },
+  {
+    "question": "What is the difference between **de facto** and **de jure** standards?",
+    "answer": "- **De facto standard**: widely used in practice, even if not officially approved, such as QWERTY keyboard\n- **De jure standard**: officially approved by recognized bodies such as ISO, IEEE, or ITU"
+  },
+  {
+    "question": "What is **layered architecture** in networking?",
+    "answer": "**Layered architecture** is a design approach where network communication is divided into separate layers, with each layer performing a specific task."
+  },
+  {
+    "question": "How do layers interact in layered architecture?",
+    "answer": "Each layer provides services to the layer above it and uses services from the layer below it."
+  },
+  {
+    "question": "Why is layered architecture used in networking?",
+    "answer": "- Breaks complex networking into manageable parts\n- Allows independent development, testing, and updates\n- Helps products from different manufacturers work together\n- Makes troubleshooting easier\n- Promotes modularity and reusability"
+  },
+  {
+    "question": "What are the main design issues in layered architecture?",
+    "answer": "- **Addressing**\n- **Error control**\n- **Flow control**\n- **Multiplexing**\n- **Routing**\n- **Encapsulation**"
+  },
+  {
+    "question": "What does **addressing** mean in layered architecture?",
+    "answer": "**Addressing** means identifying the sender and receiver at a particular layer."
+  },
+  {
+    "question": "What does **error control** mean in networking layers?",
+    "answer": "**Error control** means detecting and correcting errors that occur during data transmission."
+  },
+  {
+    "question": "What does **flow control** mean in networking?",
+    "answer": "**Flow control** ensures that a fast sender does not overwhelm a slow receiver with too much data at once."
+  },
+  {
+    "question": "What does **multiplexing** mean in networking?",
+    "answer": "**Multiplexing** allows multiple conversations or data streams to share the same physical connection simultaneously."
+  },
+  {
+    "question": "What does **routing** mean in networking?",
+    "answer": "**Routing** is the process of choosing the best path for data when multiple paths are available."
+  },
+  {
+    "question": "What does **encapsulation** mean in layered architecture?",
+    "answer": "**Encapsulation** means each layer adds its own header, and sometimes trailer, to the data before passing it to the next lower layer."
+  },
+  {
+    "question": "What is the **OSI model**?",
+    "answer": "The **OSI model** is a 7-layer conceptual framework developed by ISO to standardize how different network systems communicate."
+  },
+  {
+    "question": "List the 7 layers of the OSI model from top to bottom.",
+    "answer": "1. **Application**\n2. **Presentation**\n3. **Session**\n4. **Transport**\n5. **Network**\n6. **Data Link**\n7. **Physical**"
+  },
+  {
+    "question": "What is the function of the **Application layer** in the OSI model?",
+    "answer": "The **Application layer** provides network services directly to user applications such as browsers, email clients, and file transfer programs."
+  },
+  {
+    "question": "Which protocols operate at the OSI **Application layer**?",
+    "answer": "Common Application layer protocols include **HTTP**, **FTP**, **SMTP**, and **DNS**."
+  },
+  {
+    "question": "What is the function of the **Presentation layer** in the OSI model?",
+    "answer": "The **Presentation layer** translates, encrypts, and compresses data so that the Application layer can understand it."
+  },
+  {
+    "question": "Give examples of tasks handled by the OSI **Presentation layer**.",
+    "answer": "The Presentation layer handles data format conversion, compression, encryption, and formats such as **JPEG**, **MP3**, and **SSL**."
+  },
+  {
+    "question": "What is the function of the **Session layer** in the OSI model?",
+    "answer": "The **Session layer** establishes, manages, maintains, terminates, and recovers communication sessions between devices."
+  },
+  {
+    "question": "What is the function of the **Transport layer** in the OSI model?",
+    "answer": "The **Transport layer** provides end-to-end communication, reliable data delivery, segmentation, reassembly, error control, and flow control."
+  },
+  {
+    "question": "Which protocols are commonly used at the OSI **Transport layer**?",
+    "answer": "**TCP** and **UDP** are common Transport layer protocols. TCP is reliable, while UDP is faster but unreliable."
+  },
+  {
+    "question": "What is the function of the **Network layer** in the OSI model?",
+    "answer": "The **Network layer** handles logical addressing and routing of packets across multiple networks."
+  },
+  {
+    "question": "Which device and protocol are mainly associated with the OSI **Network layer**?",
+    "answer": "**Routers** operate at the Network layer, and the most important protocol is **IP**."
+  },
+  {
+    "question": "What is the function of the **Data Link layer** in the OSI model?",
+    "answer": "The **Data Link layer** provides node-to-node delivery within the same network by organizing bits into frames and handling MAC addressing and error detection."
+  },
+  {
+    "question": "Which devices operate at the OSI **Data Link layer**?",
+    "answer": "**Switches** and **bridges** operate at the Data Link layer."
+  },
+  {
+    "question": "What is the function of the **Physical layer** in the OSI model?",
+    "answer": "The **Physical layer** transmits raw bits over physical media such as cables, fiber optics, or radio waves."
+  },
+  {
+    "question": "What does the OSI **Physical layer** define?",
+    "answer": "The Physical layer defines hardware-related details such as voltage levels, cable types, data rates, and physical transmission methods."
+  },
+  {
+    "question": "What is the **TCP/IP model**?",
+    "answer": "The **TCP/IP model** is a practical 4-layer networking model developed by the US Department of Defense and used as the foundation of the modern internet."
+  },
+  {
+    "question": "How is the TCP/IP model different from the OSI model?",
+    "answer": "The **OSI model** is mainly a theoretical 7-layer framework, while the **TCP/IP model** is a practical 4-layer model used in real-world internet communication."
+  },
+  {
+    "question": "List the 4 layers of the TCP/IP model from top to bottom.",
+    "answer": "1. **Application Layer**\n2. **Transport Layer**\n3. **Internet Layer**\n4. **Network Access Layer**"
+  },
+  {
+    "question": "What is the function of the TCP/IP **Application layer**?",
+    "answer": "The TCP/IP **Application layer** provides protocols that applications use to communicate over the network."
+  },
+  {
+    "question": "Which OSI layers are combined into the TCP/IP **Application layer**?",
+    "answer": "The TCP/IP Application layer combines the OSI **Application**, **Presentation**, and **Session** layers."
+  },
+  {
+    "question": "Which protocols are used at the TCP/IP **Application layer**?",
+    "answer": "Common TCP/IP Application layer protocols include **HTTP**, **FTP**, **SMTP**, **DNS**, and **Telnet**."
+  },
+  {
+    "question": "What is the function of the TCP/IP **Transport layer**?",
+    "answer": "The TCP/IP **Transport layer** provides end-to-end communication and delivers data correctly using protocols such as TCP and UDP."
+  },
+  {
+    "question": "Compare **TCP** and **UDP**.",
+    "answer": "| Protocol | Main feature |\n|---|---|\n| **TCP** | Reliable and connection-oriented |\n| **UDP** | Fast and connectionless, but unreliable |"
+  },
+  {
+    "question": "What is the function of the TCP/IP **Internet layer**?",
+    "answer": "The **Internet layer** handles logical addressing and routing of packets across multiple networks."
+  },
+  {
+    "question": "Which protocols are included in the TCP/IP **Internet layer**?",
+    "answer": "- **IP**: logical addressing and routing\n- **ICMP**: error reporting\n- **ARP**: address resolution"
+  },
+  {
+    "question": "What is the function of the TCP/IP **Network Access layer**?",
+    "answer": "The **Network Access layer** handles physical transmission, MAC addressing, framing, and movement of bits over cables, fiber, or wireless signals."
+  },
+  {
+    "question": "Which OSI layers are combined into the TCP/IP **Network Access layer**?",
+    "answer": "The TCP/IP Network Access layer combines the OSI **Data Link** and **Physical** layers."
+  },
+  {
+    "question": "Map the TCP/IP layers to the OSI layers.",
+    "answer": "| TCP/IP Layer | Corresponding OSI Layers |\n|---|---|\n| Application | Application, Presentation, Session |\n| Transport | Transport |\n| Internet | Network |\n| Network Access | Data Link, Physical |"
+  },
+  {
+    "question": "Compare the OSI and TCP/IP models.",
+    "answer": "| OSI Model | TCP/IP Model |\n|---|---|\n| 7 layers | 4 layers |\n| Conceptual/theoretical model | Practical internet model |\n| Strict layer boundaries | Less strict boundaries |\n| Protocols independent of model | Protocols built into model |\n| Separate session and presentation layers | Combined into application layer |"
+  },
+  {
+    "question": "How do OSI and TCP/IP differ in error control?",
+    "answer": "In the **OSI model**, error control is performed at both the Data Link and Transport layers. In the **TCP/IP model**, error control is mainly performed at the Transport layer."
+  },
+  {
+    "question": "How do OSI and TCP/IP differ at the network/internet layer?",
+    "answer": "The OSI Network layer supports both connection-oriented and connectionless service, while the TCP/IP Internet layer is connectionless only."
+  },
+  {
+    "question": "What is **data encapsulation**?",
+    "answer": "**Data encapsulation** is the process where each OSI layer adds its own header, and sometimes trailer, to data before passing it to the lower layer."
+  },
+  {
+    "question": "What is **de-encapsulation**?",
+    "answer": "**De-encapsulation** is the process where each receiving layer removes its corresponding header or trailer as data moves up the layers."
+  },
+  {
+    "question": "What happens during data encapsulation at the Transport layer?",
+    "answer": "The **Transport layer** adds a header containing source and destination port numbers, sequence numbers, and error control information. The data is called a **segment**."
+  },
+  {
+    "question": "What happens during data encapsulation at the Network layer?",
+    "answer": "The **Network layer** adds source and destination IP addresses for routing. The data is called a **packet**."
+  },
+  {
+    "question": "What happens during data encapsulation at the Data Link layer?",
+    "answer": "The **Data Link layer** adds a header containing MAC addresses and a trailer containing error detection information such as CRC. The data is called a **frame**."
+  },
+  {
+    "question": "What happens during data encapsulation at the Physical layer?",
+    "answer": "The **Physical layer** converts frames into raw bits, 0s and 1s, and transmits them through the physical medium."
+  },
+  {
+    "question": "What are the data names at each OSI layer?",
+    "answer": "| OSI Layer | Data Name |\n|---|---|\n| Application, Presentation, Session | Data |\n| Transport | Segment |\n| Network | Packet |\n| Data Link | Frame |\n| Physical | Bits |"
+  },
+  {
+    "question": "What is a **service primitive**?",
+    "answer": "A **service primitive** is a formal operation used by one layer to request a service from the layer below it or to be notified of an event by it."
+  },
+  {
+    "question": "What is the purpose of service primitives?",
+    "answer": "Service primitives define the interface between adjacent layers without specifying how the service is implemented internally."
+  },
+  {
+    "question": "What are the four types of service primitives?",
+    "answer": "- **REQUEST**\n- **INDICATION**\n- **RESPONSE**\n- **CONFIRM**"
+  },
+  {
+    "question": "What does the **REQUEST** service primitive mean?",
+    "answer": "**REQUEST** means a layer asks the layer below it to perform a service, such as establishing a connection."
+  },
+  {
+    "question": "What does the **INDICATION** service primitive mean?",
+    "answer": "**INDICATION** means the lower layer notifies the upper layer that an event has occurred, such as an incoming connection request."
+  },
+  {
+    "question": "What does the **RESPONSE** service primitive mean?",
+    "answer": "**RESPONSE** means the upper layer responds to an indication, such as accepting or rejecting a connection."
+  },
+  {
+    "question": "What does the **CONFIRM** service primitive mean?",
+    "answer": "**CONFIRM** means the lower layer confirms to the requesting layer that the requested service has been completed."
+  },
+  {
+    "question": "What are the three phases of connection-oriented service?",
+    "answer": "1. **Connection establishment**\n2. **Data transfer**\n3. **Connection release**"
+  },
+  {
+    "question": "How is a connection established using service primitives?",
+    "answer": "1. Client sends **CONNECT.request**\n2. Server receives **CONNECT.indication**\n3. Server sends **CONNECT.response**\n4. Client receives **CONNECT.confirm**"
+  },
+  {
+    "question": "How is data transferred using service primitives?",
+    "answer": "Both sides use **DATA.request** to send data and **DATA.indication** to receive data."
+  },
+  {
+    "question": "How is a connection released using service primitives?",
+    "answer": "Either side sends **DISCONNECT.request**, and the other side receives **DISCONNECT.indication**, ending the connection cleanly."
   }
 ]
