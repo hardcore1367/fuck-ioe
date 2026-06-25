@@ -30,3 +30,13 @@
       3. [Token Ring](https://www.youtube.com/watch?v=-u4Dzu63eZc)
       4. FDDI
   10. [VLAN](https://www.youtube.com/watch?v=ez24W5oTU3U)
+
+
+## 4. Network Layer
+  1. [Network Layer](https://www.youtube.com/watch?v=rW1jPlYgp_0)
+  2. Network devices: Repeater, Hub, Bridge, Switch, Router (working principle)
+  3. [IP Addressing](https://www.youtube.com/watch?v=P7g--FJdUXE)
+     - [Classless Addressing](https://www.youtube.com/watch?v=N-ywmOpWehE)
+  5. [Subnetting](https://www.youtube.com/watch?v=eWb35_xIKho) and Supernetting
+  6. [NAT](https://www.youtube.com/watch?v=47PUj7OSGkA)
+  7. 
