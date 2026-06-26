@@ -1,0 +1,586 @@
+[
+  {
+    "question": "What is the **Data Link Layer** in the OSI model?",
+    "answer": "The **Data Link Layer (DLL)** is the **second OSI layer**. It provides **node-to-node delivery of frames** over a single physical link by converting raw bits into frames and supporting error control, flow control, and access control."
+  },
+  {
+    "question": "What are examples of Data Link Layer protocols or technologies?",
+    "answer": "- **Ethernet**\n- **HDLC**"
+  },
+  {
+    "question": "What are the main functions of the Data Link Layer?",
+    "answer": "- **Framing**: divides bits into frames\n- **Error detection/correction**: detects or corrects transmission errors\n- **Flow control**: prevents receiver overload\n- **Error control**: retransmits lost/damaged frames\n- **Access control**: decides who uses a shared channel\n- **Piggybacking**: combines ACKs with outgoing data frames"
+  },
+  {
+    "question": "What services does the Data Link Layer provide to the Network Layer?",
+    "answer": "| Service | Key idea |\n|---|---|\n| **Unacknowledged connectionless** | No connection, no ACK, no DLL retransmission |\n| **Acknowledged connectionless** | No connection, but each frame is ACKed |\n| **Acknowledged connection-oriented** | Connection setup, ACKs, ordered delivery, release |"
+  },
+  {
+    "question": "What is **unacknowledged connectionless service** in the Data Link Layer?",
+    "answer": "Frames are sent **without connection setup** and **without acknowledgements**. Lost or corrupted frames are not retransmitted by DLL. Used on reliable channels like **Ethernet LANs**."
+  },
+  {
+    "question": "What is **acknowledged connectionless service** in the Data Link Layer?",
+    "answer": "Frames are sent **without connection setup**, but each frame must be **acknowledged**. If ACK is not received before timeout, the frame is retransmitted. Used in unreliable channels like **Wi-Fi**."
+  },
+  {
+    "question": "What is **acknowledged connection-oriented service** in the Data Link Layer?",
+    "answer": "A connection is established before transmission, frames are acknowledged during transfer, and the connection is released afterward. It provides reliable, ordered delivery and is used in links like **HDLC WAN** or satellite links."
+  },
+  {
+    "question": "What are the main design issues of the Data Link Layer?",
+    "answer": "- Providing clean service to the Network Layer\n- Correct **framing**\n- **Error control** strategy\n- **Flow control** strategy\n- Shared medium access through the **MAC sublayer**"
+  },
+  {
+    "question": "What is **framing** in the Data Link Layer?",
+    "answer": "**Framing** is the process of dividing a continuous raw bit stream into identifiable units called **frames**, so the receiver can detect frame boundaries."
+  },
+  {
+    "question": "Why is framing important?",
+    "answer": "Framing allows the receiver to identify where one frame ends and the next begins, which is necessary for **error control** and **flow control**."
+  },
+  {
+    "question": "What is a **frame** in the Data Link Layer?",
+    "answer": "A **frame** is the basic unit of data transmission at the Data Link Layer. It contains the payload plus control information added by DLL."
+  },
+  {
+    "question": "What is the basic structure of a Data Link Layer frame?",
+    "answer": "```text\n| Header | Payload | Trailer |\n```\n- **Header**: source/destination address\n- **Payload**: actual data\n- **Trailer**: error-checking bits such as CRC"
+  },
+  {
+    "question": "What is **character count framing**?",
+    "answer": "Character count framing uses a **count field** in the frame header to specify the total number of bytes in the frame, including the count field itself."
+  },
+  {
+    "question": "What is the main problem with **character count framing**?",
+    "answer": "If the **count field is corrupted**, the receiver reads the wrong number of bytes and loses synchronization with later frames."
+  },
+  {
+    "question": "What is **byte stuffing**?",
+    "answer": "**Byte stuffing** uses special bytes to mark frame boundaries. A **FLAG** byte marks the start/end of a frame, and an **ESC** byte is inserted before FLAG or ESC if they appear inside data."
+  },
+  {
+    "question": "What are the rules of **byte stuffing**?",
+    "answer": "- If **FLAG** appears in data → send `ESC FLAG`\n- If **ESC** appears in data → send `ESC ESC`\n- Receiver removes `ESC` and treats the next byte as normal data"
+  },
+  {
+    "question": "What is the limitation of **byte stuffing**?",
+    "answer": "Byte stuffing works only with **byte-oriented data** and increases frame size when many FLAG or ESC bytes appear in the payload."
+  },
+  {
+    "question": "What is **bit stuffing**?",
+    "answer": "**Bit stuffing** marks frame boundaries using the flag pattern `01111110`. If data contains five consecutive `1`s, the sender inserts a `0` to prevent confusion with the flag."
+  },
+  {
+    "question": "What are the rules of **bit stuffing**?",
+    "answer": "- Sender sees five consecutive `1`s → inserts `0`\n- Receiver sees five `1`s followed by `0` → removes the `0`\n- Receiver sees five `1`s followed by `1` → treats it as frame boundary"
+  },
+  {
+    "question": "Why is bit stuffing more flexible than byte stuffing?",
+    "answer": "Bit stuffing works at the **bit level**, so it is not limited to byte-oriented or character-based data."
+  },
+  {
+    "question": "Which protocol commonly uses bit stuffing?",
+    "answer": "**HDLC** commonly uses bit stuffing."
+  },
+  {
+    "question": "What is the difference between **error detection** and **error correction**?",
+    "answer": "| Concept | Meaning |\n|---|---|\n| **Error detection** | Receiver detects that a frame has errors |\n| **Error correction** | Receiver identifies and fixes the erroneous bit(s) without retransmission |"
+  },
+  {
+    "question": "What is **Hamming distance**?",
+    "answer": "**Hamming distance** is the number of bit positions in which two codewords differ."
+  },
+  {
+    "question": "What minimum Hamming distance is required to detect `d` errors?",
+    "answer": "To detect up to `d` errors, minimum Hamming distance must be:\n\n$$d + 1$$"
+  },
+  {
+    "question": "What minimum Hamming distance is required to correct `d` errors?",
+    "answer": "To correct up to `d` errors, minimum Hamming distance must be:\n\n$$2d + 1$$"
+  },
+  {
+    "question": "If the minimum Hamming distance is 3, what can the code detect and correct?",
+    "answer": "Minimum Hamming distance **3** can:\n- Detect up to **2-bit errors**\n- Correct up to **1-bit errors**"
+  },
+  {
+    "question": "What is **Hamming Code**?",
+    "answer": "**Hamming Code** is an error-correcting code that adds parity bits at positions that are powers of 2, allowing the receiver to locate and correct single-bit errors."
+  },
+  {
+    "question": "Where are parity bits placed in Hamming Code?",
+    "answer": "Parity bits are placed at positions that are powers of 2:\n\n`1, 2, 4, 8, ...`"
+  },
+  {
+    "question": "How does the receiver locate an error in Hamming Code?",
+    "answer": "The receiver recomputes parity checks. The failed parity positions form a binary number that gives the exact position of the erroneous bit, which is then flipped."
+  },
+  {
+    "question": "In a 7-bit Hamming code for 4 data bits, where are parity and data bits placed?",
+    "answer": "```text\nPositions: 1   2   3   4   5   6   7\nBits:      P1  P2  D1  P4  D2  D3  D4\n```"
+  },
+  {
+    "question": "What is **CRC**?",
+    "answer": "**CRC (Cyclic Redundancy Check)** is an error detection technique that treats data as a binary polynomial, divides it by a generator polynomial, and appends the remainder as the **Frame Check Sequence (FCS)**."
+  },
+  {
+    "question": "What is **FCS** in CRC?",
+    "answer": "**FCS (Frame Check Sequence)** is the CRC remainder appended to the frame for error detection."
+  },
+  {
+    "question": "What are the sender-side steps of CRC?",
+    "answer": "1. Append `r` zero bits to data, where `r` is the degree of generator polynomial.\n2. Divide using modulo-2 XOR division.\n3. Replace the zeros with the remainder and transmit."
+  },
+  {
+    "question": "How does the receiver check errors using CRC?",
+    "answer": "The receiver divides the entire received frame by the same generator polynomial:\n- Remainder `0` → no error detected\n- Remainder non-zero → error detected"
+  },
+  {
+    "question": "Why is CRC widely used?",
+    "answer": "CRC is very effective at detecting **burst errors** and is used in technologies like **Ethernet CRC-32** and **HDLC CRC-16**."
+  },
+  {
+    "question": "What is **flow control** in the Data Link Layer?",
+    "answer": "**Flow control** prevents a fast sender from transmitting frames faster than the receiver can process or buffer them."
+  },
+  {
+    "question": "What is **Stop-and-Wait flow control**?",
+    "answer": "The sender sends **one frame**, then waits for an **ACK** before sending the next frame. The receiver controls the sender by delaying or sending ACKs."
+  },
+  {
+    "question": "What is the main disadvantage of Stop-and-Wait flow control?",
+    "answer": "Only one frame is in transit at a time, so the sender remains idle during round-trip delay. This causes poor channel utilization on high-latency or high-bandwidth links."
+  },
+  {
+    "question": "What is **Sliding Window flow control**?",
+    "answer": "Sliding Window allows the sender to send multiple frames before receiving ACKs. A fixed-size window controls how many unacknowledged frames can be in transit."
+  },
+  {
+    "question": "How does the sender window move in Sliding Window flow control?",
+    "answer": "When an ACK is received, the sender window **slides forward**, removing the acknowledged frame and allowing a new frame to be sent."
+  },
+  {
+    "question": "Why is a larger sliding window useful on high-speed or high-latency links?",
+    "answer": "A larger window keeps more frames in transit, keeping the channel busy despite long round-trip time."
+  },
+  {
+    "question": "What are two ARQ protocols based on the sliding window mechanism?",
+    "answer": "- **Go-Back-N ARQ**\n- **Selective Repeat ARQ**"
+  },
+  {
+    "question": "What is **piggybacking**?",
+    "answer": "**Piggybacking** is an optimization where an ACK is attached to an outgoing data frame instead of being sent as a separate ACK frame."
+  },
+  {
+    "question": "Why is piggybacking useful?",
+    "answer": "Piggybacking reduces overhead and saves bandwidth by combining acknowledgement and data into one frame."
+  },
+  {
+    "question": "What happens if no outgoing data frame is available for piggybacking?",
+    "answer": "The receiver must send a standalone ACK after a short timeout to avoid unnecessary retransmission by the sender."
+  },
+  {
+    "question": "What is **error control** in the Data Link Layer?",
+    "answer": "**Error control** detects and recovers from lost or corrupted frames using acknowledgements, timeouts, and retransmission."
+  },
+  {
+    "question": "What is **ARQ**?",
+    "answer": "**ARQ (Automatic Repeat reQuest)** is an error-control method where the receiver sends ACKs and the sender retransmits frames that are not acknowledged before timeout."
+  },
+  {
+    "question": "What are the three main ARQ protocols?",
+    "answer": "- **Stop-and-Wait ARQ**\n- **Go-Back-N ARQ**\n- **Selective Repeat ARQ**"
+  },
+  {
+    "question": "How does **Stop-and-Wait ARQ** work?",
+    "answer": "The sender sends one frame and waits for ACK. If ACK arrives before timeout, it sends the next frame. If ACK is not received, it retransmits the same frame."
+  },
+  {
+    "question": "Why are sequence numbers needed in Stop-and-Wait ARQ?",
+    "answer": "Sequence numbers help the receiver detect duplicate frames, especially when the original frame was received but the ACK was lost."
+  },
+  {
+    "question": "What is the sequence number size used in Stop-and-Wait ARQ?",
+    "answer": "Stop-and-Wait ARQ uses a **1-bit sequence number**, alternating between `0` and `1`."
+  },
+  {
+    "question": "What is **Go-Back-N ARQ**?",
+    "answer": "**Go-Back-N ARQ** allows the sender to send multiple frames using a sending window. If one frame is lost or corrupted, the sender retransmits that frame and all later frames."
+  },
+  {
+    "question": "What are the sender and receiver window sizes in Go-Back-N ARQ?",
+    "answer": "- Sender window = **N**\n- Receiver window = **1**"
+  },
+  {
+    "question": "How does the receiver handle out-of-order frames in Go-Back-N ARQ?",
+    "answer": "The receiver accepts only frames in strict order. If a frame is missing, all later frames are discarded even if they are received correctly."
+  },
+  {
+    "question": "What is the maximum window size in Go-Back-N ARQ with `n` sequence number bits?",
+    "answer": "Maximum window size:\n\n$$2^n - 1$$"
+  },
+  {
+    "question": "Why is the Go-Back-N window size limited to `2^n - 1`?",
+    "answer": "If the window size were `2^n`, the receiver could confuse a new frame with a retransmitted old frame after sequence numbers wrap around."
+  },
+  {
+    "question": "What is **Selective Repeat ARQ**?",
+    "answer": "**Selective Repeat ARQ** retransmits only the specific lost or corrupted frames. Correctly received out-of-order frames are buffered until missing frames arrive."
+  },
+  {
+    "question": "What are the sender and receiver window sizes in Selective Repeat ARQ?",
+    "answer": "- Sender window = **N**\n- Receiver window = **N**"
+  },
+  {
+    "question": "What is the main advantage of Selective Repeat over Go-Back-N?",
+    "answer": "Selective Repeat saves bandwidth because it retransmits only the lost or damaged frames, not all later frames."
+  },
+  {
+    "question": "What is the main disadvantage of Selective Repeat ARQ?",
+    "answer": "It requires more receiver memory and processing because out-of-order frames must be buffered and tracked."
+  },
+  {
+    "question": "What is the maximum window size in Selective Repeat ARQ with `n` sequence number bits?",
+    "answer": "Maximum window size:\n\n$$2^{n-1}$$"
+  },
+  {
+    "question": "Compare Stop-and-Wait, Go-Back-N, and Selective Repeat ARQ.",
+    "answer": "| ARQ | Retransmission behavior | Efficiency |\n|---|---|---|\n| **Stop-and-Wait** | One frame at a time | Lowest |\n| **Go-Back-N** | Lost frame and all later frames | Medium |\n| **Selective Repeat** | Only lost frames | Highest |"
+  },
+  {
+    "question": "What is **HDLC**?",
+    "answer": "**HDLC (High-Level Data Link Control)** is a bit-oriented, synchronous Data Link Layer protocol developed by ISO for reliable transmission over point-to-point and multipoint links."
+  },
+  {
+    "question": "What framing method does HDLC use?",
+    "answer": "HDLC uses **bit stuffing** with the flag pattern:\n\n`01111110`"
+  },
+  {
+    "question": "Which modern protocols are based on HDLC?",
+    "answer": "- **PPP**\n- **X.25**"
+  },
+  {
+    "question": "What are the three modes of HDLC operation?",
+    "answer": "| Mode | Key idea |\n|---|---|\n| **NRM** | Primary controls secondary stations |\n| **ABM** | Both stations are equal and can transmit anytime |\n| **ARM** | Secondary can initiate, but primary still controls link |"
+  },
+  {
+    "question": "Which HDLC mode is most commonly used?",
+    "answer": "**ABM (Asynchronous Balanced Mode)** is most commonly used because both stations are equal and either can initiate transmission."
+  },
+  {
+    "question": "What is the HDLC frame format?",
+    "answer": "```text\n| Flag | Address | Control | Data | FCS | Flag |\n```"
+  },
+  {
+    "question": "What is the function of the **Flag** field in an HDLC frame?",
+    "answer": "The Flag field uses the fixed pattern `01111110` to mark the start and end of an HDLC frame."
+  },
+  {
+    "question": "What is the function of the **Address** field in HDLC?",
+    "answer": "The Address field identifies the secondary station involved in transmission, either as destination for commands or source for responses."
+  },
+  {
+    "question": "What is the function of the **Control** field in HDLC?",
+    "answer": "The Control field identifies the frame type and carries sequence numbers used for flow and error control."
+  },
+  {
+    "question": "What is the function of the **FCS** field in HDLC?",
+    "answer": "The FCS contains a CRC value computed over the Address, Control, and Data fields to detect transmission errors."
+  },
+  {
+    "question": "What are the three types of HDLC frames?",
+    "answer": "- **I-frame**: carries data\n- **S-frame**: flow/error control\n- **U-frame**: link management"
+  },
+  {
+    "question": "What is an **I-frame** in HDLC?",
+    "answer": "An **I-frame** carries actual data. Its control field includes **Ns** for send sequence number and **Nr** for piggybacked acknowledgement."
+  },
+  {
+    "question": "What is an **S-frame** in HDLC?",
+    "answer": "An **S-frame** carries no payload and is used for flow and error control when there is no data frame available for piggybacking."
+  },
+  {
+    "question": "What is a **U-frame** in HDLC?",
+    "answer": "A **U-frame** is used for link management, such as connection setup, termination, and serious error reporting. It carries no sequence numbers."
+  },
+  {
+    "question": "What are the main HDLC supervisory frame types?",
+    "answer": "| S-frame | Meaning |\n|---|---|\n| **RR** | Receive Ready; positive ACK |\n| **REJ** | Reject; Go-Back-N retransmission |\n| **SREJ** | Selective Reject; retransmit only one frame |\n| **RNR** | Receive Not Ready; pause sending |"
+  },
+  {
+    "question": "How do **REJ** and **SREJ** differ in HDLC?",
+    "answer": "- **REJ** triggers **Go-Back-N**, retransmitting from frame `Nr` onward.\n- **SREJ** triggers **Selective Repeat**, retransmitting only frame `Nr`."
+  },
+  {
+    "question": "What is the **MAC sublayer**?",
+    "answer": "The **MAC (Medium Access Control) sublayer** is the lower part of DLL that controls how multiple devices share a broadcast channel and handles MAC addressing."
+  },
+  {
+    "question": "When is the MAC sublayer needed?",
+    "answer": "MAC is needed in **shared medium networks** like Ethernet LANs and Wi-Fi, where multiple devices compete for the same channel."
+  },
+  {
+    "question": "Why is MAC not needed in a simple point-to-point link?",
+    "answer": "In a point-to-point link, only two devices are connected, so there is no contention for a shared channel."
+  },
+  {
+    "question": "What is a **MAC address**?",
+    "answer": "A **MAC address** is a hardware-level address that uniquely identifies a network interface on a local network."
+  },
+  {
+    "question": "What is the **channel allocation problem**?",
+    "answer": "The channel allocation problem is deciding how multiple stations should fairly and efficiently share a single broadcast channel."
+  },
+  {
+    "question": "What is **static channel allocation**?",
+    "answer": "Static allocation divides the channel in advance, giving each station a fixed portion using methods like **FDM** or **TDM**."
+  },
+  {
+    "question": "Why is static channel allocation inefficient for computer networks?",
+    "answer": "It wastes capacity when a station has no data and cannot give extra capacity to stations with bursty traffic."
+  },
+  {
+    "question": "What is **dynamic channel allocation**?",
+    "answer": "Dynamic allocation gives channel access on demand only when a station has data to send. It is better for bursty network traffic."
+  },
+  {
+    "question": "What are the key assumptions of dynamic channel allocation?",
+    "answer": "- Any station may transmit at any time\n- Simultaneous transmissions cause collisions\n- Collisions can be detected and recovery attempted"
+  },
+  {
+    "question": "What are **multiple access protocols**?",
+    "answer": "Multiple access protocols define rules for how multiple stations dynamically share a common communication channel."
+  },
+  {
+    "question": "What is **ALOHA**?",
+    "answer": "**ALOHA** is an early multiple access protocol where a station transmits whenever it has data. If collision occurs, it waits a random time and retransmits."
+  },
+  {
+    "question": "What is **Pure ALOHA**?",
+    "answer": "In **Pure ALOHA**, a station can transmit at any time without checking whether the channel is busy."
+  },
+  {
+    "question": "What is the vulnerable period of Pure ALOHA?",
+    "answer": "The vulnerable period of Pure ALOHA is:\n\n$$2T$$\n\nwhere `T` is one frame transmission time."
+  },
+  {
+    "question": "What is the maximum efficiency of Pure ALOHA?",
+    "answer": "Maximum efficiency of Pure ALOHA is about **18.4%**."
+  },
+  {
+    "question": "What is **Slotted ALOHA**?",
+    "answer": "In **Slotted ALOHA**, time is divided into slots of one frame time, and stations may transmit only at the start of a slot."
+  },
+  {
+    "question": "What is the vulnerable period of Slotted ALOHA?",
+    "answer": "The vulnerable period of Slotted ALOHA is:\n\n$$T$$\n\nwhich is half of Pure ALOHA."
+  },
+  {
+    "question": "What is the maximum efficiency of Slotted ALOHA?",
+    "answer": "Maximum efficiency of Slotted ALOHA is about **36.8%**."
+  },
+  {
+    "question": "Compare Pure ALOHA and Slotted ALOHA.",
+    "answer": "| Pure ALOHA | Slotted ALOHA |\n|---|---|\n| Transmit anytime | Transmit only at slot start |\n| No synchronization | Requires synchronization |\n| Vulnerable period = `2T` | Vulnerable period = `T` |\n| Efficiency = 18.4% | Efficiency = 36.8% |\n| More collisions | Fewer collisions |"
+  },
+  {
+    "question": "What is **CSMA**?",
+    "answer": "**CSMA (Carrier Sense Multiple Access)** is a protocol where a station first listens to the channel and transmits only if the channel is idle."
+  },
+  {
+    "question": "Why can collisions still occur in CSMA?",
+    "answer": "Collisions can still occur due to **propagation delay**. A station may not yet detect another station's transmission and may start transmitting."
+  },
+  {
+    "question": "What are the main variants of CSMA?",
+    "answer": "| Variant | Behavior |\n|---|---|\n| **1-persistent** | Transmit immediately when idle |\n| **Non-persistent** | Wait random time, then sense again |\n| **p-persistent** | Transmit with probability `p` when idle |"
+  },
+  {
+    "question": "What is the drawback of **1-persistent CSMA**?",
+    "answer": "It has high collision probability because multiple waiting stations may transmit immediately when the channel becomes idle."
+  },
+  {
+    "question": "What is the trade-off in **non-persistent CSMA**?",
+    "answer": "It reduces collisions by waiting randomly, but may introduce unnecessary delay even when the channel becomes free."
+  },
+  {
+    "question": "What is **CSMA/CD**?",
+    "answer": "**CSMA/CD (CSMA with Collision Detection)** allows a station to listen while transmitting. If collision is detected, it aborts transmission, sends a jam signal, and retransmits after random backoff."
+  },
+  {
+    "question": "Why is CSMA/CD better than plain CSMA?",
+    "answer": "CSMA/CD stops transmission as soon as a collision is detected, avoiding the waste of transmitting the entire damaged frame."
+  },
+  {
+    "question": "Why does Ethernet require a minimum frame size of 64 bytes?",
+    "answer": "The frame must be long enough for the sender to still be transmitting when a collision signal returns. This allows CSMA/CD collision detection to work."
+  },
+  {
+    "question": "Why cannot CSMA/CD be used in wireless networks?",
+    "answer": "A wireless transmitter's own strong signal prevents it from hearing incoming collision signals while transmitting."
+  },
+  {
+    "question": "Where is CSMA/CD used?",
+    "answer": "CSMA/CD is used in **IEEE 802.3 Ethernet** on wired networks."
+  },
+  {
+    "question": "What is **CSMA/CA**?",
+    "answer": "**CSMA/CA (CSMA with Collision Avoidance)** tries to avoid collisions before they occur using carrier sensing, random backoff, and ACKs."
+  },
+  {
+    "question": "Why is CSMA/CA used in wireless networks instead of CSMA/CD?",
+    "answer": "Wireless stations cannot reliably detect collisions while transmitting, and hidden nodes may collide at the receiver. CSMA/CA reduces collision probability using backoff and ACKs."
+  },
+  {
+    "question": "What is the **hidden node problem**?",
+    "answer": "The hidden node problem occurs when two stations cannot hear each other but both transmit to the same access point, causing a collision at the receiver."
+  },
+  {
+    "question": "Where is CSMA/CA used?",
+    "answer": "CSMA/CA is used in **IEEE 802.11 Wi-Fi**."
+  },
+  {
+    "question": "How does **IFS** help in CSMA/CA?",
+    "answer": "**IFS (Inter-Frame Space)** forces a station to wait for a specific idle period before transmitting. Shorter IFS gives higher priority to frames like ACKs and CTS."
+  },
+  {
+    "question": "What is the difference between **SIFS** and **DIFS**?",
+    "answer": "- **SIFS**: shortest IFS, used for high-priority frames like ACKs and CTS\n- **DIFS**: longer IFS, used by normal data stations before contention"
+  },
+  {
+    "question": "What is a **contention window** in CSMA/CA?",
+    "answer": "A **contention window** is the range from which a station randomly chooses a backoff slot before transmitting."
+  },
+  {
+    "question": "What happens to the contention window after a collision in CSMA/CA?",
+    "answer": "The contention window is doubled using **exponential backoff**, reducing the chance of repeated collisions."
+  },
+  {
+    "question": "What is **Ethernet IEEE 802.3**?",
+    "answer": "**Ethernet (IEEE 802.3)** is the most widely used wired LAN technology. It operates at the Data Link and Physical layers and uses **CSMA/CD** for access control."
+  },
+  {
+    "question": "What are important Ethernet specifications?",
+    "answer": "- Speeds: **10 Mbps**, **100 Mbps**, **1 Gbps**\n- Access method: **CSMA/CD**\n- Minimum frame size: **64 bytes**\n- Maximum frame size: **1518 bytes**\n- Maximum stations per network: **1024**"
+  },
+  {
+    "question": "What is the Ethernet frame structure?",
+    "answer": "```text\n| Preamble | SFD | Destination | Source | Type/Length | Data | PAD | CRC |\n```"
+  },
+  {
+    "question": "What is the function of the **Preamble** in an Ethernet frame?",
+    "answer": "The **Preamble** is 7 bytes of alternating `1`s and `0`s used to synchronize the receiver's clock."
+  },
+  {
+    "question": "What is the function of **SFD** in an Ethernet frame?",
+    "answer": "**SFD (Start Frame Delimiter)** is a 1-byte pattern `10101011` that marks the end of the preamble and start of the actual frame."
+  },
+  {
+    "question": "What are the sizes of Ethernet source and destination MAC address fields?",
+    "answer": "Both **Source Address** and **Destination Address** fields are **6 bytes** each."
+  },
+  {
+    "question": "What is the function of the **Type/Length** field in Ethernet?",
+    "answer": "The **Type/Length** field is 2 bytes:\n- Value `> 1500` → protocol type\n- Value `≤ 1500` → data length"
+  },
+  {
+    "question": "What is the size range of the Ethernet data field?",
+    "answer": "Ethernet data field size is **46 to 1500 bytes**."
+  },
+  {
+    "question": "Why is padding added in Ethernet frames?",
+    "answer": "Padding is added if data is less than 46 bytes so the Ethernet frame reaches the minimum size of **64 bytes** required for CSMA/CD."
+  },
+  {
+    "question": "What is the function of Ethernet CRC?",
+    "answer": "Ethernet CRC is a 4-byte error detection field. The receiver recomputes CRC and compares it to detect transmission errors."
+  },
+  {
+    "question": "What are **Token Bus** and **Token Ring**?",
+    "answer": "They are deterministic LAN protocols that use a **token**. Only the station holding the token can transmit, so collisions are eliminated."
+  },
+  {
+    "question": "What is **Token Bus IEEE 802.4**?",
+    "answer": "**Token Bus** uses a physical bus topology but forms a logical ring. The token is passed in a predetermined logical order among stations."
+  },
+  {
+    "question": "What are key specifications of Token Bus?",
+    "answer": "- Standard: **IEEE 802.4**\n- Speed: **1, 5, or 10 Mbps**\n- Cable: coaxial\n- Max segment length: **7.5 km**\n- Topology: physical bus, logical ring"
+  },
+  {
+    "question": "How does Token Bus operate?",
+    "answer": "A free token circulates in logical order. A station with the token may transmit for a limited time, then passes the token to the next station."
+  },
+  {
+    "question": "Where is Token Bus mainly used?",
+    "answer": "Token Bus is mainly used in **industrial automation and manufacturing environments** where deterministic access is important."
+  },
+  {
+    "question": "What is **Token Ring IEEE 802.5**?",
+    "answer": "**Token Ring** uses physical and logical ring topology. The token travels around the ring in one fixed direction."
+  },
+  {
+    "question": "What are key specifications of Token Ring?",
+    "answer": "- Standard: **IEEE 802.5**\n- Speed: **4 Mbps or 16 Mbps**\n- Cable: **STP or UTP**\n- Max stations: **250 STP** or **72 UTP**\n- Max ring length: **4000 m**"
+  },
+  {
+    "question": "How does Token Ring operate?",
+    "answer": "A station captures the free token, sends a frame around the ring, removes its own frame after it returns, and releases a new free token."
+  },
+  {
+    "question": "What is the role of the **Active Monitor** in Token Ring?",
+    "answer": "The **Active Monitor** detects lost tokens or frames stuck circulating in the ring and recovers by generating a new token."
+  },
+  {
+    "question": "Compare Token Bus and Token Ring.",
+    "answer": "| Token Bus | Token Ring |\n|---|---|\n| Physical bus, logical ring | Physical and logical ring |\n| Logical token order | Fixed ring direction |\n| Used in industrial networks | Used in office LANs |\n| No active monitor | Requires Active Monitor |\n| IEEE 802.4 | IEEE 802.5 |"
+  },
+  {
+    "question": "What is **FDDI**?",
+    "answer": "**FDDI (Fiber Distributed Data Interface)** is a high-speed LAN technology using optical fiber, token passing, and dual-ring topology at **100 Mbps**."
+  },
+  {
+    "question": "What are the main features of FDDI?",
+    "answer": "- Speed: **100 Mbps**\n- Medium: **optical fiber**\n- Topology: **dual ring**\n- Supports up to **500 stations**\n- Maximum ring length: **200 km**\n- Uses **timed token protocol**\n- Immune to electromagnetic interference"
+  },
+  {
+    "question": "How does FDDI provide fault tolerance?",
+    "answer": "FDDI uses two counter-rotating rings. If a cable or station fails, nearby stations perform **ring wrapping**, joining primary and secondary rings to bypass the fault."
+  },
+  {
+    "question": "When does FDDI fault tolerance fail completely?",
+    "answer": "FDDI fails completely if both primary and secondary rings are cut at the same location, splitting the network into isolated segments."
+  },
+  {
+    "question": "What is a **VLAN**?",
+    "answer": "A **VLAN (Virtual Local Area Network)** is a logical grouping of devices that behave as if they are on the same LAN, even if physically located on different switches or segments."
+  },
+  {
+    "question": "Why are VLANs used?",
+    "answer": "VLANs improve **performance** and **security** by creating separate broadcast domains and logically segmenting a network without physical rewiring."
+  },
+  {
+    "question": "What is a **VLAN ID**?",
+    "answer": "A **VLAN ID** uniquely identifies a VLAN. Valid VLAN IDs range from **1 to 4094**."
+  },
+  {
+    "question": "How can devices be grouped into VLANs?",
+    "answer": "Devices can be grouped by:\n- Switch port\n- MAC address\n- Protocol type"
+  },
+  {
+    "question": "Can devices in different VLANs communicate directly?",
+    "answer": "No. Devices in different VLANs need a **router** or **Layer 3 switch** to communicate."
+  },
+  {
+    "question": "What is an **access port** in VLAN configuration?",
+    "answer": "An **access port** belongs to a single VLAN and connects end devices such as PCs or printers. The connected device is unaware of VLAN tagging."
+  },
+  {
+    "question": "What is a **trunk port** in VLAN configuration?",
+    "answer": "A **trunk port** carries traffic from multiple VLANs between switches or between a switch and router using VLAN tagging."
+  },
+  {
+    "question": "What is **IEEE 802.1Q tagging**?",
+    "answer": "**IEEE 802.1Q tagging** inserts a 4-byte VLAN tag into Ethernet frames so trunk links can identify which VLAN each frame belongs to."
+  }
+]
