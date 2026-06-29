@@ -1,0 +1,214 @@
+[
+  {
+    "question": "What is a distributed system?",
+    "answer": "A collection of independent components (hardware/software) on networked computers that **communicate via message passing** to achieve a common goal, while appearing as a **single coherent system** to the user."
+  },
+  {
+    "question": "Give four real-world examples of distributed systems.",
+    "answer": "- **Internet** — millions of machines sharing resources globally\n- **BitTorrent** — peers share file chunks without a central server\n- **Blockchain** — nodes maintain a shared decentralized ledger\n- **SSO** — one auth service accessed by many independent applications"
+  },
+  {
+    "question": "What are the advantages of a distributed system?",
+    "answer": "1. **Fault tolerant** — one node failure doesn't crash the whole system\n2. **Scalable** — add nodes without redesigning\n3. **Resource sharing** — CPU, storage, data shared across nodes\n4. **Better performance** — tasks run in parallel\n5. **Low latency** — geographically distributed users served efficiently"
+  },
+  {
+    "question": "What are the disadvantages of a distributed system?",
+    "answer": "1. **Complex** to design, debug, and maintain\n2. **Data consistency** is hard to maintain across replicated nodes\n3. **Network dependency** — network failure causes partial/full disruption\n4. **Security** is harder to enforce across multiple nodes\n5. **Higher overhead** — message passing and coordination consume extra resources"
+  },
+  {
+    "question": "How does a distributed system compare to a centralized system?",
+    "answer": "| | Distributed | Centralized |\n|---|---|---|\n| **Control** | No single node has full control | One central node controls everything |\n| **Fault Tolerance** | High — one failure doesn't crash all | Single point of failure |\n| **Scalability** | Add more nodes easily | Must upgrade central machine |\n| **Consistency** | Hard — data replicated across nodes | Easy — all data in one place |\n| **Complexity** | High — concurrency, partial failures | Low — all logic in one place |\n| **Latency** | Low — nodes placed near users | High for distant users |"
+  },
+  {
+    "question": "List all design goals (and challenges) of a distributed system.",
+    "answer": "1. Transparency\n2. Openness\n3. Scalability\n4. Fault Tolerance\n5. Concurrency\n6. Security\n7. Heterogeneity\n8. Performance\n9. Resource Sharing"
+  },
+  {
+    "question": "What is **transparency** as a design goal in DS?",
+    "answer": "The system hides its distributed nature and appears as a **single coherent system** to the user — users don't know where a resource lives, how many copies exist, or if a node has failed.\n\n**Challenge:** Network latency, partial failures, and replication lag all break this illusion.\n\n**Example:** A user types a URL without knowing which server in which country responds."
+  },
+  {
+    "question": "List all types of transparency in a distributed system.",
+    "answer": "1. Access Transparency\n2. Location Transparency\n3. Migration/Mobility Transparency\n4. Replication Transparency\n5. Concurrency Transparency\n6. Failure Transparency\n7. Performance Transparency"
+  },
+  {
+    "question": "What is **access transparency**?",
+    "answer": "Hides differences in data representation and resource access mechanisms so that **local and remote resources are accessed using identical operations**."
+  },
+  {
+    "question": "What is **location transparency**?",
+    "answer": "Hides the physical/network location of a resource — a user accesses a resource **by name** without knowing where it actually resides."
+  },
+  {
+    "question": "What is **migration/mobility transparency**?",
+    "answer": "Hides the fact that a resource or process **has moved** to a different location — access remains unaffected even after migration."
+  },
+  {
+    "question": "What is **replication transparency**?",
+    "answer": "Hides the fact that **multiple copies** of a resource exist across nodes — the user interacts with a single logical resource without knowing how many physical replicas exist."
+  },
+  {
+    "question": "What is **concurrency transparency**?",
+    "answer": "Hides the sharing of a resource by multiple users — each user appears to have **exclusive access** even when many users access the same resource simultaneously."
+  },
+  {
+    "question": "What is **failure transparency**?",
+    "answer": "Hides the occurrence of a fault and its recovery — the system appears to **keep functioning** from the user's perspective even when a component has failed."
+  },
+  {
+    "question": "What is **performance transparency**?",
+    "answer": "Hides reconfiguration actions taken to improve performance under varying load — users experience **consistent response times** regardless of system load."
+  },
+  {
+    "question": "What is **openness** as a design goal in DS?",
+    "answer": "Services are offered through **standard, publicly defined protocols and interfaces** so components from different vendors can interoperate and new services can be added without breaking existing ones.\n\n**Challenge:** Changing a standard interface can break all dependent components; balancing backward compatibility with extensibility is hard.\n\n**Example:** The web uses HTTP, HTML, DNS — any browser or server can participate."
+  },
+  {
+    "question": "What is **scalability** as a design goal in DS?",
+    "answer": "The system handles growth in users, data, and resources without degrading performance.\n\n**Three dimensions:**\n- **Size** — more users/nodes\n- **Geography** — more locations\n- **Administration** — more organizations\n\n**Challenge:** More nodes → harder consistency, increased coordination overhead, unexpected bottlenecks.\n\n**Example:** AWS scales by adding nodes on demand."
+  },
+  {
+    "question": "What is **fault tolerance** as a design goal in DS?",
+    "answer": "The system continues operating correctly even when some nodes or links fail.\n\n**Achieved via:** replication, redundancy, and automatic recovery.\n\n**Challenge:** Nodes can fail silently — detecting whether a node has crashed or is just slow is very hard.\n\n**Example:** A blockchain keeps running even if hundreds of nodes go offline."
+  },
+  {
+    "question": "What is **concurrency** as a design goal in DS?",
+    "answer": "Multiple users and processes can access and modify shared resources simultaneously without conflict — synchronization ensures consistent results.\n\n**Challenge:** Without careful design, leads to race conditions, deadlocks, and inconsistent state. Designing correct synchronization across nodes that communicate only via messages (no shared memory) is very hard."
+  },
+  {
+    "question": "What is **security** as a design goal in DS?",
+    "answer": "Data and resources are protected from unauthorized access across all nodes and communication channels.\n\n**Includes:** authentication (verify identity), authorization (control access), encryption (protect data in transit).\n\n**Challenge:** Data travels over open networks and is stored across many nodes — the attack surface is far larger than a centralized system.\n\n**Example:** TLS/SSL secures communication between distributed components."
+  },
+  {
+    "question": "What is **heterogeneity** as a design goal in DS?",
+    "answer": "The system works seamlessly across different hardware, OS, programming languages, and network types.\n\n**Handled via:** middleware, standard protocols (HTTP, TCP/IP, JSON), and VMs/containers.\n\n**Challenge:** Every layer can differ between nodes; building middleware to handle all differences adds significant complexity.\n\n**Example:** A Java client on Windows communicating with a Python server on Linux."
+  },
+  {
+    "question": "What is **performance** as a design goal in DS?",
+    "answer": "Tasks are distributed across nodes to maximize throughput and minimize response time via load balancing.\n\n**Challenge:** Network communication is orders of magnitude slower than local memory access — minimizing messages, reducing latency, and balancing load without central coordination requires careful design.\n\n**Example:** Google's search infrastructure processes billions of requests/day across thousands of machines."
+  },
+  {
+    "question": "What is **resource sharing** as a design goal in DS?",
+    "answer": "Hardware and software resources (CPU, storage, files, services) are efficiently shared among all users — avoids duplication and reduces cost.\n\n**Challenge:** Managing shared resources across nodes requires coordination to prevent conflicts, enforce access control, and maintain consistency without becoming a bottleneck.\n\n**Example:** Google Drive lets users share files stored on remote servers."
+  },
+  {
+    "question": "What are the two categories of models used to describe distributed systems?",
+    "answer": "- **Architectural Model** — describes *structure*: how components are organized, who talks to whom, and in what role\n- **Fundamental Model** — describes *behavior*: communication, failure, and security properties at a theoretical level"
+  },
+  {
+    "question": "List all architectural models of distributed systems.",
+    "answer": "1. Client-Server Model\n2. Multi-Tier Architecture\n3. Peer-to-Peer (P2P) Model"
+  },
+  {
+    "question": "What is the **Client-Server** model?",
+    "answer": "The system is split into two distinct roles:\n- **Client** — initiates communication, sends a request, waits for response\n- **Server** — runs continuously, listens for and handles incoming requests\n\n**Pros:** Simple, easy to manage, centralizes control.\n\n**Cons:** Server can become a bottleneck and single point of failure.\n\n**Examples:** Web servers (HTTP), email servers (SMTP), database servers."
+  },
+  {
+    "question": "What is **Multi-Tier architecture** and why is it used?",
+    "answer": "An evolution of client-server where the system is split into **multiple distinct layers**, each with a specific responsibility.\n\nImproves **modularity**, **maintainability**, and **scalability** over a simple 2-role split."
+  },
+  {
+    "question": "What are the 1-Tier, 2-Tier, and 3-Tier architectures?",
+    "answer": "| | 1-Tier | 2-Tier | 3-Tier |\n|---|---|---|---|\n| **Structure** | UI + logic + data on one machine | Client (UI) + Server (data/logic) | Presentation + Application Logic + Data layers |\n| **Scalability** | None | Limited | High |\n| **Complexity** | Simple | Moderate | Higher but modular |\n| **Example** | MS Paint / local desktop app | Desktop billing app + remote DB | Browser → Node.js API → PostgreSQL |"
+  },
+  {
+    "question": "What are the three layers of **3-Tier architecture** and what does each do?",
+    "answer": "1. **Presentation Layer** — browser/client app handles the UI\n2. **Application/Business Logic Layer** — middle-tier server processes requests and applies business rules\n3. **Data Layer** — database server stores and retrieves data\n\nThe client **never talks directly to the database** — all requests go through the middle tier."
+  },
+  {
+    "question": "What is the **Peer-to-Peer (P2P)** model?",
+    "answer": "Every node is a **peer** acting as both client and server simultaneously — no central authority or single point of control.\n\n**Pros:**\n- Highly fault tolerant — no single point of failure\n- Scales naturally — adding peers increases total capacity\n\n**Cons:** Coordination, consistency, and security are harder without central control.\n\n**Examples:** BitTorrent, Blockchain, early Skype."
+  },
+  {
+    "question": "Compare Client-Server, Multi-Tier, and P2P architectural models.",
+    "answer": "| | Client-Server | Multi-Tier | P2P |\n|---|---|---|---|\n| **Roles** | Client + Server | 3+ separate layers | Every node = client + server |\n| **Control** | Centralized at server | Distributed across tiers | Fully decentralized |\n| **Fault Tolerance** | Low — server is SPOF | Medium — tier failure affects flow | High — no SPOF |\n| **Scalability** | Limited by server | Good — tiers scale independently | Natural — more peers = more capacity |\n| **Complexity** | Simple | Moderate | High |"
+  },
+  {
+    "question": "List all fundamental models of distributed systems.",
+    "answer": "1. Interaction Model\n2. Failure Model\n3. Security Model"
+  },
+  {
+    "question": "What does the **Interaction Model** describe?",
+    "answer": "Describes the **nature and constraints of communication** between processes in a DS, focusing on two key issues:\n- **Performance** — message delivery is not instant due to network latency and congestion\n- **Timing** — no single global clock all nodes agree on, making time synchronization a fundamental challenge"
+  },
+  {
+    "question": "What is the difference between the **synchronous** and **asynchronous** interaction models?",
+    "answer": "| | Synchronous | Asynchronous |\n|---|---|---|\n| **Timing bounds** | Known bounds on execution time, message delivery, and clock drift | No bounds on timing |\n| **Predictability** | Easier to reason about | Messages may arrive after any delay |\n| **Practicality** | Hard to guarantee in practice | Realistic model of the internet |"
+  },
+  {
+    "question": "What does the **Failure Model** describe?",
+    "answer": "Classifies the **types of failures** that can occur in processes and communication channels in a DS, so the system can be designed to handle them."
+  },
+  {
+    "question": "List all types of **process failures** in the Failure Model.",
+    "answer": "1. Crash Failure\n2. Omission Failure\n3. Byzantine Failure"
+  },
+  {
+    "question": "What is a **crash failure** (process)?",
+    "answer": "A process **stops executing and does not recover**. Other processes may not immediately know it has crashed.\n\nThis is the **most common and simplest** type of process failure."
+  },
+  {
+    "question": "What is an **omission failure** (process)?",
+    "answer": "A process **fails to respond to some requests** but continues running otherwise."
+  },
+  {
+    "question": "What is a **Byzantine failure** (process)?",
+    "answer": "The **most severe** process failure type. A process keeps running but sends **incorrect, inconsistent, or malicious** responses.\n\nVery hard to detect and handle."
+  },
+  {
+    "question": "List all types of **communication failures** in the Failure Model.",
+    "answer": "1. Omission Failure\n2. Arbitrary/Byzantine Failure"
+  },
+  {
+    "question": "What is an **omission failure** in a communication channel?",
+    "answer": "A message is **sent but never received**, or a reply is never sent back.\n\n**Caused by:** network congestion or packet loss."
+  },
+  {
+    "question": "What is an **arbitrary/Byzantine failure** in a communication channel?",
+    "answer": "**Corrupted or fabricated messages** are delivered to the receiver.\n\nRare but dangerous."
+  },
+  {
+    "question": "What mechanisms does a distributed system use to detect and recover from failures?",
+    "answer": "**Timeouts**, **acknowledgements**, **replication**, and **redundancy**."
+  },
+  {
+    "question": "What does the **Security Model** describe?",
+    "answer": "Defines the **threats** that a distributed system faces and the **mechanisms** used to protect it. Since DS components communicate over open networks, the attack surface is far larger than a centralized system."
+  },
+  {
+    "question": "List all categories of security threats in the Security Model.",
+    "answer": "1. Threats to **processes** (spoofing, tampering, replay attacks)\n2. Threats to **communication channels** (eavesdropping, tampering, DoS)"
+  },
+  {
+    "question": "What are the threats to **processes** in a distributed system?",
+    "answer": "- **Spoofing** — an enemy process impersonates a legitimate process\n- **Tampering** — messages are modified to cause incorrect behavior\n- **Replay attacks** — old messages are replayed to cause incorrect behavior"
+  },
+  {
+    "question": "What are the threats to **communication channels** in a distributed system?",
+    "answer": "- **Eavesdropping** — messages are intercepted and read\n- **Tampering** — messages are modified in transit\n- **Denial of Service (DoS)** — attacker floods the system with requests, exhausting resources and blocking legitimate users"
+  },
+  {
+    "question": "List all security mechanisms used in distributed systems.",
+    "answer": "1. Encryption\n2. Authentication\n3. Authorization\n4. Secure Channels (e.g., TLS/SSL)"
+  },
+  {
+    "question": "What is **encryption** in DS security?",
+    "answer": "Messages are encrypted so intercepted data **cannot be read** by unauthorized parties. Ensures **confidentiality**."
+  },
+  {
+    "question": "What is **authentication** in DS security?",
+    "answer": "Verifies the **identity** of a process or user before granting access — ensures the communicating party is who they claim to be."
+  },
+  {
+    "question": "What is **authorization** in DS security?",
+    "answer": "Controls **what an authenticated user or process is allowed to do** — ensures access rights are enforced."
+  },
+  {
+    "question": "What are **secure channels** in DS?",
+    "answer": "Communication channels that provide **both encryption and authentication** together.\n\n**Example:** TLS/SSL used to secure HTTP traffic."
+  },
+  {
+    "question": "Compare the three fundamental models of distributed systems.",
+    "answer": "| | **Interaction** | **Failure** | **Security** |\n|---|---|---|---|\n| **Concern** | Communication & timing | Types of failures | Threats & protection |\n| **Key Problem** | No global clock; unpredictable delays | Crash, omission, Byzantine failures | Eavesdropping, spoofing, DoS |\n| **Key Mechanisms** | Sync vs async models | Timeouts, ACKs, replication | Encryption, auth, secure channels |\n| **Example** | Internet message arrives after unknown delay | Client detects crashed server via timeout | TLS encrypts HTTP to prevent eavesdropping |"
+  }
+]
