@@ -1,0 +1,62 @@
+[
+  {
+    "question": "What is an Operating System (OS)?",
+    "answer": "System software that **manages hardware resources** (CPU, memory, storage, I/O) and provides services to applications and users, acting as an intermediary between hardware and software."
+  },
+  {
+    "question": "What is a Monolithic OS?",
+    "answer": "An OS architecture where the **entire OS runs as a single large program in kernel space**, with services like memory management, file system, and device drivers tightly coupled together."
+  },
+  {
+    "question": "What is a Microkernel OS?",
+    "answer": "An OS architecture where **only essential services** (IPC, basic scheduling) run in the kernel, while other services (file system, device drivers) run as separate, loosely coupled user-level processes."
+  },
+  {
+    "question": "Compare Monolithic OS and Microkernel OS in terms of performance, reliability, and maintainability.",
+    "answer": "| Aspect | Monolithic OS | Microkernel OS |\n|---|---|---|\n| Performance | Faster (no mode switches) | Slower (message passing overhead) |\n| Reliability | Bug in one service can crash whole OS | Bug in one service doesn't affect kernel/others |\n| Maintainability | Hard to maintain/extend (all packed together) | Easy to extend/maintain (independent services) |"
+  },
+  {
+    "question": "Give examples of Monolithic and Microkernel operating systems.",
+    "answer": "- **Monolithic:** Early UNIX, Linux\n- **Microkernel:** Mach, Minix, QNX"
+  },
+  {
+    "question": "What is a Network OS (NOS)?",
+    "answer": "An OS where **each machine has its own local OS** and manages its own resources independently; users must explicitly log in or know the resource location to access remote resources."
+  },
+  {
+    "question": "What is a Distributed OS (DOS)?",
+    "answer": "A **single unified OS** that manages all machines and their resources collectively; resources are shared transparently and users are unaware of the underlying machines."
+  },
+  {
+    "question": "Compare Network OS and Distributed OS in terms of transparency, design complexity, and failure impact.",
+    "answer": "| Aspect | Network OS | Distributed OS |\n|---|---|---|\n| Transparency | User must know resource location | Resources shared transparently |\n| Design | Easier (independent machines) | Complex (needs coordination) |\n| Failure impact | One machine's failure doesn't affect others | May affect the overall system |"
+  },
+  {
+    "question": "Give examples of Network OS and Distributed OS.",
+    "answer": "- **Network OS:** Novell NetWare, Windows Server\n- **Distributed OS:** Amoeba, Plan 9"
+  },
+  {
+    "question": "Why is NOS preferred over true DOS?",
+    "answer": "- Easier to design (no global coordination needed)\n- Commercially mature and widely available; DOS is mostly experimental\n- Each machine managed independently → simpler administration\n- Can be deployed over existing OSes without full replacement\n- Scalable: adding/removing machines doesn't disrupt the system\n- Gives users/admins more direct control over local resources"
+  },
+  {
+    "question": "What is a Process?",
+    "answer": "An **independent program in execution** with its own memory space and resources; isolated from other processes."
+  },
+  {
+    "question": "What is a Thread?",
+    "answer": "A **lightweight unit of execution** that shares memory and resources with other threads within the same process."
+  },
+  {
+    "question": "Compare Process and Thread in terms of cost, memory sharing, isolation, and context switching.",
+    "answer": "| Aspect | Process | Thread |\n|---|---|---|\n| Cost | Expensive to create/manage | Cheap and fast |\n| Memory | Own memory; needs IPC (sockets, pipes) to communicate | Shares memory; communication is faster/simpler |\n| Isolation | Failure doesn't affect other processes | Failure can crash other threads in same process |\n| Context switch | Slow (separate memory spaces) | Fast (shared address space) |"
+  },
+  {
+    "question": "How are processes and threads used differently in distributed systems?",
+    "answer": "**Processes** run on different machines and communicate over the network, while **threads** are used within a single machine to handle multiple tasks concurrently, improving responsiveness."
+  },
+  {
+    "question": "Why are threads important in distributed systems?",
+    "answer": "- Allow a server to handle multiple client requests simultaneously without creating a new process per request\n- Improve performance by reducing process creation and context-switching overhead\n- Make it easier to overlap computation with communication"
+  }
+]
