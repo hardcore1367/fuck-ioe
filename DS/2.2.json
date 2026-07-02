@@ -1,0 +1,74 @@
+[
+  {
+    "question": "What is a Distributed File System (DFS)?",
+    "answer": "A file system that allows files to be **stored, managed, and accessed across multiple machines** on a network while appearing as a single unified file system to the user. Its core idea is **location transparency** — files look the same regardless of which server physically stores them."
+  },
+  {
+    "question": "What are the three components of DFS File Service Architecture?",
+    "answer": "1. **Flat File Service** — stores/retrieves file data using UFIDs\n2. **Directory Service** — maps file names to UFIDs\n3. **Client Module** — provides a unified file system interface to applications"
+  },
+  {
+    "question": "What is the Flat File Service in a DFS?",
+    "answer": "Responsible for **storage and retrieval of file data** at the byte level. It works with **Unique File Identifiers (UFIDs)**, not names, and doesn't know about directory structure. Operations: `Read`, `Write`, `Create`, `Delete`, `GetAttributes`, `SetAttributes`."
+  },
+  {
+    "question": "What is the Directory Service in a DFS?",
+    "answer": "**Maps human-readable file names to UFIDs** and maintains directory structure (folders, paths). Resolves a path to a UFID which the client then uses with the flat file service. Operations: `Lookup`, `AddName`, `RemoveName`, `GetNames`."
+  },
+  {
+    "question": "What is the Client Module in a DFS?",
+    "answer": "Runs on each client machine, **integrating the flat file service and directory service** into a familiar file system interface (`open`, `read`, `write`, `close`). The application always goes through it rather than talking to the other services directly."
+  },
+  {
+    "question": "What is Sun NFS and what is it built on?",
+    "answer": "A DFS implementation by **Sun Microsystems** enabling transparent remote file access. Built entirely on **RPC and XDR** (for machine-independent communication) and is **stateless** — the server keeps no information about clients between requests."
+  },
+  {
+    "question": "What are the three main components of the Sun NFS architecture?",
+    "answer": "1. **NFS Client** — intercepts file system calls, translates to RPCs, caches data, tracks file offset\n2. **NFS Server** — performs file operations on local disk, stateless, exports directories\n3. **NFS Protocol (RPC/XDR)** — handles communication; every operation is **idempotent**"
+  },
+  {
+    "question": "Why is idempotency important in the Sun NFS protocol?",
+    "answer": "Because Sun NFS is **stateless**, if a request is lost and retransmitted, executing it twice must produce the **same result** — this makes retransmission safe without needing session tracking."
+  },
+  {
+    "question": "List the main Sun NFS operations (RPCs) and their purpose.",
+    "answer": "- `LOOKUP` — find file handle from directory + filename\n- `READDIR` — list directory entries\n- `CREATE`/`REMOVE`/`RENAME`/`MKDIR`/`SYMLINK` — manipulate files/links/directories\n- `GETATTR` — read file metadata (also used for cache validation)\n- `SETATTR` — write file metadata\n- `READ` — read file data using handle, offset, byte count\n- `WRITE` — write data to server immediately (write-through)"
+  },
+  {
+    "question": "What does 'write-through' mean in Sun NFS?",
+    "answer": "Writes go **directly to the server** (not cached) to maintain data **consistency** across all clients."
+  },
+  {
+    "question": "Compare Stateful DFS and Stateless DFS.",
+    "answer": "| Aspect | Stateful | Stateless |\n|---|---|---|\n| Session info | Server keeps client session (open files, position, rights) | No info kept; each request self-contained |\n| Request size | Short (context assumed) | Larger (full context resent) |\n| Sequential access | More efficient | More network overhead |\n| Server crash | Session state lost, complex recovery | No impact; client resends request |\n| Replication | Harder (state must sync) | Easy (any replica handles any request) |\n| Scalability | Poor (memory per client) | Good (usage doesn't grow with clients) |\n| Example | FTP, OpenAFS | Sun NFS |"
+  },
+  {
+    "question": "What is the role of DFS in resource sharing?",
+    "answer": "- **Shared storage** pool for all nodes\n- **Eliminates data duplication** (single consistent copy)\n- **Centralized management** (backup, access control)\n- **Hardware resource sharing** (shared disk storage)\n- **Collaborative access** with locking/concurrency control\n- **Platform independence** across heterogeneous systems\n- **Scalability** — new servers add storage without client-side changes"
+  },
+  {
+    "question": "What is DNS and why is it a distributed system?",
+    "answer": "**DNS (Domain Name System)** translates human-readable domain names (e.g. `www.google.com`) into IP addresses. It is distributed because no single server knows all mappings — responsibility is spread across a **hierarchy of servers**."
+  },
+  {
+    "question": "Describe the DNS hierarchy levels for resolving `www.darkrelay.com`.",
+    "answer": "`. (root) → com (TLD) → darkrelay (2nd level) → www (host)`\n- **Root Server** — knows all TLD servers\n- **TLD Server** — handles extensions like `.com`, knows 2nd-level authoritative servers\n- **Second Level Domain** — holds records for its subdomains\n- **Subdomain/Host** — individual machine/service (e.g. `www`, `mail`)\n\nEach level only knows the level directly below it."
+  },
+  {
+    "question": "What is a recursive DNS query?",
+    "answer": "The **DNS resolver** takes full responsibility for resolution, contacting each server in the hierarchy on the client's behalf, and returns only the **final IP** to the client. Simpler for the client, but heavier load on the resolver."
+  },
+  {
+    "question": "What is an iterative DNS query?",
+    "answer": "The **local DNS client** does the work itself — each server contacted returns a **referral** to the next server instead of the final answer, and the client repeats this until it gets the IP. This distributes the workload to the client."
+  },
+  {
+    "question": "Compare recursive and iterative DNS queries.",
+    "answer": "| Aspect | Recursive | Iterative |\n|---|---|---|\n| Who resolves | DNS Resolver does full work | Local DNS client follows referrals itself |\n| Client involvement | One request, waits for final answer | Multiple requests, one per hierarchy level |\n| Load | Higher on resolver | Distributed to local client |\n| Complexity | Simpler for client | More complex for local client |"
+  },
+  {
+    "question": "How does DNS caching improve performance?",
+    "answer": "DNS servers cache resolved mappings for a duration set by **TTL (Time To Live)**. Subsequent requests for the same name are answered instantly from cache, reducing DNS traffic and speeding up resolution."
+  }
+]
