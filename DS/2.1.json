@@ -1,0 +1,98 @@
+[
+  {
+    "question": "What is a distributed object?",
+    "answer": "An object (data + methods) that resides on one machine but can be **accessed and invoked by processes on other machines** over a network, as if calling a local object. The key idea is **location transparency** — the caller doesn't need to know where the object lives."
+  },
+  {
+    "question": "What is RPC (Remote Procedure Call)?",
+    "answer": "A mechanism that lets a process on one machine **call a procedure on a remote machine** as if it were local. Network communication is hidden from the programmer, forming the foundation of distributed computing."
+  },
+  {
+    "question": "What are the five components of RPC architecture?",
+    "answer": "1. **Client** — calls procedure as if local\n2. **Client Stub** — marshals call, sends to runtime\n3. **RPC Runtime** — handles network communication on both sides\n4. **Server Stub (Skeleton)** — unmarshals, calls actual procedure\n5. **Server** — hosts and executes the actual procedure"
+  },
+  {
+    "question": "What are the functional steps of an RPC call?",
+    "answer": "1. Client calls client stub\n2. Client stub **marshals** parameters\n3. RPC runtime sends message\n4. Server receives message → passes to server stub\n5. Server stub **unmarshals** parameters\n6. Actual procedure executes\n7. Result is marshalled\n8. Result sent back\n9. Client stub unmarshals result and returns it to caller"
+  },
+  {
+    "question": "What are the RPC communication (failure) semantics?",
+    "answer": "- **Maybe** — executes once or not at all, no retry\n- **At Least Once** — retries until response; may execute multiple times (needs idempotent ops)\n- **At Most Once** — executes once or not at all, never more; duplicates suppressed (most common)\n- **Exactly Once** — executes exactly once regardless of failure (ideal, hardest to achieve)"
+  },
+  {
+    "question": "What are the advantages of RPC?",
+    "answer": "- Simple programming model (remote calls look local)\n- Language/platform independent (with IDL)\n- Well-established, widely supported\n- Promotes modularity (independent service development)"
+  },
+  {
+    "question": "What are the disadvantages of RPC?",
+    "answer": "- Tight coupling between client/server interface\n- Hard failure handling (network/server issues)\n- Performance overhead (marshalling, round trips)\n- No native asynchronous support (blocking/synchronous)\n- Heterogeneity issues (different data representations)"
+  },
+  {
+    "question": "What are the key issues in RPC design?",
+    "answer": "- **Parameter passing** — pointers/complex structures need serialization\n- **Binding** — client locates server via a name server/binder\n- **Failure handling** — distinguishing slow vs crashed server\n- **Security** — authenticating clients\n- **Performance** — network latency vs local calls"
+  },
+  {
+    "question": "What are the types of RPC?",
+    "answer": "- **Callback RPC** — server calls back the client after completing an operation\n- **Broadcast RPC** — client sends one request to all servers simultaneously, collects all responses\n- **Batch Mode RPC** — multiple RPC calls grouped into a single message to reduce network overhead"
+  },
+  {
+    "question": "What is RMI (Remote Method Invocation)?",
+    "answer": "The **object-oriented extension of RPC** — a client invokes a method on a remote object as if local. Unlike RPC, it works with **objects** (data + methods) and supports inheritance/polymorphism across the network. Most associated with Java RMI."
+  },
+  {
+    "question": "What are the six components of RMI architecture?",
+    "answer": "1. **Remote Object** — lives on server, implements remote interface\n2. **Remote Interface** — defines exposed methods\n3. **Client Stub (Proxy)** — local representative, marshals calls\n4. **Server Skeleton (Dispatcher)** — unmarshals, dispatches to real object\n5. **RMI Registry** — naming service for lookup\n6. **Remote Reference Module** — maps remote references to actual objects"
+  },
+  {
+    "question": "Compare Static and Dynamic RMI.",
+    "answer": "| Aspect | Static RMI | Dynamic RMI |\n|---|---|---|\n| Stub generation | Compile-time (e.g. `rmic`) | Runtime (via reflection) |\n| Flexibility | Inflexible — needs recompiling on interface change | Flexible — no recompile needed |\n| Speed/overhead | Fast, type-safe | Higher overhead |\n| Use case | Stable, known interfaces | Dynamic environments; modern Java RMI default |"
+  },
+  {
+    "question": "What are the steps in the operation of RMI?",
+    "answer": "1. Server registers remote object with RMI registry\n2. Client looks up registry, obtains stub\n3. Client calls method on stub\n4. Stub marshals method/params, sends over network\n5. Skeleton unmarshals, invokes real object's method\n6. Remote object executes and returns result\n7. Skeleton marshals result, sends back\n8. Stub unmarshals result, returns to client"
+  },
+  {
+    "question": "What fields does an RMI Request message contain?",
+    "answer": "**Message Type**, **Request ID**, **Remote Object Reference**, **Method ID**, **Arguments**"
+  },
+  {
+    "question": "What fields does an RMI Reply message contain?",
+    "answer": "**Message Type**, **Request ID** (matches request), **Status** (success/error), **Result/Exception**"
+  },
+  {
+    "question": "What is a remote object reference and what does it contain?",
+    "answer": "A unique identifier allowing a client to refer to a specific remote object anywhere in the system (the distributed equivalent of a memory pointer). Contains: **IP address**, **port number**, **time of creation**, **object number**, and **interface reference**."
+  },
+  {
+    "question": "What are the key issues in RMI?",
+    "answer": "- **Parameter passing** — objects passed by value (serialized copies, not references)\n- **Distributed garbage collection** — uses **lease-based** mechanism (Java RMI)\n- **Failure handling** — must handle `RemoteException`; at-most-once is standard\n- **Security** — needs authentication/access control\n- **Performance** — marshalling/serialization overhead; avoid fine-grained frequent calls\n- **Naming/Registry** — RMI registry can become a bottleneck at scale"
+  },
+  {
+    "question": "Compare RPC and RMI.",
+    "answer": "| Aspect | RPC | RMI |\n|---|---|---|\n| Paradigm | Procedural | Object-oriented (supports inheritance/polymorphism) |\n| Target | Remote procedure/function | Remote object's method |\n| Parameters | Simple data types; pointers hard to pass | Objects passed via serialization |\n| Stub types | Client stub + server stub | Client stub (proxy) + server skeleton |\n| Language | Language independent (with IDL) | Traditionally language-dependent (e.g. Java RMI) |\n| State | No object state maintained | Maintains object state across calls |\n| Locating | Binder/name server | RMI registry |\n| Usage | Systems programming, NFS, DCE | Enterprise apps, CORBA, EJB |"
+  },
+  {
+    "question": "What is IDL (Interface Definition Language)?",
+    "answer": "A **language-neutral specification language** used to define the interface of a remote object/procedure (methods, parameters, return types) without specifying implementation. Acts as a **contract** between client and server."
+  },
+  {
+    "question": "What role does IDL play in distributed systems?",
+    "answer": "- **Language independence** — different languages generate stubs from same IDL\n- **Stub generation** — auto-generates client stubs and server skeletons\n- **Interface contract** — formal agreement between client/server\n- **Separation of interface from implementation** — promotes modularity\n- **Interoperability** — enables heterogeneous systems (e.g. CORBA)"
+  },
+  {
+    "question": "What problem does event-based communication solve in distributed objects?",
+    "answer": "Standard RPC/RMI is **client-initiated** (client calls and waits). Event-based communication lets the **server notify the client** when something happens, without the client constantly polling."
+  },
+  {
+    "question": "Define 'event' and 'notification' in distributed object communication.",
+    "answer": "- **Event** — a significant state change or occurrence (e.g. stock price change, new message)\n- **Notification** — the message sent to interested parties when an event occurs, pushed automatically instead of requiring polling"
+  },
+  {
+    "question": "What is the Publish-Subscribe model and its components?",
+    "answer": "The standard event-based communication model:\n- **Publisher (Event Source)** — generates events, doesn't know subscribers\n- **Subscriber (Listener)** — registers interest, provides callback\n- **Event Service (Notification Bus)** — middleware that delivers events from publishers to registered subscribers"
+  },
+  {
+    "question": "How does the Publish-Subscribe notification process work?",
+    "answer": "1. Subscriber registers interest with callback\n2. Publisher generates an event, sends to event service\n3. Event service matches event to registered subscribers\n4. Notifications delivered by invoking subscriber callbacks\n5. Subscriber handles notification\n6. Subscriber can unregister when no longer interested"
+  }
+]
