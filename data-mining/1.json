@@ -1,0 +1,182 @@
+[
+  {
+    "question": "What is data preprocessing and why is it needed?",
+    "answer": "Data preprocessing is the process of **cleaning and preparing raw data** so it can be used effectively for analysis and model building. Real-world data is often incomplete, noisy, and inconsistent, which can lead to incorrect results if used directly."
+  },
+  {
+    "question": "What is an attribute in data mining?",
+    "answer": "An **attribute** (feature/variable) is a data field representing a characteristic of a data object."
+  },
+  {
+    "question": "What are the four attribute types by measurement scale, and what operations does each support?",
+    "answer": "- **Nominal** — labels only; supports equality (=, ≠). Example: eye color\n- **Ordinal** — meaningful order, unknown gap size; supports comparison (<, >). Example: grades\n- **Interval** — meaningful differences, no true zero; supports (+, −). Example: temperature in °C\n- **Ratio** — meaningful differences and ratios, true zero exists; supports all arithmetic (×, ÷). Example: age, mass"
+  },
+  {
+    "question": "What is the difference between discrete and continuous attributes?",
+    "answer": "**Discrete** — finite/countably infinite set of values, usually stored as integers (e.g., zip codes, counts). **Continuous** — real numbers over a range, stored as floating-point values (e.g., temperature, height)."
+  },
+  {
+    "question": "How are attributes classified by representation?",
+    "answer": "- **Character** — string/text values, qualitative, cannot be used in arithmetic (e.g., names, codes)\n- **Number** — integer or decimal values, support mathematical operations"
+  },
+  {
+    "question": "What is the difference between symmetric and asymmetric binary attributes?",
+    "answer": "**Symmetric** — both states (0/1) are equally important and interchangeable (e.g., gender). **Asymmetric** — outcomes are not equally important; the more important/rarer outcome is coded 1 (e.g., HIV test positive = 1)."
+  },
+  {
+    "question": "What is dimensionality in a dataset?",
+    "answer": "**Dimensionality** is the number of attributes (features) in a dataset. Higher dimensionality means each data object is described by more attributes."
+  },
+  {
+    "question": "What is the curse of dimensionality and its effects?",
+    "answer": "The **curse of dimensionality** is the phenomenon where data becomes increasingly sparse as dimensions increase. Effects:\n- Density/distance between points become less meaningful (points appear roughly equidistant)\n- Feature space volume grows exponentially, needing exponentially more data\n- Irrelevant/redundant features act as noise, reducing accuracy\n- Computation and storage costs increase"
+  },
+  {
+    "question": "What is dimensionality reduction and what are its purposes?",
+    "answer": "**Dimensionality reduction** reduces the number of features while retaining important information. Purposes:\n- Avoid the curse of dimensionality\n- Reduce time/memory needed by mining algorithms\n- Allow easier visualization\n- Eliminate irrelevant features or noise"
+  },
+  {
+    "question": "What are the main dimensionality reduction techniques?",
+    "answer": "- **PCA** — transforms correlated attributes into uncorrelated principal components ordered by variance\n- **SVD** — matrix factorization related to PCA; decomposes data matrix into singular vectors/values\n- **Others** — supervised techniques (use class labels), non-linear techniques like t-SNE and autoencoders (handle non-linear relationships)"
+  },
+  {
+    "question": "What are the steps of PCA?",
+    "answer": "1. Normalize the data (mean = 0)\n2. Compute the covariance matrix\n3. Find eigenvectors and eigenvalues of the covariance matrix\n4. Sort eigenvectors by eigenvalue (descending)\n5. Select top-k eigenvectors as new axes\n6. Project original data onto these k eigenvectors"
+  },
+  {
+    "question": "What are key properties of PCA and its principal components?",
+    "answer": "Principal components are **orthogonal (uncorrelated)** to each other. PCA is **unsupervised** — it does not use class label information."
+  },
+  {
+    "question": "What are the key dimensions of data quality?",
+    "answer": "- **Accuracy** — values correct, error-free\n- **Completeness** — no missing records/values\n- **Consistency** — same data agrees across sources\n- **Timeliness** — data is up-to-date\n- **Believability** — data is trusted\n- **Interpretability** — data is understandable"
+  },
+  {
+    "question": "What are the four major tasks of data preprocessing?",
+    "answer": "1. Data Cleaning\n2. Data Integration\n3. Data Reduction\n4. Data Transformation (Data Sampling is a related reduction technique)"
+  },
+  {
+    "question": "What is data cleaning and what three problems does it address?",
+    "answer": "**Data cleaning** detects and corrects corrupt, inaccurate, or irrelevant records to improve data quality. It addresses:\n- Missing values\n- Noisy data\n- Inconsistencies"
+  },
+  {
+    "question": "What are the ways to handle missing values?",
+    "answer": "- Ignore the tuple (only if class label is missing)\n- Fill in manually (impractical for large data)\n- Replace with a global constant (e.g., \"Unknown\")\n- Replace with attribute mean (normal data) or median (skewed data)\n- Use the most probable value via inference (regression/Bayesian methods)"
+  },
+  {
+    "question": "What is noisy data and how is it handled?",
+    "answer": "**Noisy data** is random error or variance in measured values caused by faulty instruments, transmission errors, or human error. Handled by **binning, regression, or clustering**."
+  },
+  {
+    "question": "What is bin smoothing and what are its steps?",
+    "answer": "**Bin smoothing (binning)** smooths noisy data by sorting values into bins and replacing each with a smoothed estimate. Steps:\n1. Sort the data values\n2. Partition into equal-frequency bins\n3. Smooth values using bin mean, bin median, or bin boundary"
+  },
+  {
+    "question": "What are the three ways to smooth values within a bin?",
+    "answer": "- **By bin mean** — replace each value with the bin's mean\n- **By bin median** — replace each value with the bin's median\n- **By bin boundary** — replace each value with the nearest bin boundary (min or max)"
+  },
+  {
+    "question": "How does smoothing by bin means work? Give an example.",
+    "answer": "Sorted data is split into equal-frequency bins, and each value is replaced by the mean of its bin. Example: data `4, 8, 15, 21, 21, 24, 25, 28, 34` split into 3 bins gives means **9, 22, 29**, replacing all values in each bin."
+  },
+  {
+    "question": "How are data inconsistencies resolved?",
+    "answer": "Inconsistencies (same entity with conflicting values across sources) are resolved using **domain knowledge, metadata, or integrity constraints**."
+  },
+  {
+    "question": "What is data integration and what are its key steps/challenges?",
+    "answer": "**Data integration** merges data from multiple heterogeneous sources into a single coherent store. Key steps:\n- **Schema matching** — identify attributes referring to the same entity across sources\n- **Redundancy detection** — remove attributes derivable from others (checked via chi-square/Pearson's r)\n- **Data conflict resolution** — resolve differences in units, scales, or encodings\n- **Duplicate elimination** — remove repeated records of the same entity"
+  },
+  {
+    "question": "What is data reduction and what techniques does it include?",
+    "answer": "**Data reduction** produces a smaller-volume representation of a dataset with the same/similar analytical results. Techniques:\n- **Dimensionality reduction** (e.g., PCA, SVD)\n- **Numerosity reduction** — smaller representations like regression, histograms, clusters, samples\n- **Data compression** — encode data in compressed form"
+  },
+  {
+    "question": "What is data transformation and what techniques does it include?",
+    "answer": "**Data transformation** converts data into a format more suitable for mining. Techniques:\n- **Normalization** — rescale values (min-max, z-score, decimal scaling)\n- **Aggregation** — summarize data (e.g., daily → monthly sales)\n- **Discretization** — convert continuous values into categories\n- **Encoding** — convert categorical values into numeric form"
+  },
+  {
+    "question": "What is data sampling and when is it used?",
+    "answer": "**Sampling** selects a representative subset of a dataset; used when the full dataset is too large to process efficiently."
+  },
+  {
+    "question": "What are the main sampling methods?",
+    "answer": "- **SRSWOR** — equal probability, no repeats\n- **SRSWR** — equal probability, repeats allowed\n- **Stratified Sampling** — partition into strata, sample proportionally from each\n- **Cluster Sampling** — divide into clusters, randomly select entire clusters"
+  },
+  {
+    "question": "What makes a sample \"representative\"?",
+    "answer": "A sample is representative if it **reflects the distribution of the original data**, retaining statistical properties while reducing computational cost."
+  },
+  {
+    "question": "What is OLAP and what is it used for?",
+    "answer": "**OLAP (Online Analytical Processing)** analyzes large amounts of historical data, letting users view data from different dimensions (product, time, location). Used mainly for reporting, business analysis, and decision-making."
+  },
+  {
+    "question": "What is slicing in OLAP?",
+    "answer": "**Slicing** selects a subset of a data cube by choosing a single value from one dimension. Example: Product A sales (only one product selected)."
+  },
+  {
+    "question": "What is dicing in OLAP?",
+    "answer": "**Dicing** selects data using more than two dimensions of a data cube (multiple slices combined). Example: Product A sales in 2004 (product + time)."
+  },
+  {
+    "question": "What is drill-down in OLAP?",
+    "answer": "**Drill-down** moves from summarized data to more detailed data for deeper analysis. Example: Product A sales in Chicago in 2004."
+  },
+  {
+    "question": "What is roll-up in OLAP?",
+    "answer": "**Roll-up** summarizes data from a detailed level to a higher level. Example: total product sales from detailed sales data."
+  },
+  {
+    "question": "What is pivoting in OLAP?",
+    "answer": "**Pivoting (rotation)** changes the presentation of data by rotating the data cube to show a different view. Example: switching from product-wise to time-wise sales view."
+  },
+  {
+    "question": "How do OLAP and OLTP differ?",
+    "answer": "| | OLAP | OLTP |\n|---|---|---|\n| Purpose | Data analysis & decision-making | Daily transaction processing |\n| Data | Historical, summarized | Current, detailed |\n| Operations | Complex queries, aggregation | Insert, update, delete, read |\n| Users | Managers, analysts | Customers, clerks |\n| Schema | Star/snowflake | Normalized |\n| Speed | Slower (large data) | Faster (small transactions) |\n| Example | Sales trend analysis | ATM withdrawal |"
+  },
+  {
+    "question": "What is the difference between a similarity value and a distance value?",
+    "answer": "**Similarity value** — higher value means more similar. **Distance value** — smaller value means more similar."
+  },
+  {
+    "question": "What is Jaccard similarity and its formula?",
+    "answer": "**Jaccard similarity** measures similarity between two sets by comparing common elements to total unique elements:\n$$J(A,B) = \\frac{|A \\cap B|}{|A \\cup B|}$$\nValue ranges from 0 (no similarity) to 1 (identical sets)."
+  },
+  {
+    "question": "What is cosine similarity, its formula, and main use?",
+    "answer": "**Cosine similarity** measures the cosine of the angle between two vectors, focusing on direction rather than magnitude:\n$$\\text{Cosine Similarity} = \\frac{X \\cdot Y}{\\|X\\| \\cdot \\|Y\\|}$$\nValue near 1 = highly similar, near 0 = less similar. Mainly used in **text mining and document similarity**."
+  },
+  {
+    "question": "What is Euclidean distance and its formula?",
+    "answer": "**Euclidean distance** measures the straight-line distance between two points:\n$$d(X,Y) = \\sqrt{\\sum_{i=1}^{n}(x_i - y_i)^2}$$\nSmaller distance = more similar."
+  },
+  {
+    "question": "What is the Simple Matching Coefficient (SMC) and its formula?",
+    "answer": "**SMC** measures similarity between binary data, counting both matching 1s and matching 0s:\n$$SMC = \\frac{M_{11} + M_{00}}{M_{11} + M_{00} + M_{10} + M_{01}}$$\nUseful when both presence and absence of attributes matter."
+  },
+  {
+    "question": "What four properties must a valid distance metric satisfy?",
+    "answer": "- **Non-negativity** — $d(x,y) \\geq 0$\n- **Identity** — $d(x,y) = 0$ iff $x = y$\n- **Symmetry** — $d(x,y) = d(y,x)$\n- **Triangle inequality** — $d(x,z) \\leq d(x,y) + d(y,z)$\n\nAll Minkowski distance variants (Manhattan, Euclidean, Chebyshev) satisfy these."
+  },
+  {
+    "question": "What is Minkowski distance and its special cases?",
+    "answer": "**Minkowski distance** is a generalized distance measure:\n$$d(X,Y) = \\left(\\sum_{i=1}^{n}|x_i - y_i|^p\\right)^{1/p}$$\nSpecial cases: $p=1$ → Manhattan distance, $p=2$ → Euclidean distance. Smaller value = higher similarity."
+  },
+  {
+    "question": "What is data normalization and why is it used?",
+    "answer": "**Data normalization** scales data into a smaller, common range. Useful when attributes have different units or large value differences, helping algorithms like clustering and classification work better."
+  },
+  {
+    "question": "What is min-max normalization and its formula?",
+    "answer": "**Min-max normalization** scales data into a fixed range (usually 0–1), preserving relationships between values:\n$$v' = \\frac{v - min}{max - min}$$\nFor a custom range: $v' = \\frac{v-min}{max-min}(new\\_max - new\\_min) + new\\_min$. Useful when min and max values are known."
+  },
+  {
+    "question": "What is z-score normalization and its formula?",
+    "answer": "**Z-score normalization** scales data based on mean and standard deviation:\n$$v' = \\frac{v - \\mu}{\\sigma}$$\nResult = 0 means value equals the mean; positive means above mean; negative means below mean. Useful when data has outliers or min/max is unknown."
+  },
+  {
+    "question": "What is decimal scaling normalization and its formula?",
+    "answer": "**Decimal scaling normalization** normalizes data by moving the decimal point, based on the maximum absolute value:\n$$v' = \\frac{v}{10^j}$$\nwhere $j$ is the smallest integer such that $|v'| < 1$. Example: max value 986 → $j=3$ → $986/10^3 = 0.986$."
+  }
+]
