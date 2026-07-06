@@ -1,0 +1,86 @@
+[
+  {
+    "question": "What is cluster analysis?",
+    "answer": "The process of grouping data objects into **clusters** such that objects within a cluster are highly similar to each other, while objects in different clusters are dissimilar. It is an **unsupervised** technique — there are no predefined class labels."
+  },
+  {
+    "question": "How does clustering differ from classification?",
+    "answer": "| Basis | Classification | Clustering |\n|---|---|---|\n| Learning | Supervised (labeled training data) | Unsupervised (no labels) |\n| Labels | Known in advance | Discovered from data |\n| Goal | Predict class of new instance | Group similar objects |\n| Output | Class label per instance | Set of clusters |"
+  },
+  {
+    "question": "What are the two broad approaches to clustering?",
+    "answer": "- **Hierarchical methods:** build a nested tree of clusters (agglomerative or divisive)\n- **Non-hierarchical (partitional) methods:** number of clusters fixed beforehand, data partitioned directly (e.g., K-means, DBSCAN)"
+  },
+  {
+    "question": "What are the steps of the K-means algorithm?",
+    "answer": "1. Choose K initial centroids\n2. Assign each point to the nearest centroid (forms K clusters)\n3. Recalculate each centroid as the mean of its cluster's points\n4. Repeat steps 2–3 until centroids stabilize (convergence)"
+  },
+  {
+    "question": "What are the limitations/problems of K-means?",
+    "answer": "- K must be specified in advance\n- Sensitive to initial centroid choice (different runs → different results)\n- Sensitive to outliers (mean is affected by extremes)\n- Assumes spherical, similar-sized, similar-density clusters\n- Can converge to a local optimum, not the global best"
+  },
+  {
+    "question": "What are the advantages and disadvantages of K-means clustering?",
+    "answer": "**Advantages:** simple to implement; efficient/scalable to large data; converges quickly; works well for compact, well-separated clusters.\n\n**Disadvantages:** requires K in advance; sensitive to initial centroids; affected by outliers/noise; fails on non-convex/arbitrary-shaped clusters."
+  },
+  {
+    "question": "What is bisecting K-means and why is it used?",
+    "answer": "A variant that starts with all points in one cluster, then repeatedly splits the largest/highest-SSE cluster into two using basic K-means (K=2), until the desired number of clusters is reached. It gives more stable results than plain K-means since it reduces sensitivity to initial centroid choice."
+  },
+  {
+    "question": "How do agglomerative and divisive hierarchical clustering differ?",
+    "answer": "| Basis | Agglomerative | Divisive |\n|---|---|---|\n| Direction | Bottom-up | Top-down |\n| Start | Each object is its own cluster | All objects in one cluster |\n| Process | Merge closest pair repeatedly until one cluster remains | Split repeatedly until each object is its own cluster |\n| Usage | Common | Rarely used |"
+  },
+  {
+    "question": "What are the steps of the agglomerative (Johnson's) hierarchical clustering algorithm?",
+    "answer": "1. Start with N items, each as its own cluster\n2. Find and merge the closest pair of clusters\n3. Recompute distance between the new cluster and remaining clusters\n4. Repeat steps 2–3 until all items form a single cluster"
+  },
+  {
+    "question": "What are the main linkage methods used to define distance between clusters in hierarchical clustering?",
+    "answer": "| Method | Distance definition | Remark |\n|---|---|---|\n| Single linkage | Shortest distance between any two members | Can cause chaining |\n| Complete linkage | Longest distance between any two members | Compact, equal-sized clusters; sensitive to outliers |\n| Average linkage | Average of all pairwise distances | Fairly robust |\n| Centroid method | Distance between cluster centroids (means) | Fairly robust |\n| Ward's method | Merge causing smallest increase in within-cluster variance | Equal-sized clusters; sensitive to outliers |"
+  },
+  {
+    "question": "What is a dendrogram?",
+    "answer": "A tree-shaped diagram showing the sequence of merges (or splits) in hierarchical clustering. The height at which branches join represents the distance at which clusters merged. Cutting it at a chosen height gives a specific number of clusters."
+  },
+  {
+    "question": "What are the advantages and disadvantages of hierarchical clustering?",
+    "answer": "**Advantages:** no need to specify number of clusters in advance; dendrogram gives clear visualization of nested clusters; works with any distance measure.\n\n**Disadvantages:** merges/splits cannot be undone; computationally expensive for large data; sensitive to noise/outliers (especially single/complete linkage)."
+  },
+  {
+    "question": "What is the core idea behind DBSCAN?",
+    "answer": "DBSCAN groups points that are densely packed together (dense regions), marking points in low-density regions as noise. It requires two parameters: **epsilon (ε)** — neighborhood radius, and **minPoints** — minimum points needed to form a dense region."
+  },
+  {
+    "question": "How does DBSCAN classify points, and what are the three point types?",
+    "answer": "| Type | Definition |\n|---|---|\n| Core point | Has ≥ minPoints (incl. itself) within ε |\n| Border point | Fewer than minPoints within ε, but within ε of a core point |\n| Noise point | Neither core nor border — belongs to no cluster |"
+  },
+  {
+    "question": "What is the difference between directly density-reachable, density-reachable, and density-connected in DBSCAN?",
+    "answer": "- **Directly density-reachable:** q is within ε of p, and p is a core point\n- **Density-reachable:** a chain of directly density-reachable points connects p to q\n- **Density-connected:** both p and q are density-reachable from some common point o"
+  },
+  {
+    "question": "What are the steps of the DBSCAN algorithm?",
+    "answer": "1. Pick an unvisited point\n2. If it's a core point, start a new cluster and expand it by adding all density-reachable points\n3. If not a core point and not reachable from any cluster, mark it as noise\n4. Repeat until all points are visited"
+  },
+  {
+    "question": "What are the advantages and disadvantages of DBSCAN?",
+    "answer": "**Advantages:** no need to specify number of clusters; finds arbitrarily shaped clusters; automatically identifies noise/outliers.\n\n**Disadvantages:** choosing good ε and minPoints is difficult; struggles with varying densities; less effective/efficient in very high dimensions."
+  },
+  {
+    "question": "Why is cluster evaluation important?",
+    "answer": "To check whether resulting clusters are meaningful and reflect real structure in the data (not just an artifact of the algorithm/parameters), and to compare different clustering results (e.g., different K values or algorithms)."
+  },
+  {
+    "question": "What is SSE (Sum of Squared Errors) in clustering, and what is its formula?",
+    "answer": "SSE measures cluster compactness — sum of squared distances from each point to its cluster's centroid:\n\n$$SSE = \\sum_{i=1}^{K} \\sum_{x \\in C_i} dist(x, centroid_i)^2$$\n\nLower SSE means more compact clusters. Used in the **elbow method** to choose K (plot SSE vs K, pick the bend point)."
+  },
+  {
+    "question": "What are cohesion, separation, and the silhouette coefficient?",
+    "answer": "- **Cohesion:** how tightly related objects within a cluster are\n- **Separation:** how distinct a cluster is from other clusters\n- **Silhouette coefficient:** combines cohesion and separation into one score per point (typically -1 to 1)"
+  },
+  {
+    "question": "What are the main issues/challenges in cluster analysis?",
+    "answer": "- **Scalability:** algorithms must handle large datasets efficiently (some, like basic hierarchical clustering, don't scale well)\n- **Comparison of methods:** no single algorithm is best for all data (K-means for spherical, DBSCAN for arbitrary shape/noise, hierarchical for nested/dendrogram views)\n- **Determining number of clusters:** choosing K, or ε/minPoints, is often non-trivial and affects result quality"
+  }
+]
