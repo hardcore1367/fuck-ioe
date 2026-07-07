@@ -1,0 +1,106 @@
+[
+  {
+    "question": "What is association analysis?",
+    "answer": "A data mining technique that discovers interesting relationships in data, expressed as **association rules** of the form $\\{X_1, X_2, \\dots, X_n\\} \\Rightarrow Y$ — meaning if a transaction contains all of $X_1...X_n$, it is also likely to contain Y."
+  },
+  {
+    "question": "What is market basket analysis and what are its applications?",
+    "answer": "The study of items purchased together in a transaction (also called affinity analysis). Applications: combo offers, product placement in stores, e-commerce catalog layout, inventory control, cross-selling/up-selling promotions, and analysis of financial/telecom transaction patterns."
+  },
+  {
+    "question": "Define: itemset, k-itemset, frequent itemset, association rule.",
+    "answer": "- **Itemset:** a collection of one or more items, e.g. {Milk, Bread}\n- **k-itemset:** an itemset containing k items\n- **Frequent itemset:** an itemset whose support ≥ minimum support threshold\n- **Association rule:** an implication $X \\Rightarrow Y$, e.g. {Milk, Diaper} $\\Rightarrow$ {Beer}"
+  },
+  {
+    "question": "What is the difference between a maximal frequent itemset and a closed itemset?",
+    "answer": "- **Maximal frequent itemset:** frequent, and none of its immediate supersets is also frequent\n- **Closed itemset:** none of its immediate supersets has the same support as itself"
+  },
+  {
+    "question": "Define support and give its formula.",
+    "answer": "Support indicates how frequently an itemset occurs across all transactions:\n$$Support(A) = \\frac{\\text{transactions containing } A}{\\text{total transactions}}$$\n$$Support(A \\Rightarrow B) = \\frac{\\text{transactions containing } A \\text{ and } B}{\\text{total transactions}}$$"
+  },
+  {
+    "question": "Define confidence and give its formula.",
+    "answer": "Confidence measures the certainty of a rule — of the transactions containing A, how many also contain B:\n$$Confidence(A \\Rightarrow B) = \\frac{\\text{transactions containing } A \\text{ and } B}{\\text{transactions containing } A}$$"
+  },
+  {
+    "question": "Why are support and confidence important in association analysis?",
+    "answer": "- High support → popular itemset, useful for pricing/placement decisions\n- High confidence → useful for product placement (e.g., placing high-margin items with associated high-selling items)\n- A rule is considered interesting only if it meets both the minsup and minconf thresholds"
+  },
+  {
+    "question": "What happens if minimum support (minsup) is set too high or too low?",
+    "answer": "- **Too high:** rare but interesting itemsets (e.g., expensive products) may be missed\n- **Too low:** number of itemsets generated becomes huge, making mining computationally expensive"
+  },
+  {
+    "question": "What is lift, and how is it interpreted?",
+    "answer": "Lift compares a rule's confidence against the baseline probability of the consequent:\n$$Lift = \\frac{P(Y \\mid X)}{P(Y)}$$\n- Lift = 1 → X and Y are independent, rule adds no value\n- Lift > 1 → X and Y are positively associated, rule is genuinely useful for prediction"
+  },
+  {
+    "question": "What is the Apriori principle?",
+    "answer": "Supersets of a non-frequent itemset are also non-frequent — equivalently, if an itemset is frequent, all its subsets must also be frequent. This anti-monotone property allows pruning: once an itemset is infrequent, its supersets need not be checked."
+  },
+  {
+    "question": "What are the steps of the Apriori algorithm?",
+    "answer": "1. Scan database, count support of each item → get frequent 1-itemsets\n2. Join frequent itemsets to generate candidate (k+1)-itemsets\n3. Scan database, compute support, keep candidates meeting minsup\n4. Repeat steps 2–3 until no new frequent itemsets are found\n5. Generate association rules from frequent itemsets (2-itemsets onward) meeting minconf"
+  },
+  {
+    "question": "How does Apriori reduce computational cost?",
+    "answer": "- **Reduce candidates (M):** prune using the Apriori principle instead of checking all $2^d$ itemsets\n- **Reduce transactions (N):** ignore transactions that can't contain larger itemsets\n- **Reduce comparisons (M×N):** use efficient structures (e.g., hash trees) so transactions are matched only against relevant candidates"
+  },
+  {
+    "question": "What factors affect the complexity of the Apriori algorithm?",
+    "answer": "- Minimum support threshold (lower → more candidates/frequent itemsets)\n- Dimensionality (more items → more space/computation)\n- Size of database (more scans needed as transactions increase)\n- Average transaction width (denser data → longer frequent itemsets, more subsets to check)"
+  },
+  {
+    "question": "What are the advantages and disadvantages of the Apriori algorithm?",
+    "answer": "**Advantages:** simple, based on a clear pruning principle; much faster than brute-force; widely applicable to transaction data.\n\n**Disadvantages:** requires multiple database scans (one per itemset size); generates a large number of candidates; computationally expensive compared to FP-Growth."
+  },
+  {
+    "question": "Why was FP-Growth developed?",
+    "answer": "To overcome Apriori's weaknesses — repeated database scans and massive candidate generation — by mining frequent itemsets **without generating candidates**, using a divide-and-conquer strategy."
+  },
+  {
+    "question": "What is an FP-tree and how is it constructed?",
+    "answer": "A compressed tree structure (Frequent Pattern Tree) that retains itemset association information. Construction: root node labeled 'null'; each transaction's items are sorted in descending order of frequency and added as a branch; transactions sharing common prefixes share the same branch, compressing the database."
+  },
+  {
+    "question": "What are the steps of the FP-Growth mining process?",
+    "answer": "1. Start from each frequent length-1 pattern as a suffix pattern\n2. Construct its **conditional pattern base** (prefix paths co-occurring with the suffix)\n3. Build a **conditional FP-tree** from this pattern base\n4. Recursively mine the conditional FP-tree, growing longer patterns by concatenating the suffix"
+  },
+  {
+    "question": "What are the advantages of FP-Growth over Apriori?",
+    "answer": "- No candidate generation\n- Fewer database scans (~2 scans vs. one scan per itemset size in Apriori)\n- Better performance on large/dense datasets\n- Good selectivity due to divide-and-conquer strategy, reducing search cost"
+  },
+  {
+    "question": "What is a disadvantage of FP-Growth?",
+    "answer": "For very large databases, it can be unrealistic to build and hold the complete FP-tree entirely in main memory."
+  },
+  {
+    "question": "What issues arise when handling categorical attributes in association analysis, and how are they solved?",
+    "answer": "- **Attribute with many values** (e.g., 'country' with 200+ values, low individual support) → aggregate low-support values\n- **Highly skewed value distribution** (e.g., 95% 'Buy = No') → drop the highly frequent/dominant items"
+  },
+  {
+    "question": "How are categorical attributes transformed for association rule mining?",
+    "answer": "Each categorical attribute is transformed into a set of **asymmetric binary variables** — a new binary 'item' is introduced for each distinct attribute-value pair (e.g., 'Country = Nepal'), used when presence of a value matters more than its absence."
+  },
+  {
+    "question": "What is a sequential pattern, and what is an l-pattern?",
+    "answer": "A sequential pattern is a frequently occurring ordered subsequence of events, where an item can occur at most once per event but repeat across different events. A sequential pattern of length $l$ is called an **l-pattern**."
+  },
+  {
+    "question": "What is AprioriAll and why is sequential pattern mining challenging?",
+    "answer": "**AprioriAll** extends the Apriori principle to sequences — generating candidate subsequences level by level and pruning those whose sub-sequences aren't frequent. Sequential pattern mining is challenging because it can generate a combinatorially explosive number of candidate subsequences."
+  },
+  {
+    "question": "What are the two approaches to sequential pattern mining, and its applications?",
+    "answer": "Approaches: mining the **full set** of sequential patterns, or mining only the **closed** sequential patterns.\nApplications: marketing, customer behavior analysis, prediction modeling."
+  },
+  {
+    "question": "What is subgraph pattern mining and what makes a subgraph 'frequent'?",
+    "answer": "Mining frequent patterns from graph-structured data. A subgraph is frequent if its support (number of graphs containing it) is ≥ a minimum support threshold. Frequent subgraphs are found using an **Apriori-like approach**: frequent k-subgraphs generate candidate (k+1)-subgraphs."
+  },
+  {
+    "question": "What are the challenges specific to subgraph pattern mining, and its applications?",
+    "answer": "**Challenges:** nodes may have duplicate labels; defining support/confidence is harder than for itemsets; frequent subgraphs are assumed to be connected.\n\n**Applications:** web mining, computational chemistry, bioinformatics, spatial datasets."
+  }
+]
