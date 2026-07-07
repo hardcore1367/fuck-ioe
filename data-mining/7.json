@@ -1,0 +1,58 @@
+[
+  {
+    "question": "What is multimedia mining and what is its fundamental challenge?",
+    "answer": "Multimedia mining extracts implicit knowledge, relationships, or patterns from multimedia data (audio, video, images, speech) that are not explicitly stored in the data itself. Its fundamental challenge is processing low-level pixel representations efficiently to identify high-level spatial objects and relationships."
+  },
+  {
+    "question": "What is the typical process and techniques used in multimedia mining?",
+    "answer": "Process: preprocessing → transformation and feature extraction → mining → evaluation/interpretation of knowledge. Techniques used include association rules and clustering on extracted features."
+  },
+  {
+    "question": "What is Web mining?",
+    "answer": "The application of data mining techniques to extract knowledge from Web data — namely Web content, Web structure, and Web usage data."
+  },
+  {
+    "question": "What are the three categories of the Web mining taxonomy?",
+    "answer": "- **Web Content Mining:** extracting useful info from page contents (text, images, tables)\n- **Web Structure Mining:** discovering structure from the Web graph (pages as nodes, hyperlinks as edges)\n- **Web Usage Mining:** discovering usage patterns from user browsing behavior"
+  },
+  {
+    "question": "What are the two types of Web structure mining?",
+    "answer": "- **Hyperlinks:** structural units connecting locations — intra-document (within same page) or inter-document (between different pages)\n- **Document structure:** content organized in tree form via HTML/XML tags; mining focuses on extracting the DOM structure"
+  },
+  {
+    "question": "What types of usage data are considered in Web usage mining?",
+    "answer": "- **Web server data:** logs from the server (IP address, page reference, access time)\n- **Application server data:** logs from commercial/e-commerce servers tracking business events\n- **Application level data:** custom-defined events logged by the application"
+  },
+  {
+    "question": "What are the main challenges of Web mining?",
+    "answer": "- Too huge in volume for effective data warehousing/mining\n- Too complex and heterogeneous\n- Growing and changing rapidly\n- Broad diversity of user communities\n- Only a small portion of Web information is truly relevant/useful"
+  },
+  {
+    "question": "What is the PageRank formula and what does each term mean?",
+    "answer": "$$PR(A) = (1-d) + d \\left(\\frac{PR(T_1)}{C(T_1)} + \\dots + \\frac{PR(T_n)}{C(T_n)}\\right)$$\n- $PR(A)$: PageRank of page A\n- $PR(T_i)$: PageRank of pages linking to A\n- $C(T_i)$: number of outbound links on page $T_i$\n- $d$: damping factor (typically 0.85)"
+  },
+  {
+    "question": "What are the key characteristics of the PageRank algorithm?",
+    "answer": "- Computed per page, not per website\n- Recursively defined by the PageRank of pages linking to it\n- Weighted by outbound links — more outbound links on a linking page means less benefit passed on\n- An additional inbound link always increases a page's PageRank\n- Computed via iterative approximation since exact solution is impractical for billions of pages"
+  },
+  {
+    "question": "What is the second version of the PageRank formula, and what does N represent?",
+    "answer": "$$PR(A) = \\frac{1-d}{N} + d\\left(\\frac{PR(T_1)}{C(T_1)} + \\dots + \\frac{PR(T_n)}{C(T_n)}\\right)$$\nWhere N is the total number of pages on the Web; this version normalizes PageRank by N."
+  },
+  {
+    "question": "What is time series data mining and what are its two main goals?",
+    "answer": "Mining of a sequence of values/events collected over repeated time measurements (usually at equal intervals). Two goals:\n- **Modeling:** generating the time series with its underlying mechanism\n- **Forecasting:** predicting future values of the series"
+  },
+  {
+    "question": "What are the four components of trend analysis in time series data?",
+    "answer": "- **Trend/long-term movement:** general direction of the series over time\n- **Cyclic movement:** long-term oscillations about the trend, may or may not be periodic\n- **Seasonal movement:** systematic, calendar-related variation with a fixed known period (e.g., sweet sales rising in Tihar)\n- **Irregular/random movement:** variation from random/chance events (e.g., supply crisis price rise)"
+  },
+  {
+    "question": "How does seasonal variation differ from cyclic variation in time series?",
+    "answer": "Seasonal variation is systematic and calendar-related with a fixed, known period (daily/monthly/yearly), while cyclic variation is a long-term oscillation about the trend that may or may not be periodic."
+  },
+  {
+    "question": "What are the main approaches used for time series data analysis?",
+    "answer": "- **Regression analysis:** finds trend\n- **Seasonal index:** adjusts values for seasonal effects\n- **Autocorrelation analysis:** correlation between $i^{th}$ and $(i-k)^{th}$ elements to detect seasonality (k = lag)\n- **Moving average:** averages a sliding window of values to determine trend (can be weighted)\n- **Freehand method:** fits an approximate curve based on judgment\n- **Least squares method:** mathematically fits the best curve/line"
+  }
+]
