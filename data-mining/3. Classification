@@ -1,0 +1,208 @@
+# 3. Classification
+
+## 1. Introduction to Classification
+
+### 1.1 What is Classification
+Classification is a data mining technique used to predict the group (class) membership of data instances. It assigns items in a collection to predefined target categories, with the goal of accurately predicting the correct class for each case in the data. Unlike clustering, classification is **supervised** — it requires a training dataset where the class label of each record is already known.
+
+### 1.2 Stages in Classification
+Classification generally proceeds in two stages:
+- **Model learning (training):** A training algorithm is applied to the training data to build a conceptual model (the classifier).
+- **Model evaluation/application:** The learned model is applied to test data to evaluate its performance, and then used to classify new, unseen instances.
+
+### 1.3 Types of Classifiers
+The major types of classifiers are:
+- Decision Tree classifier
+- Rule-Based classifier
+- Nearest Neighbor classifier
+- Bayesian classifier
+- Artificial Neural Network (ANN) classifier
+
+---
+
+## 2. Decision Tree Classifier
+
+### 2.1 What is a Decision Tree
+A decision tree is a classifier in the form of a tree structure, where each **decision node** specifies a test on a single attribute (with one branch for each possible outcome), and each **leaf node** indicates the class label of the instances that reach it. To classify an instance, we start at the root and move down the tree, following the branch matching the instance's attribute values, until a leaf node is reached — that leaf gives the predicted class.
+
+### 2.2 Decision Tree Algorithms
+- **Hunt's Algorithm:** grows the tree recursively by partitioning training data into successively purer subsets. If all records at a node belong to one class, it becomes a leaf; if the node is empty, it becomes a leaf labeled with a default class; otherwise, an attribute test is used to split the data further.
+- **ID3, C4.5, J48:** based on entropy/information gain.
+- **SLIQ, SPRINT, CART:** based on the Gini index.
+
+### 2.3 Tree Induction — Key Issues
+Tree induction follows a **greedy strategy**, splitting records at each step based on an attribute test that optimizes some criterion. The key issues to resolve are:
+- **How to split the records:** depends on the attribute type (nominal, ordinal, continuous) and whether a 2-way or multi-way split is used.
+- **When to stop splitting:** typically when all records at a node belong to the same class, or when all records have identical attribute values.
+- **How to determine the best split:** nodes with a more homogeneous (pure) class distribution are preferred, so the "impurity" of a possible split is measured before choosing it.
+
+### 2.4 Impurity Measures
+To decide the best attribute to split on, the impurity of a node is measured using one of the following:
+- **Gini Index:** $Gini(D) = 1 - \sum_{i=1}^{n} p_i^2$, where $p_i$ is the probability of class $i$ in dataset D. When D is split into $D_1$ and $D_2$: $Gini_{split} = \frac{|D_1|}{|D|}Gini(D_1) + \frac{|D_2|}{|D|}Gini(D_2)$. The attribute giving the greatest reduction in impurity is chosen as the splitting attribute. Gini index always considers a binary split for each attribute.
+- **Entropy:** measures the amount of uncertainty/disorder in a dataset (used by ID3, discussed below).
+- **Misclassification error:** the simplest impurity measure, based on the fraction of misclassified records if the majority class were assigned at that node.
+
+### 2.5 ID3 Algorithm, Entropy, and Information Gain
+The **ID3 algorithm** begins with the full dataset at the root, and on each iteration calculates the entropy (or information gain) of every unused attribute, choosing the attribute that gives the smallest entropy (or, equivalently, the largest information gain) to split on. This process recurs on each resulting subset — considering only attributes not yet used — until every subset belongs to a single class (or no attributes remain).
+
+**Entropy** measures the uncertainty in a dataset S:
+$$H(S) = -\sum_{x \in X} p(x)\log_2 p(x)$$
+where X is the set of classes in S and $p(x)$ is the probability of class x. When $H(S) = 0$, the dataset is perfectly classified (all records belong to one class). In ID3, the attribute with the **smallest entropy** is chosen to split the data at each step, since a smaller entropy means the split produces purer subsets.
+
+**Information Gain** measures how much the entropy of dataset S is reduced after splitting on attribute A:
+$$IG(A,S) = H(S) - \sum_{t \in T} p(t)H(t)$$
+where T is the set of subsets created by splitting S on A. In ID3, the attribute with the **largest information gain** is chosen to split the set at each iteration (this is mathematically equivalent to choosing the smallest entropy).
+
+### 2.6 Tree Pruning
+Pruning removes parts of the tree that arise due to noise or outliers in the training data, producing a smaller, less complex tree that generalizes better to new data (reducing overfitting).
+- **Pre-pruning:** stops the tree's growth early, based on a statistical significance test (e.g., chi-squared test) between an attribute and the class at a node. It is faster than post-pruning, but risks stopping the growth prematurely (early stopping).
+- **Post-pruning:** first grows the full tree, then removes subtrees afterward, using operations like **subtree replacement** (replacing a subtree with a single leaf) or **subtree raising** (replacing a subtree with one of its child subtrees).
+
+### 2.7 Advantages of Decision Tree Classifier
+- Inexpensive to construct.
+- Extremely fast at classifying unknown records.
+- Easy to interpret, especially for small-sized trees.
+- Accuracy is comparable to other classification techniques on many simple datasets.
+
+---
+
+## 3. Rule-Based Classifier
+
+### 3.1 How It Works
+A rule-based classifier uses a collection of **"If ... Then ..."** rules for classification, e.g., *"If age = youth AND student = yes THEN buys_computer = yes."* The 'If' part (left-hand side) is called the **rule antecedent** (or precondition), and the 'Then' part (right-hand side) is the **rule consequent**. If a tuple satisfies the antecedent, the rule is said to **cover** that tuple.
+- **Coverage** of a rule = (number of records satisfying the antecedent) / (total records in D).
+- **Accuracy** of a rule = (number of records satisfying both antecedent and consequent) / (number of records covered by the rule).
+
+### 3.2 Handling Rule Triggering
+When a tuple is checked against the rule set, three cases can occur:
+- **Only one rule is satisfied:** that rule simply fires and returns its predicted class.
+- **More than one rule is satisfied:** a conflict resolution strategy is needed — rules can be ranked using **rule-based ordering** (individual rules ranked by quality, forming a "decision list") or **class-based ordering** (rules of the same class grouped together).
+- **No rule is satisfied:** a default class (usually the most frequent class) is assigned.
+
+### 3.3 Characteristics of a Good Rule Set
+- **Mutually exclusive rules:** every record is covered by at most one rule; if not, rule ordering is applied to enforce this.
+- **Exhaustive rules:** every record is covered by at least one rule; if not, a default class is used to make the rule set exhaustive.
+
+### 3.4 Building Classification Rules
+Two approaches are used to build rules:
+- **Direct Method:** extracts rules directly from the data using **sequential covering** — start with an empty rule, grow it using a "Learn-One-Rule" function, remove the training records already covered by that rule, and repeat until a stopping criterion is met.
+  - **CN2 Algorithm:** starts from an empty conjunct and adds conjuncts that minimize entropy, then assigns the rule's class as the majority class of the covered instances.
+  - **RIPPER Algorithm:** starts from an empty rule and adds conjuncts that maximize **FOIL's information gain** measure, comparing positive/negative instances covered before and after adding a conjunct.
+- **Indirect Method:** extracts rules from an already-built classification model, such as a decision tree or neural network (e.g., converting each root-to-leaf path of a decision tree into a rule, then simplifying where possible).
+
+### 3.5 Rule Evaluation Measures
+When growing or pruning rules, the following metrics are used (where n = number of instances covered, $n_c$ = number correctly classified, k = number of classes, p = prior probability):
+$$Accuracy = \frac{n_c}{n} \qquad Laplace = \frac{n_c + 1}{n + k} \qquad M\text{-}estimate = \frac{n_c + kp}{n + k}$$
+Laplace and M-estimate adjust the raw accuracy to avoid overly confident estimates when a rule covers only a small number of instances.
+
+### 3.6 Advantages of Rule-Based Classifiers
+- As expressive as decision trees.
+- Easy to interpret and easy to generate.
+- Can classify new instances rapidly.
+- Performance comparable to decision trees.
+
+---
+
+## 4. Decision Tree vs Rule-Based Classifier
+
+| S.N. | Basis | Decision Tree Classifier | Rule-Based Classifier |
+|---|---|---|---|
+| 1 | Representation | Tree structure with decision/leaf nodes | Collection of "If...Then" rules |
+| 2 | Derivation | Built directly from data via recursive splitting | Can be built directly (sequential covering) or indirectly (extracted from a tree/ANN) |
+| 3 | Interpretability | Easy to interpret for small trees, harder for large/deep trees | Often easier to read individually, since each rule stands alone |
+| 4 | Rule overlap | Paths from root to leaf are naturally mutually exclusive and exhaustive | May need explicit ordering/default class to ensure mutual exclusivity and exhaustiveness |
+| 5 | Flexibility | Structure is fixed once built | Individual rules can be simplified, added, or removed more flexibly |
+
+---
+
+## 5. Nearest Neighbor (KNN) Classifier
+
+### 5.1 Concept and Algorithm
+Nearest neighbor is an **instance-based classifier** — instead of building an explicit model, it stores the training records and classifies new instances by comparing them with similar stored instances ("classification by analogy"). The **K-nearest neighbor (KNN)** classifier uses the K "closest" points (by distance, commonly Euclidean) to a given unknown record. To classify an unknown record, KNN:
+1. Computes the distance from the unknown record to all training records.
+2. Identifies the K nearest neighbors.
+3. Assigns the class label based on the majority class among these K neighbors (using a majority vote in case of a tie).
+
+KNN requires: a set of stored records, a distance metric, and the value of K.
+
+### 5.2 Issues in KNN Classification
+- **Choosing the value of K:** if K is too small, the classifier becomes sensitive to noise; if K is too large, neighbors may include points from other classes. The classification result can vary noticeably with different values of K.
+- **Scaling issue:** attributes may need to be scaled/normalized so that the distance measure is not dominated by attributes with larger numeric ranges (e.g., height vs. temperature).
+- **Distance for non-numeric data:** typically, distance is set to 0 for identical values and to the maximum possible distance for different values.
+- **Missing values:** typically handled by using the maximum possible distance.
+
+### 5.3 Disadvantages
+- Poor accuracy when the data contains noise and irrelevant attributes.
+- Slow when classifying test tuples, since distances to all training records must be computed.
+- Classifying unknown records is relatively expensive in terms of computation.
+
+---
+
+## 6. Bayesian Classifier
+
+### 6.1 Bayes' Theorem
+Bayesian classification is a statistical approach based on **Bayes' Theorem**, which predicts class membership probabilities — i.e., the probability that a given tuple belongs to a particular class:
+$$P(A|B) = \frac{P(B|A)\,P(A)}{P(B)}$$
+
+### 6.2 Naive Bayes Classifier
+The Naive Bayes classifier is particularly suited to datasets with high input dimensionality, since it simplifies computation considerably. Given a training set of tuples with associated classes $C_1, C_2, \dots, C_m$, and an unknown tuple X, the classifier predicts that X belongs to the class $C_i$ having the highest **posterior probability** conditioned on X, i.e., it predicts $C_i$ if $P(C_i|X) > P(C_j|X)$ for all $j \ne i$.
+
+Since $P(X)$ is constant across classes, and (assuming equal **prior probabilities** $P(C_i)$) this reduces to maximizing $P(X|C_i)$ — the **likelihood** of observing X given class $C_i$. The key simplifying assumption, called **class conditional independence**, is that the effect of each attribute value on a given class is independent of the values of the other attributes:
+$$P(X|C_i) = P(x_1|C_i) \times P(x_2|C_i) \times \dots \times P(x_n|C_i)$$
+These individual conditional probabilities are estimated directly from the training tuples. Naive Bayes has high accuracy and speed on large databases, and typically has a low error rate compared to many other classifiers, despite its simplifying independence assumption.
+
+### 6.3 Bayesian Belief Network (BBN)
+A **Bayesian Belief Network** (also called a Bayesian network or probabilistic network) is a **graphical model** that specifies joint conditional probability distributions among a set of variables. Unlike Naive Bayes, it does **not** assume that all attributes are conditionally independent of each other — instead:
+- It represents variables and their conditional dependencies through a **directed acyclic graph (DAG)**.
+- It allows **class conditional independencies to be defined only between subsets of variables**, rather than assuming full independence.
+- It provides a graphical model of causal relationships, on which learning/inference can be performed.
+
+**Naive Bayes vs Bayesian Belief Network:**
+
+| S.N. | Basis | Naive Bayes | Bayesian Belief Network |
+|---|---|---|---|
+| 1 | Independence assumption | Assumes full class-conditional independence among all attributes | Only requires independence among certain subsets of variables |
+| 2 | Structure | No explicit graphical structure | Represented using a directed acyclic graph (DAG) |
+| 3 | Complexity | Simple, computationally cheap | More complex; models causal/dependency relationships explicitly |
+| 4 | Use case | High-dimensional data where a fast, simple classifier suffices | Domains where relationships between variables need to be explicitly modeled (e.g., medical diagnosis, risk analysis) |
+
+---
+
+## 7. Artificial Neural Network (ANN) Classifier
+
+### 7.1 Working
+An ANN classifier is a set of connected input/output units, where each connection has an associated weight. During the learning phase, the network adjusts these weights so that it can correctly predict the class label of the input tuples — this is why it is also called **connectionist learning**. ANNs have a long training time and relatively poor interpretability, but they tolerate noisy data well, can classify patterns they were not explicitly trained on, and are well suited to continuous-valued inputs, using a parallel topology and processing style.
+
+### 7.2 Designing the Network Topology
+Before training, the network topology must be designed by specifying:
+- **Number of input nodes/units:** depends on the number of independent variables (attributes) in the dataset.
+- **Number of hidden layers:** usually just one layer is used; two layers may be used for more complex problems. The number of nodes in the hidden layer can be adjusted iteratively.
+- **Number of output nodes/units:** depends on the number of class labels in the dataset.
+- **Learning rate:** can be adjusted iteratively to control how much weights change per step.
+- **Learning algorithm:** any suitable algorithm can be chosen for the training phase.
+- **Bias value:** can also be adjusted iteratively.
+
+### 7.3 Backpropagation Algorithm
+Backpropagation is the standard training method for ANNs, proceeding in these steps:
+1. **Initialization:** set all weights and threshold levels to small random values.
+2. **Activation:** apply the inputs and desired outputs, and calculate the actual outputs of the hidden-layer and output-layer neurons.
+3. **Weight training:** propagate the errors at the output neurons backward through the network, updating weights and calculating the error gradient at each layer.
+4. **Iteration:** repeat steps 2–3, increasing the iteration count, until a chosen error criterion is satisfied.
+
+---
+
+## 8. Issues in Classification
+
+### 8.1 Overfitting
+**Overfitting** occurs when a model describes random error or noise in the training data instead of the true underlying relationship, typically because the model is excessively complex relative to the amount of training data available.
+- **Causes:** noise in the training data; incomplete/insufficient training data; a flaw in the assumed model structure or theory; excessive model complexity relative to the number of observations.
+- **Effect:** an overfit model generally shows poor predictive performance on new/unseen data, even though it may perform very well on the training data itself.
+- **Solutions:** use techniques such as cross-validation, tree pruning (pre-pruning or post-pruning), and comparing multiple candidate models to select one that generalizes better rather than one that simply memorizes the training data.
+
+### 8.2 Classifier Evaluation Methods
+Since evaluating a classifier only on the training data used to build it tends to give an overly optimistic (overfit) error estimate, validation techniques split the data into separate training and test sets:
+- **Holdout method:** the dataset is divided into two disjoint groups — a training set (used to build the classifier) and a test set (used to estimate its error rate).
+- **Random subsampling:** performs K random splits of the dataset (without replacement each time); for each split, the classifier is retrained from scratch on the training portion, and error is estimated on the test portion.
+- **K-Fold Cross-Validation:** the dataset is partitioned into K folds; in each of K experiments, K−1 folds are used for training and the remaining fold for testing. Every example is eventually used for both training and testing, and the true error is estimated as the average error rate across all K experiments — generally more reliable than a single holdout split.
+- **Leave-one-out Cross-Validation:** a special/degenerate case of K-fold cross-validation where K equals the total number of examples, so exactly one example is left out for testing in each experiment.
+- **Bootstrap method:** training samples are drawn **with replacement** from the original dataset (so the same record can appear multiple times in a bootstrap sample) to form a training set of the same size as the original data; records not selected are used as the test set. This is useful especially for small datasets, since it can generate many different training sets from limited data.
