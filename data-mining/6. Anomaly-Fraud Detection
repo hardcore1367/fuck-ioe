@@ -1,0 +1,126 @@
+# 6. Anomaly / Fraud Detection
+
+## 1. Introduction to Anomaly Detection
+
+### 1.1 What is Anomaly Detection
+Anomaly detection is the process of identifying data points or patterns that are considerably different from — or inconsistent with — the remainder of the data. These unusual data points are called **anomalies** or **outliers**. In general, anomaly detection is a form of classification, but an unusual one: the goal is to identify something unusual relative to what is expected, in data that is otherwise seemingly homogeneous. It is considered a challenging problem because it is largely **unsupervised** (class labels for "anomaly" vs "normal" are usually not available), and because normal observations vastly outnumber abnormal ones in most real datasets.
+
+### 1.2 Why Anomaly Detection is Important
+- To detect problems early, before they cause significant damage.
+- To discover new, previously unseen phenomena in data.
+- To uncover unusual behavior that would otherwise remain hidden in large volumes of normal data.
+
+### 1.3 Applications
+- **Fraud detection:** identifying buying patterns that differ from a customer's typical behavior.
+- **Intrusion detection:** monitoring systems/networks for unusual activity.
+- **Ecosystem disturbances:** predicting events like hurricanes and floods.
+- **Public health / medicine:** using medical statistics or unusual test results/symptoms to flag potential health problems.
+
+---
+
+## 2. General Anomaly Detection Scheme
+
+Most anomaly detection schemes follow two general steps:
+1. **Build a profile of "normal" behavior** — this profile may consist of patterns or summary statistics describing the overall population.
+2. **Use this normal profile to detect anomalies** — anomalies are observations whose characteristics differ significantly from the normal profile.
+
+---
+
+## 3. Types of Anomalies
+
+- **Point Anomaly:** A single data instance is anomalous with respect to the rest of the data. This is the simplest and most commonly studied type — e.g., an unusually large, out-of-pattern credit card transaction.
+- **Contextual Anomaly:** A data instance is anomalous only within a specific context, though it may look perfectly normal otherwise. It requires both **contextual attributes** (that define the context, e.g., time or location) and **behavioral attributes** (the actual values being checked) — e.g., a temperature of 35°C is normal in summer but anomalous if recorded in winter.
+- **Collective Anomaly:** A group/collection of related data instances is anomalous with respect to the entire dataset, even though the individual instances within that collection may not be anomalous by themselves — e.g., a sequence of network events that together indicate a coordinated denial-of-service attack, even if each individual event looks harmless in isolation.
+
+---
+
+## 4. Approaches to Anomaly Detection
+
+Anomaly detection schemes are broadly categorized as follows, based on how the "normal" profile is modeled and compared against:
+
+- **Graphical-based:** uses visual tools such as box plots (1-D), scatter plots (2-D), or spin plots (3-D) to spot points that visually stand apart from the rest.
+- **Statistical-based:** assumes the data follows a known parametric distribution (e.g., normal distribution) and applies a statistical test based on the data's distribution, its parameters (mean, variance), and the expected number of outliers.
+- **Distance-based (Proximity-based):** represents data as feature vectors and identifies anomalies based on how far/isolated a point is from other points — this is the most widely used and most important approach, and is discussed in detail below.
+- **Model-based:** builds a classification model that predicts whether a data point is typical for a given distribution; an atypical point is either an outlier or an example of a previously unseen class.
+
+Within the distance-based category, three major sub-approaches exist: **nearest-neighbor based**, **density based**, and **clustering based** — these are covered in the next section.
+
+---
+
+## 5. Distance-Based Anomaly Detection
+
+### 5.1 Core Idea
+Distance-based anomaly detection represents each data object as a vector of features and identifies anomalies purely based on **distance/proximity** relationships between objects, rather than assuming any particular statistical distribution. The underlying intuition is simple: normal points tend to have many nearby neighbors, while anomalous points tend to be far away from most other points, or lie in sparse (low-density) regions. This approach is popular because it makes no assumption about the underlying data distribution and can be applied to any dataset where a meaningful distance measure can be defined. There are three major distance-based approaches:
+
+### 5.2 Nearest-Neighbor Based Approach
+- This approach measures the distance of a point to its **k-nearest neighbors** in the feature space.
+- If a point's distance to its nearest neighbor(s) is **large**, it is considered an anomaly, since it is far from the bulk of the data.
+- Conversely, a point that lies close to many other points (small distance to its neighbors) is considered normal.
+- This method does not require the data to follow any specific distribution, which is an advantage over statistical approaches — but it can be computationally expensive for large datasets, since distances between many pairs of points must be computed.
+
+### 5.3 Density-Based Approach
+- Instead of using raw distance, this approach estimates the **local density** around each point (i.e., how densely packed the neighborhood of a point is).
+- A point located in a region of much lower density than its neighbors is flagged as an anomaly.
+- This is particularly useful when different regions of the dataset have different densities, since a point may be "normal" in a sparse region but would be anomalous in a dense one — a global distance threshold alone would not capture this.
+
+### 5.4 Clustering-Based Approach
+- This approach first applies a clustering algorithm to the dataset, and then identifies anomalies as:
+  - Points that do not belong strongly to any cluster (points far from all cluster centroids), or
+  - Points that form very small clusters on their own, since a genuine cluster is expected to contain a reasonably large number of similar points.
+- Clustering-based detection relies on the assumption that normal points naturally group into clusters, so anything that does not fit well into any cluster is likely to be anomalous.
+
+### 5.5 Why Distance-Based Methods are Favored
+Distance-based methods (especially nearest-neighbor based) are heavily used in practice because they:
+- Do not require any assumption about the underlying data distribution (unlike statistical methods).
+- Can be applied to multi-dimensional data using any suitable distance metric (e.g., Euclidean distance).
+- Are conceptually simple and directly tied to an intuitive definition of an outlier: "a point that is far from most other points."
+
+Their main drawback is **computational cost**, since computing pairwise distances for every point becomes expensive as the dataset grows large or as dimensionality increases.
+
+---
+
+## 6. Statistical-Based Approach
+
+### 6.1 General Idea
+The statistical approach assumes that the normal data follows a known parametric model (e.g., a normal distribution), and identifies points that deviate significantly from this model as anomalies. The statistical test used depends on the assumed data distribution, its parameters (such as mean and variance), and the confidence limit (number of expected outliers).
+
+### 6.2 Grubbs' Test
+Grubbs' test detects outliers in **univariate** data, assuming the data comes from a normal distribution. It detects **one outlier at a time** — once an outlier is found, it is removed from the dataset, and the test is repeated on the remaining data.
+
+### 6.3 Likelihood-Based Approach
+The likelihood-based approach assumes the dataset D is a mixture of two probability distributions:
+- **M**, the majority (normal) distribution, and
+- **A**, the anomalous distribution.
+
+The general procedure is:
+1. Initially, assume all data points belong to the majority distribution M.
+2. Let $L_t(D)$ be the log-likelihood of D at time t.
+3. Compute the new log-likelihood $L_{t+1}(D)$ after tentatively moving a point from M to A.
+4. Compute the difference $\Delta = L_t(D) - L_{t+1}(D)$.
+5. If $\Delta$ exceeds some threshold c, the point is declared an anomaly and permanently moved from M to A.
+
+### 6.4 Limitations of Statistical Approaches
+- Most statistical tests are designed for a **single attribute** (univariate), making them harder to apply to multivariate data.
+- In many real-world cases, the true underlying data distribution is not known in advance.
+- For high-dimensional data, it becomes difficult to reliably estimate the true distribution of the data.
+
+---
+
+## 7. Base Rate Fallacy
+
+The **base-rate fallacy** (also called base-rate neglect) is a reasoning error in which people ignore the underlying base rate (background probability) of an event and focus only on specific, case-level information, rather than properly combining the two using Bayesian reasoning. This is highly relevant to anomaly/fraud detection, because even a fairly accurate detection test can produce a large number of false positives if the event being detected (e.g., fraud, a rare disease, drunk driving) is very rare to begin with — meaning that a "positive" test result is far less likely to be a true anomaly than intuition suggests.
+
+**Classic Example:** Suppose breathalyzers give a false positive in 5% of sober drivers, but never miss a truly drunk driver, and only 1 in 1000 drivers is actually drunk. If a random driver tests positive, most people would guess the probability they are actually drunk is very high (e.g., 0.95). However, using Bayes' theorem, the correct probability turns out to be only around 0.02 — because the number of sober drivers is so much larger than the number of drunk drivers, the 5% false-positive rate among sober drivers produces far more false alarms than true detections among the rare drunk drivers.
+
+This illustrates why, in anomaly/fraud detection, the **rarity of the anomalous class** must always be accounted for when interpreting a detection result — a "positive" flag from a detector does not automatically mean a true anomaly has been found.
+
+---
+
+## 8. Issues Associated with Anomaly Detection
+
+- **Number of attributes:** an object may have many attributes; it can be anomalous overall even if none of its individual attribute values are anomalous on their own.
+- **Global vs. local perspective:** an object may appear unusual when compared to the entire dataset, but perfectly normal compared to its local neighborhood (or vice versa).
+- **Degree of anomaly:** some objects are more extreme anomalies than others — anomaly detection is often not simply a binary (yes/no) decision.
+- **One at a time vs. many at once:** it must be decided whether to remove/identify anomalous objects one at a time, or identify a whole collection of them together.
+- **Evaluation:** it is difficult to find a good way to evaluate anomaly detection performance, especially when class labels (anomaly vs. normal) are not available for comparison.
+- **Efficiency:** the computational cost of the anomaly detection scheme must be considered, especially for large or high-dimensional datasets.
