@@ -1,0 +1,82 @@
+[
+  {
+    "question": "What is anomaly detection?",
+    "answer": "The process of identifying data points or patterns that are considerably different from the rest of the data (anomalies/outliers). It is a form of classification, but is largely **unsupervised** since class labels for anomaly vs. normal are usually unavailable, and normal observations vastly outnumber abnormal ones."
+  },
+  {
+    "question": "Why is anomaly detection important, and what are its main applications?",
+    "answer": "**Importance:** detects problems early, discovers new phenomena, uncovers hidden unusual behavior.\n**Applications:** fraud detection, intrusion detection, ecosystem disturbance prediction (hurricanes/floods), public health/medicine (unusual symptoms/test results)."
+  },
+  {
+    "question": "What are the general steps in an anomaly detection scheme?",
+    "answer": "1. Build a profile of \"normal\" behavior (patterns or summary statistics of the population)\n2. Use this normal profile to detect anomalies — observations differing significantly from it"
+  },
+  {
+    "question": "What are the three types of anomalies, with examples?",
+    "answer": "- **Point anomaly:** a single instance is anomalous (e.g., an unusually large credit card transaction)\n- **Contextual anomaly:** anomalous only in a specific context (e.g., 35°C is normal in summer, anomalous in winter)\n- **Collective anomaly:** a group of instances is anomalous together, even if individually normal (e.g., a sequence of events indicating a coordinated DoS attack)"
+  },
+  {
+    "question": "What are the broad approaches to anomaly detection?",
+    "answer": "- **Graphical-based:** box plots, scatter plots, spin plots\n- **Statistical-based:** assumes a known parametric distribution\n- **Distance-based (proximity-based):** based on distance/proximity between feature vectors — most widely used\n- **Model-based:** builds a model predicting if a point is typical for a distribution"
+  },
+  {
+    "question": "What is the core idea of distance-based anomaly detection?",
+    "answer": "Represents each object as a feature vector and identifies anomalies based on distance/proximity to other objects, without assuming any statistical distribution. Normal points have many nearby neighbors; anomalous points are far from most points or lie in sparse regions."
+  },
+  {
+    "question": "What are the three major sub-approaches within distance-based anomaly detection?",
+    "answer": "- **Nearest-neighbor based**\n- **Density based**\n- **Clustering based**"
+  },
+  {
+    "question": "How does the nearest-neighbor based approach detect anomalies?",
+    "answer": "Measures a point's distance to its k-nearest neighbors. A **large** distance to nearest neighbor(s) indicates an anomaly; a **small** distance indicates a normal point. Makes no assumption about data distribution, but can be computationally expensive for large datasets."
+  },
+  {
+    "question": "How does the density-based approach detect anomalies?",
+    "answer": "Estimates the local density around each point. A point in a region of much **lower density** than its neighbors is flagged as an anomaly. Useful when different regions have different densities, which a single global distance threshold cannot capture."
+  },
+  {
+    "question": "How does the clustering-based approach detect anomalies?",
+    "answer": "First clusters the data, then flags as anomalies: points not strongly belonging to any cluster (far from all centroids), or points forming very small clusters on their own (since genuine clusters should contain a reasonably large number of points)."
+  },
+  {
+    "question": "Why are distance-based methods favored for anomaly detection, and what is their main drawback?",
+    "answer": "**Favored because:** no distribution assumption needed; works with any distance metric on multi-dimensional data; conceptually simple (\"far from most points = outlier\").\n**Drawback:** computationally expensive, since pairwise distances must be computed for every point — cost grows with data size/dimensionality."
+  },
+  {
+    "question": "What is the general idea of the statistical-based approach to anomaly detection?",
+    "answer": "Assumes normal data follows a known parametric model (e.g., normal distribution); points deviating significantly from this model are anomalies. The test used depends on the assumed distribution, its parameters (mean, variance), and the expected number of outliers (confidence limit)."
+  },
+  {
+    "question": "What is Grubbs' Test?",
+    "answer": "A statistical test that detects outliers in **univariate** data, assuming a normal distribution. It detects **one outlier at a time** — once found, it is removed, and the test is repeated on the remaining data."
+  },
+  {
+    "question": "What is the likelihood-based approach for anomaly detection?",
+    "answer": "Assumes the dataset D is a mixture of majority distribution M and anomalous distribution A. Steps:\n1. Assume all points belong to M\n2. Compute log-likelihood $L_t(D)$, then $L_{t+1}(D)$ after tentatively moving a point to A\n3. Compute $\\Delta = L_t(D) - L_{t+1}(D)$\n4. If $\\Delta > c$ (threshold), the point is declared an anomaly and moved permanently to A"
+  },
+  {
+    "question": "What are the limitations of statistical approaches to anomaly detection?",
+    "answer": "- Most tests are designed for a single attribute (univariate)\n- The true data distribution is often unknown in real-world cases\n- Difficult to estimate the true distribution for high-dimensional data"
+  },
+  {
+    "question": "What is the Base Rate Fallacy?",
+    "answer": "A reasoning error where the underlying base rate (background probability) of an event is ignored in favor of specific case-level information, instead of properly combining both via Bayesian reasoning. Even an accurate test can produce many false positives if the event being detected is very rare."
+  },
+  {
+    "question": "What does the classic breathalyzer example illustrate about the Base Rate Fallacy?",
+    "answer": "Given a 5% false-positive rate among sober drivers, a perfect detection rate for drunk drivers, and only 1/1000 drivers actually drunk — the true probability a driver testing positive is actually drunk is only about 0.02, not the ~0.95 most people intuitively guess. This is because sober drivers vastly outnumber drunk ones, so even a small false-positive rate produces far more false alarms than true detections."
+  },
+  {
+    "question": "What key lesson does the Base Rate Fallacy teach for anomaly/fraud detection?",
+    "answer": "The **rarity of the anomalous class** must always be accounted for when interpreting a detection result — a \"positive\" flag from a detector does not automatically mean a true anomaly has been found."
+  },
+  {
+    "question": "What issues are associated with anomaly detection regarding attributes and perspective?",
+    "answer": "- **Number of attributes:** an object can be anomalous overall even if no single attribute value is individually anomalous\n- **Global vs. local perspective:** an object may seem unusual overall but normal within its local neighborhood, or vice versa"
+  },
+  {
+    "question": "What other issues are associated with anomaly detection (degree, grouping, evaluation, efficiency)?",
+    "answer": "- **Degree of anomaly:** some objects are more extreme anomalies than others (not strictly binary)\n- **One at a time vs. many at once:** deciding whether to identify anomalies individually or as a group\n- **Evaluation:** hard to evaluate performance when true labels aren't available\n- **Efficiency:** computational cost matters, especially for large/high-dimensional data"
+  }
+]
