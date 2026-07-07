@@ -1,0 +1,147 @@
+[
+  {
+    "question": "What is classification in data mining, and how does it differ from clustering?",
+    "answer": "Classification predicts the class/group membership of data instances based on a predefined set of target categories. Unlike clustering, it is **supervised** — it requires training data where class labels are already known."
+  },
+  {
+    "question": "What are the two stages in classification?",
+    "answer": "- **Model learning (training):** a training algorithm builds a conceptual model from training data\n- **Model evaluation/application:** the model is tested, then applied to classify new, unseen instances"
+  },
+  {
+    "question": "What are the major types of classifiers?",
+    "answer": "Decision Tree, Rule-Based, Nearest Neighbor (KNN), Bayesian, and Artificial Neural Network (ANN) classifiers."
+  },
+  {
+    "question": "What is a decision tree and how is an instance classified using it?",
+    "answer": "A tree structure where each decision node tests a single attribute (with a branch per outcome), and each leaf node gives a class label. To classify an instance, start at the root and follow branches matching its attribute values until a leaf is reached."
+  },
+  {
+    "question": "What are the main decision tree induction algorithms?",
+    "answer": "- **Hunt's Algorithm:** recursively partitions data into purer subsets\n- **ID3, C4.5, J48:** based on entropy/information gain\n- **SLIQ, SPRINT, CART:** based on Gini index"
+  },
+  {
+    "question": "What are the key issues in decision tree induction?",
+    "answer": "- **How to split records:** depends on attribute type (nominal/ordinal/continuous) and split type (2-way/multi-way)\n- **When to stop splitting:** when all records belong to one class, or have identical attribute values\n- **How to determine best split:** prefer nodes with more homogeneous (pure) class distribution, measured via impurity"
+  },
+  {
+    "question": "What is the Gini Index and its formula?",
+    "answer": "Measures dataset impurity: $$Gini(D) = 1 - \\sum_{i=1}^{n} p_i^2$$ For a split into $D_1, D_2$: $$Gini_{split} = \\frac{|D_1|}{|D|}Gini(D_1) + \\frac{|D_2|}{|D|}Gini(D_2)$$ The attribute with the greatest impurity reduction is chosen; Gini always considers a binary split."
+  },
+  {
+    "question": "What are the three impurity measures used in decision trees?",
+    "answer": "- **Gini Index**\n- **Entropy**\n- **Misclassification error** (based on fraction misclassified if majority class assigned)"
+  },
+  {
+    "question": "How does the ID3 algorithm work?",
+    "answer": "Starts with the full dataset at the root; on each iteration, calculates entropy/information gain for every unused attribute, splits on the attribute with smallest entropy (largest info gain), and recurs on each subset (considering only unused attributes) until each subset belongs to a single class."
+  },
+  {
+    "question": "What is entropy and its formula?",
+    "answer": "Entropy measures uncertainty in dataset S: $$H(S) = -\\sum_{x \\in X} p(x)\\log_2 p(x)$$ H(S)=0 means the dataset is perfectly classified. ID3 splits on the attribute giving the **smallest entropy**."
+  },
+  {
+    "question": "What is information gain and its formula?",
+    "answer": "Measures reduction in entropy after splitting S on attribute A: $$IG(A,S) = H(S) - \\sum_{t \\in T} p(t)H(t)$$ ID3 splits on the attribute with the **largest information gain** (equivalent to smallest entropy)."
+  },
+  {
+    "question": "What is the difference between pre-pruning and post-pruning?",
+    "answer": "- **Pre-pruning:** stops tree growth early using a statistical test (e.g., chi-squared); faster but risks premature stopping\n- **Post-pruning:** grows the full tree first, then removes subtrees via subtree replacement (leaf) or subtree raising (child subtree replaces parent)"
+  },
+  {
+    "question": "What are the advantages of decision tree classifiers?",
+    "answer": "- Inexpensive to construct\n- Extremely fast at classifying unknown records\n- Easy to interpret (for small trees)\n- Accuracy comparable to other techniques on simple datasets"
+  },
+  {
+    "question": "How does a rule-based classifier work, and how are coverage/accuracy defined?",
+    "answer": "Uses \"If...Then\" rules; the 'If' part is the antecedent, the 'Then' part is the consequent. If a tuple satisfies the antecedent, the rule covers it.\n- **Coverage** = records satisfying antecedent / total records\n- **Accuracy** = records satisfying both antecedent & consequent / records covered"
+  },
+  {
+    "question": "How does a rule-based classifier handle the three rule-triggering cases?",
+    "answer": "- **One rule satisfied:** fires directly\n- **Multiple rules satisfied:** conflict resolved via rule-based ordering (ranked by quality, forms a decision list) or class-based ordering (same-class rules grouped)\n- **No rule satisfied:** default class (usually most frequent) is assigned"
+  },
+  {
+    "question": "What makes a rule set mutually exclusive and exhaustive?",
+    "answer": "- **Mutually exclusive:** every record covered by at most one rule (enforced via rule ordering if violated)\n- **Exhaustive:** every record covered by at least one rule (enforced via a default class if violated)"
+  },
+  {
+    "question": "What are the direct and indirect methods of building classification rules?",
+    "answer": "- **Direct method:** extracts rules directly from data via sequential covering (empty rule → grow via Learn-One-Rule → remove covered records → repeat). CN2 minimizes entropy; RIPPER maximizes FOIL's information gain.\n- **Indirect method:** extracts rules from an existing model (e.g., decision tree), converting root-to-leaf paths into rules, then simplifying."
+  },
+  {
+    "question": "What are the rule evaluation measures Accuracy, Laplace, and M-estimate?",
+    "answer": "$$Accuracy = \\frac{n_c}{n} \\quad Laplace = \\frac{n_c+1}{n+k} \\quad M\\text{-}estimate = \\frac{n_c+kp}{n+k}$$ where n = instances covered, $n_c$ = correctly classified, k = number of classes, p = prior probability. Laplace and M-estimate avoid overconfident estimates for rules with low coverage."
+  },
+  {
+    "question": "What are the advantages of rule-based classifiers?",
+    "answer": "- As expressive as decision trees\n- Easy to interpret and generate\n- Can classify new instances rapidly\n- Performance comparable to decision trees"
+  },
+  {
+    "question": "How do decision tree and rule-based classifiers differ?",
+    "answer": "| Basis | Decision Tree | Rule-Based |\n|---|---|---|\n| Representation | Tree structure | Collection of If-Then rules |\n| Derivation | Built via recursive splitting | Direct (sequential covering) or indirect (extracted from tree/ANN) |\n| Rule overlap | Root-to-leaf paths naturally mutually exclusive & exhaustive | May need explicit ordering/default class |
+| Flexibility | Fixed structure once built | Rules can be added/removed/simplified independently |"
+  },
+  {
+    "question": "What is the K-Nearest Neighbor (KNN) algorithm?",
+    "answer": "An instance-based classifier that stores training records and classifies a new instance by: 1) computing distance to all training records, 2) identifying the K nearest neighbors, 3) assigning the majority class among them (majority vote breaks ties). Requires stored records, a distance metric, and value of K."
+  },
+  {
+    "question": "What issues arise in KNN classification?",
+    "answer": "- **Choosing K:** too small → sensitive to noise; too large → neighbors from other classes\n- **Scaling:** attributes may need normalization to prevent domination by large-range attributes\n- **Non-numeric distance:** 0 if identical, max distance if different\n- **Missing values:** use maximum possible distance"
+  },
+  {
+    "question": "What are the disadvantages of KNN?",
+    "answer": "- Poor accuracy with noisy/irrelevant attributes\n- Slow at classifying test tuples\n- Computationally expensive for classifying unknown records"
+  },
+  {
+    "question": "What is Bayes' Theorem and its formula?",
+    "answer": "The basis of Bayesian classification, which predicts class membership probabilities: $$P(A|B) = \\frac{P(B|A)\\,P(A)}{P(B)}$$"
+  },
+  {
+    "question": "How does the Naive Bayes classifier predict the class of a tuple X?",
+    "answer": "It predicts the class $C_i$ with the highest posterior probability $P(C_i|X)$. Since $P(X)$ is constant and priors are often assumed equal, this reduces to maximizing the likelihood $P(X|C_i)$."
+  },
+  {
+    "question": "What is the class conditional independence assumption in Naive Bayes?",
+    "answer": "It assumes each attribute's effect on a class is independent of other attributes: $$P(X|C_i) = P(x_1|C_i) \\times P(x_2|C_i) \\times \\dots \\times P(x_n|C_i)$$ These probabilities are estimated directly from training tuples."
+  },
+  {
+    "question": "What is a Bayesian Belief Network (BBN)?",
+    "answer": "A graphical model that specifies joint conditional probability distributions among variables, represented as a directed acyclic graph (DAG). It allows conditional independence only between subsets of variables (not full independence), modeling causal relationships."
+  },
+  {
+    "question": "How does Naive Bayes differ from a Bayesian Belief Network?",
+    "answer": "| Basis | Naive Bayes | BBN |\n|---|---|---|\n| Independence | Assumes full class-conditional independence | Only between certain variable subsets |\n| Structure | No graphical structure | Directed acyclic graph (DAG) |\n| Complexity | Simple, cheap | More complex, models dependencies explicitly |\n| Use case | Fast classification on high-dimensional data | Domains needing explicit variable relationships (e.g., medical diagnosis) |"
+  },
+  {
+    "question": "How does an ANN classifier work, and what are its general characteristics?",
+    "answer": "A set of connected input/output units with weighted connections; during learning, weights are adjusted to predict correct class labels (\"connectionist learning\"). Has long training time and poor interpretability, but tolerates noisy data, classifies untrained patterns, and suits continuous-valued inputs."
+  },
+  {
+    "question": "What design considerations are needed before training an ANN?",
+    "answer": "- Number of input nodes (= number of independent variables)\n- Number of hidden layers (usually 1, sometimes 2 for complex problems)\n- Number of output nodes (= number of class labels)\n- Learning rate (adjustable)\n- Learning algorithm (any suitable one)\n- Bias value (adjustable)"
+  },
+  {
+    "question": "What are the steps of the backpropagation algorithm?",
+    "answer": "1. **Initialization:** set weights/thresholds to small random values\n2. **Activation:** apply inputs/desired outputs, compute actual outputs of hidden and output layers\n3. **Weight training:** propagate errors backward, update weights, calculate error gradients\n4. **Iteration:** repeat steps 2–3 until error criterion is satisfied"
+  },
+  {
+    "question": "What is overfitting, and what causes it?",
+    "answer": "Overfitting occurs when a model describes random error/noise instead of the true underlying relationship, usually because the model is too complex relative to the data. Causes: noisy training data, incomplete data, flawed model assumptions, excessive model complexity."
+  },
+  {
+    "question": "What is the effect of overfitting, and how can it be addressed?",
+    "answer": "**Effect:** poor predictive performance on new/unseen data despite good training performance.\n**Solutions:** cross-validation, tree pruning (pre/post), and comparing multiple models to choose one that generalizes well."
+  },
+  {
+    "question": "What is the holdout method and random subsampling in classifier evaluation?",
+    "answer": "- **Holdout:** dataset split into a training set (builds classifier) and test set (estimates error)\n- **Random subsampling:** performs K random splits (without replacement); classifier retrained and tested on each split"
+  },
+  {
+    "question": "What is K-Fold Cross-Validation and Leave-one-out Cross-Validation?",
+    "answer": "- **K-Fold:** dataset split into K folds; each experiment uses K−1 folds for training, 1 for testing; true error = average error over all K experiments — every example used for both training and testing\n- **Leave-one-out:** degenerate case of K-fold where K = total number of examples"
+  },
+  {
+    "question": "What is the bootstrap method in classifier evaluation?",
+    "answer": "Training samples are drawn **with replacement** from the original dataset (records can repeat) to form a training set of the same size; unselected records form the test set. Especially useful for small datasets."
+  }
+]
