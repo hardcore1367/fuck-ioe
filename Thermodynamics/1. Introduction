@@ -1,0 +1,210 @@
+# 1. Introduction
+
+### 1.1 Definition of Thermodynamics
+
+Thermodynamics is the branch of applied science which deals with the study of relationship between heat, work, temperature and energy.
+
+### 1.2 Microscopic vs Macroscopic Viewpoint
+
+In the microscopic viewpoint, we study the behavior of matter by looking at the individual molecules that make it up, such as their position, velocity, and energy at any instant. Because there are an extremely large number of molecules in even a small amount of matter, this approach requires statistical methods, and the properties involved cannot be measured directly with ordinary instruments. This approach is used in the kinetic theory of gases.
+
+In the macroscopic viewpoint, we study the overall, average behavior of the matter instead of looking at individual molecules. Only a few properties, such as pressure, volume, and temperature, are needed to describe the system completely, and these properties can be measured directly using simple instruments. This is the approach used in classical engineering thermodynamics, which is the approach followed throughout this course.
+
+| S.N. | Microscopic | Macroscopic |
+|---|---|---|
+| 1 | Considers behavior of individual molecules | Considers overall average behavior of matter |
+| 2 | Needs a large number of variables and statistical treatment | Needs only a few variables like P, V, T |
+| 3 | Properties cannot be measured directly | Properties can be measured directly |
+| 4 | Used in kinetic theory of gases | Used in classical (engineering) thermodynamics |
+
+### 1.3 Thermodynamic System, Surroundings, Boundary, Universe
+
+
+
+A **thermodynamic system** is any specific quantity of matter or a particular region in space that we choose to study. It is simply the "thing" we are focusing on for analysis, such as the gas inside a cylinder or the water inside a boiler. Everything else that could possibly affect or be affected by the system is excluded from it and treated separately.
+
+The **surroundings** are everything that exists outside the system and that can possibly interact with it by exchanging heat, work, or mass. Whatever the system gives out or takes in ultimately goes to or comes from the surroundings.
+
+The **boundary** is the real or imaginary surface that separates the system from its surroundings. This boundary can be fixed, like the rigid wall of a closed tank, or it can move, like a piston sliding inside a cylinder. The boundary is what we use to decide exactly what is "inside" the system and what is "outside" it.
+
+The **universe**, in thermodynamics, means the system and its surroundings taken together. So Universe = System + Surroundings, and nothing exists outside this combined universe as far as the analysis is concerned.
+
+### 1.4 Types of System (Closed, Open, Isolated)
+
+A **closed system** has a fixed mass, meaning no mass can cross its boundary, although energy in the form of heat or work is still allowed to cross. Because the mass stays constant, a closed system is also called a control mass. A sealed piston-cylinder arrangement is a common example.
+
+An **open system** allows both mass and energy to cross its boundary freely. It is also called a control volume, and most real engineering devices such as turbines, pumps, compressors, and boilers are analyzed as open systems because fluid continuously flows in and out of them.
+
+An **isolated system** does not allow either mass or energy to cross its boundary at all — nothing goes in and nothing comes out, so the system is completely cut off from its surroundings. A perfectly insulated, sealed container would approximate an isolated system.
+
+| S.N. | Type | What Crosses the Boundary |
+|---|---|---|
+| 1 | Closed System | Only energy (heat/work); no mass |
+| 2 | Open System | Both mass and energy |
+| 3 | Isolated System | Neither mass nor energy |
+
+### 1.5 Thermodynamic Property
+
+A thermodynamic property is any measurable and observable characteristic of a system that helps describe its condition at a given instant, such as pressure, volume, temperature, or internal energy. Properties are broadly classified into two types depending on how their value behaves when the mass of the system changes.
+
+An **intensive property** is a property whose value does not depend on the mass or size of the system. If you take a smaller portion of the same system, the value of this property stays exactly the same. Common examples of intensive properties include pressure, temperature, density, and specific volume.
+
+An **extensive property** is a property whose value depends directly on the mass or size of the system. If the system is divided into two parts, the value of this property also gets divided between the parts. Common examples of extensive properties include total volume, total mass, and total internal energy.
+
+| S.N. | Intensive Property | Extensive Property |
+|---|---|---|
+| 1 | Independent of the mass of the system | Depends on the mass of the system |
+| 2 | Examples: pressure, temperature, specific volume, density | Examples: total volume, total mass, total internal energy |
+
+An important point to remember is that any extensive property can be converted into an intensive property by expressing it **per unit mass** of the system. Such a property is then called a **specific property**. The most common example is specific volume, defined as the total volume divided by the total mass of the system:
+
+$$v = \frac{V}{m}$$
+
+Here, $v$ is the specific volume measured in m³/kg, $V$ is the total volume of the system, and $m$ is the total mass of the system. Even though the total volume $V$ is extensive, the specific volume $v$ becomes intensive because it no longer depends on how much matter you are considering — a small sample and a large sample of the same substance both have the same specific volume.
+
+### 1.6 Thermodynamic Equilibrium
+
+A system is said to be in thermodynamic equilibrium if it is left undisturbed from outside and its properties do not change with time. This overall equilibrium actually requires three separate conditions to be satisfied simultaneously.
+
+| S.N. | Type of Equilibrium | Condition Required |
+|---|---|---|
+| 1 | Thermal equilibrium | No temperature difference within the system or between the system and its surroundings |
+| 2 | Mechanical equilibrium | No unbalanced force or pressure difference acting anywhere within the system |
+| 3 | Chemical equilibrium | No chemical reaction taking place and no change in chemical composition within the system |
+
+Only when a system satisfies thermal, mechanical, and chemical equilibrium at the same time can it be said to be in complete thermodynamic equilibrium. If even one of these conditions is violated, the system is not in equilibrium and its properties will keep changing until it settles into a new equilibrium state.
+
+### 1.7 Thermodynamic State
+
+The state of a system is the condition of the system at a particular instant, as fully described by the values of its properties, such as its pressure, volume, and temperature at that moment. Whenever any property of the system changes, the state of the system is also said to have changed.
+
+### 1.8 Thermodynamic Process
+
+A process is the actual change that a system undergoes as it goes from one state to another. Every process is associated with a particular path, since the process describes how the change happens and under what conditions it takes place (for example, at constant pressure or constant volume).
+
+### 1.9 Path
+
+The path is the series of states, one after another, through which the system passes as it changes from one condition to another. The path essentially describes the exact route taken during the change, not just where the system started and where it ended up. Two processes can have the same initial and final states but different paths if the intermediate states are different.
+
+### 1.10 Cycle
+
+A cycle is a special sequence of processes in which the system, after undergoing several changes, eventually returns back to its original starting state. In a cycle, the initial state and the final state are exactly the same, even though the system may have passed through many different intermediate states along the way.
+
+### 1.11 Types of Thermodynamic Processes (P-v, T-v, P-T Sketches)
+
+For an ideal gas, common processes are shown and identified on P-v, T-v, and P-T property diagrams.
+
+An **isobaric process** is one in which the pressure remains constant throughout the process, and it appears as a horizontal straight line on a P-v diagram.
+
+An **isothermal process** is one in which the temperature remains constant throughout the process, and it appears as a curved, hyperbola-shaped line on a P-v diagram.
+
+An **isochoric process** is one in which the volume remains constant throughout the process, and it appears as a vertical straight line on a P-v diagram.
+
+An **adiabatic process** is one in which there is no heat transfer into or out of the system, and on a P-v diagram it appears as a curve that is steeper than the isothermal curve at any given point.
+
+In the exam, if you are asked to sketch these, draw the P-v, T-v, or P-T diagram with the correct axes labeled and clearly mark which line corresponds to which process.
+
+### 1.12 State Function vs Path Function
+
+A **state function** is a property whose value depends only on the initial and final states of the system, and not on the path or process used to go from one state to the other. Mathematically, a state function has an exact differential, which means that its net change over a complete cycle is always zero. Examples of state functions include pressure, temperature, volume, and internal energy.
+
+A **path function**, on the other hand, is a quantity whose value depends on the specific path or process followed between two states, not just on the initial and final states. Path functions have inexact differentials, and their value over a cycle is generally not zero. Heat and work are the two most important examples of path functions in thermodynamics.
+
+| S.N. | State Function | Path Function |
+|---|---|---|
+| 1 | Depends only on initial and final states | Depends on the path taken between states |
+| 2 | Has an exact differential | Has an inexact differential |
+| 3 | Examples: pressure, temperature, volume, internal energy | Examples: heat, work |
+
+### 1.13 Common Properties: Pressure, Specific Volume, Temperature
+
+**Pressure** is the normal force exerted by a fluid per unit area. In practice, there are three related terms that must be clearly distinguished.
+
+The **atmospheric pressure** ($P_{atm}$) is the pressure exerted by the atmosphere at a given location, and it is measured using an instrument called a barometer.
+
+The **gauge pressure** ($P_{gauge}$) is the pressure of a system as measured relative to the surrounding atmospheric pressure, using an ordinary pressure gauge.
+
+The **absolute pressure** ($P_{abs}$) is the true pressure of the system, measured relative to a perfect vacuum (absolute zero pressure), and it is the pressure value that must always be used in thermodynamic calculations and the ideal gas equation.
+
+These three pressures are related by the following formulas:
+
+$$P_{abs} = P_{atm} + P_{gauge} \quad \text{(when the system pressure is above atmospheric pressure)}$$
+
+$$P_{abs} = P_{atm} - P_{vac} \quad \text{(when the system pressure is below atmospheric pressure, read on a vacuum gauge)}$$
+
+**Specific volume** ($v$) is defined as the volume occupied by a unit mass of a substance, and is given by:
+
+$$v = \frac{V}{m}$$
+
+where $V$ is the total volume and $m$ is the total mass. Specific volume is also the reciprocal of density, so it can also be written as $v = \dfrac{1}{\rho}$, where $\rho$ is the density of the substance.
+
+**Temperature** is a measure of the degree of hotness or coldness of a substance, and it determines the direction in which heat will naturally flow between two bodies — heat always flows from a body at higher temperature to a body at lower temperature. Temperature is measured indirectly, by observing the change in some other physical property (called a thermometric property) that varies consistently with temperature, such as the length of a mercury column in a thermometer. Using two known reference points, the ice point and the steam point, an unknown temperature can be calculated using the linear thermometer formula:
+
+$$T = T_{ice} + \frac{X - X_{ice}}{X_{steam} - X_{ice}} \left(T_{steam} - T_{ice}\right)$$
+
+Here, $X$ is the value of the thermometric property at the unknown temperature, $X_{ice}$ is its value at the ice point, and $X_{steam}$ is its value at the steam point.
+
+### 1.14 Zeroth Law of Thermodynamics
+
+The Zeroth Law of Thermodynamics states that if two bodies are each separately in thermal equilibrium with a third body, then those two bodies must also be in thermal equilibrium with each other.
+
+This law may seem obvious, but it is extremely important because it provides the theoretical basis for the concept of temperature and for the working of thermometers. The "third body" mentioned in the law is essentially the thermometer itself: when a thermometer reaches thermal equilibrium with a system, and later reaches thermal equilibrium with a second system showing the same reading, we can conclude that the two systems are at the same temperature and are in thermal equilibrium with each other, without needing to bring them into direct contact.
+
+### 1.15 Property Identification (How to Check if a Quantity is a Thermodynamic Property)
+
+To determine whether a given quantity qualifies as a thermodynamic property, it must satisfy two conditions.
+
+First, the value of the quantity must depend only on the state of the system at that instant, and must not depend on the path or process that was used to reach that state.
+
+Second, the change in the value of the quantity between any two states must be independent of the process followed, which mathematically means that the quantity must have an exact differential, so that its net change over a complete cycle is always zero, written as $\oint dz = 0$.
+
+If a quantity fails these conditions, meaning its value changes depending on which process or path is used, then it is not a property at all, but rather a path function, such as heat or work.
+
+### 1.16 Formulas for Numericals
+
+**Manometer / Pressure Measurement**
+
+$$P = \rho g h$$
+
+where $\rho$ is the density of the manometric fluid (for mercury, $\rho = 13600$ kg/m³), $g = 9.81$ m/s², and $h$ is the height of the fluid column in metres.
+
+$$P_{abs} = P_{atm} + \rho g h \quad \text{(when the pipe pressure is above atmospheric)}$$
+
+$$P_{abs} = P_{atm} - \rho g h \quad \text{(when the pipe pressure is below atmospheric, i.e. a vacuum reading)}$$
+
+Useful unit conversions: $1\ \text{atm} = 101.325\ \text{kPa} = 760\ \text{mm Hg} = 1.01325\ \text{bar}$.
+
+**Two-Compartment Gauge Problems**
+
+$$P_{abs,A} = P_{gauge,A} + P_{atm}$$
+$$P_{abs,B} = P_{gauge,B} + P_{atm}$$
+
+The reading of a connecting gauge $C$ between the two compartments is found from the difference between the absolute (or gauge) pressures of compartments A and B, using a pressure balance across the connecting fluid column.
+
+**Spring-Loaded Piston**
+
+The force balance on the piston, when the spring resists upward motion, is:
+
+$$P \cdot A = P_{atm} \cdot A + W + F_{spring}$$
+
+where the spring force is given by:
+
+$$F_{spring} = k \cdot x$$
+
+Here, $A$ is the piston area, $W$ is the weight of the piston, $k$ is the spring constant, and $x$ is the displacement of the piston.
+
+As the piston rises by a distance $x$, the change in pressure is:
+
+$$\Delta P = \frac{k x}{A}, \qquad P_2 = P_1 + \frac{k x}{A}$$
+
+This is then combined with the ideal gas equation to solve for an unknown temperature or volume:
+
+$$P V = m R T$$
+
+For a fixed mass of ideal gas moving between two states, the combined gas law also applies:
+
+$$\frac{P_1 V_1}{T_1} = \frac{P_2 V_2}{T_2}$$
+
+**Piston Dividing a Cylinder (Two-Chamber, Equal Specific Volume Type)**
+
+Since mass is conserved on each side of the piston, the mass on each side can be found using $m = \dfrac{V}{v}$. If the specific volume is equal on both sides of the piston at a given position, the volume at that position can be found using the ratio of the piston's position along the cylinder length. Once the mass on each side is known (and it stays constant as the piston moves), the new specific volume on each side at the middle position can be found again using $v = V/m$, since the volume on each side changes as the piston moves but the mass on each side does not.
