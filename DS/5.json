@@ -1,0 +1,206 @@
+[
+  {
+    "question": "Why are time and event ordering difficult but important in a distributed system?",
+    "answer": "There is **no shared clock**, local clocks drift, and network delays vary, so machines may disagree about event times and order. Reliable ordering is needed for **logs and debugging, replicated updates, coordination, security timestamps, and duplicate or delayed-operation detection**."
+  },
+  {
+    "question": "What is a physical clock in a computer?",
+    "answer": "A **physical clock** estimates real (wall-clock) time by counting ticks from a hardware oscillator, usually a quartz crystal. The operating system converts these ticks into time and may synchronize the result with **UTC**."
+  },
+  {
+    "question": "Distinguish clock skew and clock drift, and state the drift-rate bound.",
+    "answer": "- **Clock skew:** Difference between two clock readings at the same real instant.\n- **Clock drift:** Difference between the rates at which clocks run.\n\nIf drift is bounded by \\(\\rho\\), then \\(1-\\rho \\leq \\frac{dC(t)}{dt} \\leq 1+\\rho\\), where \\(C(t)\\) is the clock reading at real time \\(t\\). Periodic resynchronization is required because skew grows again after correction."
+  },
+  {
+    "question": "Compare external and internal clock synchronization.",
+    "answer": "| Type | Goal | Error bound |\n|---|---|---|\n| **External** | Keep every clock close to UTC | \\(\\lvert C_i(t)-UTC(t)\\rvert<D\\) |\n| **Internal** | Keep clocks close to one another | \\(\\lvert C_i(t)-C_j(t)\\rvert<D\\) |\n\nInternally synchronized clocks can still differ from UTC."
+  },
+  {
+    "question": "Why should clock correction preserve monotonicity, and what is clock slewing?",
+    "answer": "Clock time should not move backward because doing so can invalidate timestamps and event order. **Clock slewing** preserves monotonicity by temporarily speeding up or slowing down a clock until it reaches the correct value instead of making a backward jump."
+  },
+  {
+    "question": "What is Cristian's clock-synchronization algorithm, and what assumption does it make?",
+    "answer": "Cristian's algorithm **externally synchronizes a client** with a time server connected to an accurate UTC source. It assumes the request and reply delays are approximately equal, so each one-way delay is estimated as half the round-trip time."
+  },
+  {
+    "question": "What are the steps and time estimate in Cristian's algorithm?",
+    "answer": "1. The client sends a request at local time \\(T_0\\).\n2. The server replies with timestamp \\(S\\), recorded near reply transmission.\n3. The client receives it at \\(T_1\\) and computes \\(RTT=T_1-T_0\\).\n4. Assuming symmetric delay, it sets or slews toward \\(C_{new}=S+\\frac{RTT}{2}\\).\n5. It repeats periodically and normally prefers the sample with the smallest RTT."
+  },
+  {
+    "question": "How is uncertainty estimated in Cristian's algorithm?",
+    "answer": "If \\(d_{min}\\) is the minimum possible one-way transmission time, the clock estimate has uncertainty at most \\(\\pm\\left(\\frac{RTT}{2}-d_{min}\\right)\\). A smaller measured RTT usually means less queueing delay and a more accurate estimate."
+  },
+  {
+    "question": "What are the main advantages and limitations of Cristian's algorithm?",
+    "answer": "**Advantages:** Simple UTC-based synchronization; error can be estimated from RTT.\n\n**Limitations:** Asymmetric or variable delays reduce accuracy; one server is a bottleneck and single point of failure; a faulty server may return false time; long Internet delays produce poor estimates."
+  },
+  {
+    "question": "What is the Berkeley clock-synchronization algorithm?",
+    "answer": "The Berkeley algorithm provides **internal synchronization** without requiring UTC. An elected master polls the group, calculates an average clock offset after rejecting outliers, and sends each machine its required adjustment."
+  },
+  {
+    "question": "What are the steps of the Berkeley algorithm?",
+    "answer": "1. Elect a master (time daemon).\n2. The master polls all slaves.\n3. Estimate each current reading using half the measured RTT.\n4. Reject faulty or extreme readings.\n5. Average the remaining offsets, including the master's.\n6. Send each machine a **positive or negative relative adjustment**.\n7. Slew clocks and repeat periodically."
+  },
+  {
+    "question": "In the Berkeley algorithm, what corrections are made if the master reads 3:00 and two slaves read 2:50 and 3:25?",
+    "answer": "Offsets from the master are \\(0,-10,+25\\) minutes, so the average is \\(\\frac{0-10+25}{3}=+5\\) minutes and the target is **3:05**. The master advances 5 minutes, the slow slave advances 15 minutes, and the fast slave corrects by \\(-20\\) minutes (normally by slowing its clock)."
+  },
+  {
+    "question": "What are the main advantages and limitations of the Berkeley algorithm?",
+    "answer": "**Advantages:** No UTC receiver is needed; averaging reduces ordinary clock errors; outliers can be ignored.\n\n**Limitations:** The group time may differ from UTC; master failure requires a new election; delay-estimation errors or a faulty master can reduce accuracy."
+  },
+  {
+    "question": "What is NTP, and how is its stratum hierarchy organized?",
+    "answer": "**Network Time Protocol (NTP)** synchronizes clocks with UTC across large networks using redundant hierarchical servers.\n\n- **Stratum 0:** Atomic, radio, or GPS reference devices.\n- **Stratum 1:** Primary servers directly connected to stratum 0.\n- **Stratum 2 and above:** Secondary servers synchronized from lower strata; a larger number is farther from the reference."
+  },
+  {
+    "question": "What communication modes does NTP support?",
+    "answer": "- **Client-server:** A client requests timestamps and calculates offset and delay.\n- **Symmetric peer:** Servers exchange timestamps and synchronize each other.\n- **Broadcast/multicast:** A server sends time periodically to many clients; overhead is low, but delay estimation is less accurate."
+  },
+  {
+    "question": "What do the four timestamps in an NTP exchange represent?",
+    "answer": "- \\(T_1\\): Client sends the request.\n- \\(T_2\\): Server receives the request.\n- \\(T_3\\): Server sends the response.\n- \\(T_4\\): Client receives the response."
+  },
+  {
+    "question": "What are NTP's clock-offset and network-delay formulas?",
+    "answer": "The server's offset relative to the client is\n\\[\\theta=\\frac{(T_2-T_1)+(T_3-T_4)}{2}\\]\nThe total network delay is\n\\[\\delta=(T_4-T_1)-(T_3-T_2)\\]\nThe client adjusts its clock by approximately \\(\\theta\\)."
+  },
+  {
+    "question": "How does NTP improve synchronization reliability and accuracy?",
+    "answer": "A client consults several redundant servers, keeps multiple timestamp samples, rejects faulty sources, prefers lower-delay samples, and filters noisy measurements. It normally **slews** the clock to avoid moving time backward."
+  },
+  {
+    "question": "What are the principal advantages and limitations of NTP?",
+    "answer": "**Advantages:** Accurate UTC synchronization at Internet scale; redundant strata improve availability and fault tolerance; sample filtering reduces variable-delay effects.\n\n**Limitations:** Asymmetric routes and congestion limit accuracy; misconfigured or malicious servers can provide false time; accuracy generally decreases farther from the reference."
+  },
+  {
+    "question": "What is a logical clock, and how does it differ from a physical clock?",
+    "answer": "| Basis | Physical clock | Logical clock |\n|---|---|---|\n| **Purpose** | Approximate real or wall-clock time | Represent event order and causality |\n| **Implementation** | Hardware oscillator plus OS clock | Software scalar counter or vector |\n| **Reference** | May synchronize with UTC | Uses process order and messages; no UTC needed |\n| **Main limitation** | Drift, skew, and network-delay uncertainty | Does not measure real elapsed time; scalar order may be arbitrary |\n| **Timestamp meaning** | Estimates when an event occurred | Shows logical position or causal history |\n| **Examples** | Cristian, Berkeley, NTP | Lamport and vector clocks |"
+  },
+  {
+    "question": "What rules define Lamport's happened-before relation?",
+    "answer": "For events \\(a\\) and \\(b\\), \\(a\\rightarrow b\\) if:\n1. They are in the same process and \\(a\\) occurs first.\n2. \\(a\\) sends a message that \\(b\\) receives.\n3. **Transitivity** applies: if \\(a\\rightarrow b\\) and \\(b\\rightarrow c\\), then \\(a\\rightarrow c\\)."
+  },
+  {
+    "question": "When are two distributed events concurrent?",
+    "answer": "Events \\(a\\) and \\(b\\) are **concurrent**, written \\(a\\parallel b\\), when neither \\(a\\rightarrow b\\) nor \\(b\\rightarrow a\\). They have no known causal relation, even if one receives a smaller scalar timestamp."
+  },
+  {
+    "question": "How is Lamport's logical clock implemented?",
+    "answer": "Each process \\(P_i\\) keeps scalar counter \\(L_i\\), initially 0.\n1. Before an internal or send event: \\(L_i=L_i+1\\).\n2. Attach \\(L_i\\) to every sent message.\n3. On receiving timestamp \\(t\\), update before timestamping the receive event: \\(L_j=\\max(L_j,t)+1\\)."
+  },
+  {
+    "question": "What clock condition does a Lamport timestamp satisfy, and why is its converse false?",
+    "answer": "Lamport clocks guarantee \\(a\\rightarrow b \\implies L(a)<L(b)\\). The converse is false: \\(L(a)<L(b)\\) does **not** prove causality because concurrent events can also receive different scalar timestamps."
+  },
+  {
+    "question": "How can Lamport timestamps produce a total event order?",
+    "answer": "Order events lexicographically by \\((L(e),\\text{process ID})\\). The process ID breaks equal-timestamp ties. This total order respects happened-before but arbitrarily orders concurrent events."
+  },
+  {
+    "question": "How do Lamport timestamps progress in the two-process example?",
+    "answer": "| Step | Event | Timestamp |\n|---|---|---|\n| 1 | \\(P_1\\) internal event \\(a\\) | \\(L(a)=1\\) |\n| 2 | \\(P_1\\) sends at \\(b\\) | \\(L(b)=2\\) |\n| 3 | \\(P_2\\) independently performs \\(c\\) | \\(L(c)=1\\) |\n| 4 | \\(P_2\\) receives timestamp 2 at \\(d\\) | \\(L(d)=\\max(1,2)+1=3\\) |\n| 5 | \\(P_2\\) sends at \\(e\\) | \\(L(e)=4\\) |\n| 6 | \\(P_1\\) receives timestamp 4 at \\(f\\) | \\(L(f)=\\max(2,4)+1=5\\) |\n\nAlthough \\(L(c)<L(b)\\), events \\(b\\) and \\(c\\) are concurrent: \\(b\\parallel c\\)."
+  },
+  {
+    "question": "What are the advantages and limitations of Lamport clocks?",
+    "answer": "**Advantages:** Simple; only one integer per process/message; never contradict happened-before; can form a total order using process IDs.\n\n**Limitations:** Timestamp order alone cannot prove causality or concurrency; it provides no real time or duration; total ordering hides concurrency by imposing arbitrary order."
+  },
+  {
+    "question": "What does each component of a vector clock represent?",
+    "answer": "In an \\(N\\)-process system, process \\(P_i\\) keeps \\(V_i[1\\ldots N]\\). Component \\(V_i[k]\\) is the number of events at \\(P_k\\) known to \\(P_i\\); \\(V_i[i]\\) counts \\(P_i\\)'s own events."
+  },
+  {
+    "question": "How is a vector clock updated for internal, send, and receive events?",
+    "answer": "All components start at 0.\n- **Internal/send at \\(P_i\\):** Increment \\(V_i[i]\\); attach the complete vector to a sent message.\n- **Receive vector \\(T\\):** Merge with \\(V_i[k]=\\max(V_i[k],T[k])\\) for every \\(k\\), then increment the receiver's own component \\(V_i[i]\\)."
+  },
+  {
+    "question": "How are two vector timestamps compared to determine causality?",
+    "answer": "\\(X<Y\\) when every component satisfies \\(X[k]\\leq Y[k]\\) and at least one is strictly smaller. Thus, \\(a\\rightarrow b\\) **if and only if** \\(V(a)<V(b)\\). If neither vector is smaller, they are incomparable and the events are concurrent."
+  },
+  {
+    "question": "What vector results when process \\(P_2\\) at \\([0,1]\\) receives a message carrying \\([2,0]\\)?",
+    "answer": "First merge component-wise: \\(\\max([0,1],[2,0])=[2,1]\\). Then increment \\(P_2\\)'s own component, giving the receive timestamp **\\([2,2]\\)**."
+  },
+  {
+    "question": "Why are vectors \\([2,0]\\) and \\([0,1]\\) concurrent?",
+    "answer": "Neither vector is component-wise less than the other: the first is larger in component 1, while the second is larger in component 2. They are therefore **incomparable**, so the corresponding events are concurrent."
+  },
+  {
+    "question": "Compare Lamport clocks and vector clocks.",
+    "answer": "| Basis | Lamport clock | Vector clock |\n|---|---|---|\n| Timestamp | One integer | \\(N\\)-component vector |\n| Causality | Causality implies timestamp order only | Timestamp order iff causality |\n| Concurrency | Cannot detect it | Detected by incomparable vectors |\n| Natural order | Total order with ID tie-breaker | Causal partial order |\n| Message overhead | \\(O(1)\\) | \\(O(N)\\) |\n| Typical use | Ordered logs, mutual exclusion | Causal multicast, versions, debugging |"
+  },
+  {
+    "question": "What is causal ordering of messages?",
+    "answer": "Messages are causally ordered when \\(send(m_1)\\rightarrow send(m_2)\\) implies that every process delivering both messages delivers \\(m_1\\) before \\(m_2\\). Concurrent messages may be delivered in either order."
+  },
+  {
+    "question": "What vector-clock conditions allow process \\(P_j\\) to causally deliver a message from \\(P_i\\) with timestamp \\(T\\)?",
+    "answer": "Here \\(V_j[k]\\) is the number of messages from sender \\(P_k\\) already **delivered** by \\(P_j\\); it is a specialized delivery-count vector, not the general vector clock that also counts internal events.\n\nDeliver only when both hold:\n\\[T[i]=V_j[i]+1\\]\n\\[T[k]\\leq V_j[k]\\quad\\text{for every }k\\neq i\\]\nThe first requires the next expected message from the sender; the second requires all causal dependencies from other processes to have been delivered."
+  },
+  {
+    "question": "What happens when a received message does not yet satisfy causal-delivery conditions?",
+    "answer": "The receiver **buffers** the message and checks it again after other deliveries. Once deliverable, it delivers the message and updates its delivered-message vector component-wise: \\(V_j[k]=\\max(V_j[k],T[k])\\) for every \\(k\\)."
+  },
+  {
+    "question": "Compare FIFO, causal, and total message ordering.",
+    "answer": "| Ordering | Guarantee |\n|---|---|\n| **FIFO** | Preserves send order from the same sender only |\n| **Causal** | Preserves all happened-before relations, including across senders |\n| **Total** | Every receiver delivers all messages in the same order, including concurrent messages |"
+  },
+  {
+    "question": "What constitutes the global state of a distributed system?",
+    "answer": "It contains the **local state of every process** plus the **state of every communication channel** (messages in transit): \\(G=(LS_1,LS_2,\\ldots,LS_n,CS_{12},CS_{13},\\ldots)\\). It supports deadlock/termination detection, checkpoints, recovery, predicate evaluation, and debugging."
+  },
+  {
+    "question": "What is a cut of a distributed computation?",
+    "answer": "A **cut** is a boundary across every process timeline that selects one local state from each process. Events to its left form the recorded past; events to its right are excluded. Together with crossing in-transit messages, it represents a candidate global state."
+  },
+  {
+    "question": "Compare consistent, inconsistent, and strongly consistent cuts.",
+    "answer": "| Cut type | Condition | Arrow/channel interpretation |\n|---|---|---|\n| **Consistent** | Contains every cause of each included effect: \\(b\\in C\\land a\\rightarrow b\\implies a\\in C\\) | Send before cut and receive after cut is allowed; the message is in transit |\n| **Inconsistent** | Includes a receive but excludes its send | A message crosses from send-after to receive-before, recording an effect without its cause |\n| **Strongly consistent** | Consistent and transitless | No application-message arrow crosses; all channel states are empty |"
+  },
+  {
+    "question": "What is a distributed snapshot?",
+    "answer": "A **distributed snapshot** records a consistent global state while computation continues. It includes every process's local state and all messages in transit. It need not correspond to one physical instant, but it represents a state possible under causal ordering."
+  },
+  {
+    "question": "What assumptions does the Chandy-Lamport snapshot algorithm require?",
+    "answer": "- Processes do not fail during recording.\n- Channels are reliable, unidirectional, and FIFO.\n- Every message arrives exactly once.\n- Directed communication paths connect all participants.\n- A process sends a marker on an outgoing channel before later application messages on that channel."
+  },
+  {
+    "question": "What does the initiator do in the Chandy-Lamport algorithm?",
+    "answer": "It records its local state, sends a **marker on every outgoing channel before any later application message**, and records application messages arriving on each incoming channel until a marker arrives there."
+  },
+  {
+    "question": "What does a process do when it receives its first Chandy-Lamport marker?",
+    "answer": "1. Record its local state before later application messages.\n2. Record the marker's incoming channel as empty.\n3. Send markers on all outgoing channels before later application messages.\n4. Start recording messages on every other incoming channel."
+  },
+  {
+    "question": "What does a process do when it receives a later Chandy-Lamport marker?",
+    "answer": "Because its local state is already recorded, it stops recording that incoming channel. The channel state is all application messages received **after local-state recording and before that marker**. These are in-transit messages: they were sent before the sender's cut but received after the receiver's cut."
+  },
+  {
+    "question": "When is a process's part of a Chandy-Lamport snapshot complete?",
+    "answer": "A process finishes after it has received a marker on **every incoming channel**. The recorded local states and channel states are then collected or shared to form the global snapshot."
+  },
+  {
+    "question": "Why does the Chandy-Lamport algorithm produce a consistent snapshot?",
+    "answer": "A marker separates messages sent before a sender records its state from messages sent afterward, and FIFO delivery preserves this boundary. Therefore every recorded receive has its send recorded, while a pre-cut send received after local-state recording is captured correctly as an in-transit channel message."
+  },
+  {
+    "question": "What is distributed debugging, and why is it difficult?",
+    "answer": "Distributed debugging reconstructs faults from the states and event relations of communicating processes. It is difficult because of **nondeterministic schedules, clock skew, partial rather than total order, lack of an instantaneous global state, timing changes caused by observation, and very large trace volumes**."
+  },
+  {
+    "question": "How are logical time and snapshots used in distributed debugging?",
+    "answer": "1. Log local events, message IDs, sends/receives, and logical timestamps.\n2. Collect logs without trusting raw physical time.\n3. Reconstruct happened-before; use vectors to identify causality and concurrency.\n4. Use snapshots or consistent cuts to inspect possible global states.\n5. Evaluate a global predicate.\n6. Trace the causal chain backward to the fault."
+  },
+  {
+    "question": "What is a distributed breakpoint, and where should it be evaluated?",
+    "answer": "A **distributed breakpoint** is a predicate over the states of several processes rather than one source-code location. It must be evaluated on a **consistent cut**; otherwise, it may combine mutually incompatible local states and report a false condition."
+  },
+  {
+    "question": "Compare stable and transient global predicates in distributed debugging.",
+    "answer": "- **Stable predicate:** Once true, remains true, such as completed termination or permanent deadlock; a later consistent snapshot can detect it.\n- **Transient predicate:** May become true and then false, such as a temporary safety violation; detection may require event histories and searching multiple consistent cuts."
+  }
+]

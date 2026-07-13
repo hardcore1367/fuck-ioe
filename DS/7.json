@@ -1,0 +1,166 @@
+[
+  {
+    "question": "What is **replication** in a distributed system?",
+    "answer": "**Replication** is the maintenance of multiple physical copies of the same data, object, or service on different machines while presenting them to clients as one logical resource. Each copy is a **replica**, and a **replica manager** maintains its state."
+  },
+  {
+    "question": "What are the three main reasons for replication?",
+    "answer": "- **Performance:** place data near clients and divide requests among servers\n- **Availability:** use another replica when one is unreachable\n- **Fault tolerance:** continue producing correct results despite component failures"
+  },
+  {
+    "question": "How does replication improve distributed-system performance?",
+    "answer": "Replication acts as a scaling technique by placing data near clients and serving reads through multiple copies:\n\n- Nearby replicas reduce communication latency.\n- Multiple replicas process independent reads in parallel.\n- Request load is divided among servers, increasing throughput.\n\nA CDN is a common example."
+  },
+  {
+    "question": "How can the availability of independent replicas be calculated?",
+    "answer": "If each of **n** independent replicas fails with probability **p**, the probability that at least one remains available is:\n\n$$A=1-p^n$$\n\nFor two replicas with failure probability 0.05 each, availability is $1-0.05^2=99.75\\%$. The formula assumes failures do not share a common cause."
+  },
+  {
+    "question": "How do **availability** and **fault tolerance** differ?",
+    "answer": "- **Availability** means that a client can obtain some response from the service.\n- **Fault tolerance** means that the service continues producing a **correct** response despite failures."
+  },
+  {
+    "question": "How does replication provide fault tolerance?",
+    "answer": "- A backup can replace a crashed server.\n- Several replicas can continue executing when one fails.\n- With an appropriate voting protocol and enough independent replicas, incorrect results can be detected and masked."
+  },
+  {
+    "question": "What are the main challenges of replication?",
+    "answer": "- **Replica placement:** choosing the number and locations of copies\n- **Update propagation:** spreading changes efficiently\n- **Consistency:** controlling temporary differences between copies\n- **Coordination cost:** ordering and agreeing on operations\n- **Failure handling:** detecting failures, recovering replicas, and suppressing duplicate requests"
+  },
+  {
+    "question": "What are the main replica-placement types?",
+    "answer": "| Type | Meaning | Example |\n|---|---|---|\n| **Permanent** | Fixed server always stores a copy | Primary server or mirror site |\n| **Server-initiated** | Server creates a copy where demand is high | CDN edge server |\n| **Client-initiated** | Client keeps a temporary local copy | Browser cache |"
+  },
+  {
+    "question": "How do push-based and pull-based update propagation differ?",
+    "answer": "| Push-based | Pull-based |\n|---|---|\n| Updated replica sends changes to others | Replica requests newer data periodically |\n| Usually gives fresher copies | May return stale data before the next pull |\n| Can create unnecessary traffic | Reduces traffic when updates are not needed |"
+  },
+  {
+    "question": "What is **object replication**, and what is replication transparency?",
+    "answer": "**Object replication** creates several copies of a distributed object's state and operations. A front end receives client requests and coordinates physical replica managers. **Replication transparency** means the client sees one logical object without knowing the number or locations of its replicas."
+  },
+  {
+    "question": "Compare application-controlled and system-managed object replication.",
+    "answer": "| Basis | Application-controlled | System-managed |\n|---|---|---|\n| Manager | Application code | Middleware |\n| Flexibility | Supports object-specific rules | Limited to middleware policies |\n| Complexity | Higher | Lower |\n| Transparency | Low | High |\n| Consistency | Application handles it | Replication protocol handles it |"
+  },
+  {
+    "question": "What scalability trade-off does replication introduce?",
+    "answer": "More replicas improve local read performance, but every write may require more communication and agreement. Strong consistency gives uniform results but can **increase latency and reduce scalability and availability**; relaxed consistency responds faster but permits temporary differences."
+  },
+  {
+    "question": "What is a **consistency model**?",
+    "answer": "A **consistency model** is a contract between a replicated data store and its clients that specifies the order and values that read and write operations are allowed to observe."
+  },
+  {
+    "question": "What is **strict consistency**, and why is it impractical?",
+    "answer": "Strict consistency requires every read to return the value of the most recent write in absolute global time. It is mostly theoretical because distributed systems have no perfectly synchronized global clock and messages have nonzero, variable delay."
+  },
+  {
+    "question": "What is **linearizability**?",
+    "answer": "Under **linearizability**, every operation appears to occur instantaneously at one point between its invocation and response. If operation A completes before B begins in real time, every process must observe A before B."
+  },
+  {
+    "question": "What is **sequential consistency**?",
+    "answer": "A system is **sequentially consistent** when all operations appear in one common sequential order and each process's operations remain in its program order. The common order does not need to match real-time order between different processes."
+  },
+  {
+    "question": "How do linearizability and sequential consistency differ?",
+    "answer": "- **Linearizability** preserves both one global operation order and observed real-time order.\n- **Sequential consistency** preserves one global order and each process's program order, but not necessarily real-time order between processes."
+  },
+  {
+    "question": "What is **causal consistency**?",
+    "answer": "Causal consistency requires every process to observe causally related writes in the same order. Concurrent writes that cannot influence one another may be observed in different orders.\n\nExample: everyone must see a post before a reply written after reading it."
+  },
+  {
+    "question": "What is **eventual consistency**?",
+    "answer": "Under **eventual consistency**, replicas may temporarily differ, but they converge to the same value if no new updates occur. It gives high availability and low coordination cost but may require conflict detection and resolution."
+  },
+  {
+    "question": "What correctness mechanisms should a fault-tolerant replicated service provide?",
+    "answer": "- **Single-copy correctness:** client-visible behavior matches one correct logical service\n- **Liveness:** requests complete within the assumed fault bound\n- Unique request identifiers and duplicate suppression\n- Compatible request ordering\n- State transfer for recovering replicas\n- Failure detection and membership changes\n- Deterministic execution where required"
+  },
+  {
+    "question": "Why is deterministic execution important in replicated services?",
+    "answer": "If replicas begin in the same state and process the same ordered request, deterministic execution makes them produce the same result and next state. Uncontrolled time, random values, or local choices can otherwise make replicas diverge."
+  },
+  {
+    "question": "What is **passive replication**?",
+    "answer": "**Passive replication**, or **primary-backup replication**, uses one primary and one or more backups. The front end sends operations to the primary; the primary executes them and transfers the resulting state and request record to the backups. An up-to-date backup is promoted if the primary fails."
+  },
+  {
+    "question": "What are the operational steps of passive replication?",
+    "answer": "1. Front end assigns a unique ID and sends the request to the primary.\n2. Primary checks duplicates and orders the request.\n3. Primary executes it.\n4. Primary sends backups the updated state, request ID, and stored response and waits for required acknowledgements.\n5. Primary returns the response.\n6. On failure, an up-to-date backup is promoted and can recognize retried requests."
+  },
+  {
+    "question": "What are the advantages of passive replication?",
+    "answer": "- Only the primary executes each operation, reducing execution cost.\n- Client interaction is simple because it normally contacts one replica.\n- It can support non-deterministic operations by transferring their resulting state.\n- The front end normally handles only one response."
+  },
+  {
+    "question": "What are the limitations of passive replication?",
+    "answer": "- Primary promotion creates failover delay.\n- The primary can become a bottleneck.\n- State transfer to backups adds overhead.\n- Basic primary-backup replication handles crashes but cannot by itself mask an incorrect or malicious primary."
+  },
+  {
+    "question": "What is **active replication**?",
+    "answer": "In **active replication**, all replica managers have equal roles. The front end sends every request through reliable, totally ordered multicast, and every correct replica executes requests independently in the same order. It is also called the **state-machine approach**."
+  },
+  {
+    "question": "What are the operational steps of active replication?",
+    "answer": "1. Front end assigns a unique ID and multicasts the request.\n2. Group communication delivers it reliably in the same total order everywhere.\n3. Every deterministic replica executes it.\n4. No separate state-update agreement phase is needed.\n5. Replicas return results; the front end uses the first correct response for crash faults or an appropriate matching majority for arbitrary faults."
+  },
+  {
+    "question": "What are the advantages of active replication?",
+    "answer": "- Remaining replicas mask a crash immediately.\n- No primary promotion is required.\n- All replicas have equal roles.\n- Recovery is transparent to clients.\n- With voting and enough independent replicas, arbitrary faults can be masked."
+  },
+  {
+    "question": "What are the limitations of active replication?",
+    "answer": "- Every replica executes every request.\n- Reliable total-order multicast is expensive.\n- Operations must be deterministic or explicitly coordinated.\n- Group membership and replica recovery are complex."
+  },
+  {
+    "question": "Compare active and passive replication.",
+    "answer": "| Basis | Active | Passive |\n|---|---|---|\n| Roles | All replicas equal | One primary, remaining backups |\n| Request | Multicast to all | Sent to primary |\n| Execution | Every replica executes | Primary executes |\n| Synchronization | Same total request order | Primary transfers state |\n| Crash recovery | Remaining replicas continue | Backup promotion required |\n| Failover delay | Very low | Higher |\n| Resource use | High | Lower execution cost |\n| Determinism | Required | Not required for operation itself |\n| Basic coverage | Crash; arbitrary with sufficient voting | Mainly crash faults |"
+  },
+  {
+    "question": "How should passive and active replication architecture diagrams be reconstructed?",
+    "answer": "- **Passive:** Draw Client → Front End → Primary, state/request-record updates from the Primary to Backup replicas, the response returning through the Front End, and promotion of a Backup after primary failure.\n- **Active:** Draw Client → Front End → reliable total-order multicast → several equal replicas executing the same request, with their responses returning to the Front End."
+  },
+  {
+    "question": "What is a **high-availability service**?",
+    "answer": "A **high-availability service** remains accessible for as much time as possible, including during crashes, temporary disconnections, and network partitions. It may accept operations at any reachable replica and propagate them later, trading immediate consistency for continued service."
+  },
+  {
+    "question": "Compare eager and lazy replication.",
+    "answer": "| Eager replication | Lazy replication |\n|---|---|\n| Propagates updates before completion | Propagates updates later |\n| Stronger consistency | Weaker or eventual consistency |\n| More immediate coordination | Less immediate coordination |\n| May block during partition | Can serve more partitions |\n| Common in tightly coordinated fault-tolerant services | Common in highly available geographic services |"
+  },
+  {
+    "question": "What are examples of high-availability replication designs?",
+    "answer": "**Gossip, Bayou, and Coda** are examples. They allow useful work to continue during disconnection and reconcile replicated updates when communication is restored."
+  },
+  {
+    "question": "What is the **gossip architecture**?",
+    "answer": "Gossip is a lazy replication architecture in which replica managers periodically exchange the updates they know. Information gradually spreads through the replica group, and a client front end may contact any reachable replica."
+  },
+  {
+    "question": "What operations does a gossip service provide?",
+    "answer": "- **Query:** reads the current state without changing it\n- **Update:** changes a replica's state and is propagated to other replicas later"
+  },
+  {
+    "question": "How are requests processed in a gossip service?",
+    "answer": "1. Front end sends a query or update to a reachable replica.\n2. The replica may acknowledge an update early.\n3. It waits for any missing causal dependencies.\n4. It executes the operation.\n5. It returns a query result when applicable.\n6. Replicas later exchange batches of updates through gossip until they converge."
+  },
+  {
+    "question": "Why do gossip systems use logical or vector timestamps?",
+    "answer": "Timestamps let a replica determine which updates it already has, identify missing causal predecessors, distinguish causal from concurrent updates, and request missing updates from peers."
+  },
+  {
+    "question": "What consistency can gossip architecture provide?",
+    "answer": "Gossip naturally provides **eventual consistency** because updates spread until replicas converge. By delaying an update until its causal predecessors are applied, it can also preserve **causal ordering**."
+  },
+  {
+    "question": "What are the advantages of gossip architecture?",
+    "answer": "- Any reachable replica can serve a client.\n- Network partitions can continue local operation.\n- No central propagation coordinator is required.\n- Requests are distributed among replicas.\n- Several updates can be exchanged in one batch."
+  },
+  {
+    "question": "What are the limitations of gossip architecture?",
+    "answer": "- Replicas are temporarily inconsistent.\n- Global convergence may require several rounds.\n- Concurrent updates need conflict resolution.\n- Update histories and timestamps add metadata overhead.\n- It is unsuitable when every read must immediately return the newest global value."
+  }
+]

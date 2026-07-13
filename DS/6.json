@@ -1,0 +1,242 @@
+[
+  {
+    "question": "What is the difference between **coordination** and **agreement** in a distributed system?",
+    "answer": "- **Coordination:** Organizes the actions of processes on different machines.\n- **Agreement:** Makes processes reach the same decision through message exchange."
+  },
+  {
+    "question": "What is distributed mutual exclusion, and why must it use messages?",
+    "answer": "**Distributed mutual exclusion** ensures that at most one process executes the critical section for a shared resource at a time. It uses messages because distributed processes have no shared semaphore, common memory, or perfectly synchronized global clock."
+  },
+  {
+    "question": "What is the usual interface for accessing a critical section in distributed mutual exclusion?",
+    "answer": "1. `enter()` requests permission and waits if necessary.\n2. `resourceAccess()` executes the critical section.\n3. `exit()` releases permission for another process."
+  },
+  {
+    "question": "What are the fundamental requirements of distributed mutual exclusion?",
+    "answer": "- **Mutual exclusion:** At most one process is in the critical section.\n- **No deadlock:** Some requester eventually enters.\n- **No starvation:** Every valid requester eventually enters.\n- **Fairness:** Older requests are not continually overtaken.\n- **Fault tolerance:** Failures are handled without allowing simultaneous entry."
+  },
+  {
+    "question": "What assumptions do basic distributed mutual-exclusion algorithms make, and what must practical systems add?",
+    "answer": "Basic algorithms usually assume unique process IDs, reliable message delivery, and no process failures during execution. Practical systems add timeouts, failure detectors, elections, and recovery rules; a timeout alone cannot distinguish failure from delay."
+  },
+  {
+    "question": "Which performance criteria are used to evaluate distributed mutual-exclusion algorithms?",
+    "answer": "- **Message complexity:** Messages per critical-section use.\n- **Client delay:** Time from request to permission when the section is free.\n- **Synchronization delay:** Time between one exit and the next entry.\n- **Throughput:** Critical-section executions per unit time."
+  },
+  {
+    "question": "How do token-based and non-token-based mutual exclusion differ?",
+    "answer": "| Token-based | Non-token-based |\n|---|---|\n| A unique token proves permission | Replies or a coordinator grant prove permission |\n| Token movement determines access | Queue or timestamp order determines access |\n| Main risk is token loss or duplication | Main risk is a failed coordinator or missing reply |\n| May generate traffic while idle | Usually no traffic when no one requests access |"
+  },
+  {
+    "question": "How does the Centralized Coordinator mutual-exclusion algorithm work?",
+    "answer": "1. A process sends `REQUEST` to the coordinator.\n2. The coordinator sends `GRANT` if the resource is free; otherwise, it queues the request.\n3. The granted process enters the critical section.\n4. On exit, it sends `RELEASE`.\n5. The coordinator grants access to the next queued process or marks the resource free."
+  },
+  {
+    "question": "What are the advantages of the Centralized Coordinator algorithm?",
+    "answer": "- Simple because one coordinator makes all decisions.\n- Uses only **3 messages** per critical-section use: `REQUEST`, `GRANT`, and `RELEASE`.\n- A FIFO queue provides fairness and prevents starvation."
+  },
+  {
+    "question": "What are the limitations of the Centralized Coordinator algorithm?",
+    "answer": "The coordinator is a **single point of failure** and may become a bottleneck. Recovery must elect a new coordinator while preventing **split brain**, where two coordinators issue conflicting grants."
+  },
+  {
+    "question": "What is the Ricart–Agrawala permission-based mutual-exclusion algorithm?",
+    "answer": "It is a fully distributed, non-token algorithm in which a requester must receive permission from every other process before entering the critical section. It uses Lamport timestamps and has no central coordinator."
+  },
+  {
+    "question": "How does the Ricart–Agrawala permission-based algorithm order requests?",
+    "answer": "It orders requests by `(timestamp, process ID)`. For requests $(T_i,i)$ and $(T_j,j)$, $(T_i,i)<(T_j,j)$ when $T_i<T_j$, or when $T_i=T_j$ and $i<j$. Thus, the lower process ID breaks a timestamp tie."
+  },
+  {
+    "question": "What do the `RELEASED`, `WANTED`, and `HELD` states mean in the permission-based Ricart–Agrawala algorithm?",
+    "answer": "- `RELEASED`: Not requesting or executing the critical section.\n- `WANTED`: Requesting and waiting for replies.\n- `HELD`: Executing the critical section."
+  },
+  {
+    "question": "What does a process do when requesting the critical section in the permission-based Ricart–Agrawala algorithm?",
+    "answer": "1. Change to `WANTED` and increment the Lamport clock.\n2. Save timestamp $T_i$ and multicast `REQUEST(T_i, i)` to the other $n-1$ processes.\n3. Wait for a `REPLY` from every other process.\n4. Change to `HELD` and enter the critical section."
+  },
+  {
+    "question": "How does a process handle a `REQUEST` in the permission-based Ricart–Agrawala algorithm?",
+    "answer": "- In `RELEASED`, reply immediately.\n- In `HELD`, defer the reply.\n- In `WANTED`, defer if its own `(timestamp, ID)` has priority; otherwise reply immediately.\nIt first updates its Lamport clock from the received timestamp."
+  },
+  {
+    "question": "What happens when a process exits the critical section in the permission-based Ricart–Agrawala algorithm?",
+    "answer": "It changes to `RELEASED`, sends `REPLY` to every process in its deferred-reply set, and then clears the set."
+  },
+  {
+    "question": "Why does the permission-based Ricart–Agrawala algorithm guarantee mutual exclusion and fairness?",
+    "answer": "The total order `(timestamp, ID)` gives one competing request priority. A lower-priority process cannot collect every reply until the higher-priority process exits, so both cannot enter together; the deterministic order also provides fairness."
+  },
+  {
+    "question": "What are the cost, strength, and main limitation of the permission-based Ricart–Agrawala algorithm?",
+    "answer": "Each entry uses $(n-1)$ requests and $(n-1)$ replies, totaling **$2(n-1)$ messages**. It removes the coordinator and improves on Lamport's queue-based message cost, but one crashed or unreachable process can block every requester."
+  },
+  {
+    "question": "How is the token-based Ricart–Agrawala algorithm initialized, and how does it identify a pending request?",
+    "answer": "Initially, every `request[j]` and `served[j]` value is `0`, and exactly one process owns the unique token. Each process records the latest request timestamp in `request[j]`, while the token stores the latest served timestamp in `served[j]`. Process $P_j$ has a pending request when **`request[j] > served[j]`**."
+  },
+  {
+    "question": "What do the states in the token-based Ricart–Agrawala algorithm mean?",
+    "answer": "- `NO_TOKEN`: The process has no token.\n- `TOKEN_PRESENT`: It owns the token but is not in the critical section.\n- `TOKEN_HELD`: It owns the token and is executing the critical section."
+  },
+  {
+    "question": "How does a process request entry in the token-based Ricart–Agrawala algorithm?",
+    "answer": "If it has `TOKEN_PRESENT`, it changes to `TOKEN_HELD` and enters immediately. If it has `NO_TOKEN`, it timestamps its request, multicasts `REQUEST(T_i,i)` to the other $n-1$ processes, and waits for the token."
+  },
+  {
+    "question": "How are requests recorded and the token transferred in the token-based Ricart–Agrawala algorithm?",
+    "answer": "A receiver updates `request[j]` with the newest timestamp. An idle token owner transfers the token to a pending requester; an owner inside the critical section retains it until exit."
+  },
+  {
+    "question": "What does a token owner do after leaving the critical section in the token-based Ricart–Agrawala algorithm?",
+    "answer": "It sets `served[i] = request[i]`, then searches processes in cyclic order. It sends the token to the first process satisfying `request[j] > served[j]`; if none is pending, it keeps the idle token."
+  },
+  {
+    "question": "What are the cost and failure behavior of the token-based Ricart–Agrawala algorithm?",
+    "answer": "A requester without the token normally uses $n-1$ request messages plus one token transfer, totaling about **$n$ messages**. A failed non-holder does not block progress, but token loss or holder failure stops progress; recovery must create exactly one replacement token."
+  },
+  {
+    "question": "How does the Token-Ring mutual-exclusion algorithm work?",
+    "answer": "Processes form a logical ring and each knows its clockwise successor. A unique token circulates around the ring. A requester keeps the arriving token, enters once, and passes it to its successor after leaving; a non-requester forwards it immediately."
+  },
+  {
+    "question": "Why is Token-Ring mutual exclusion fair and starvation-free in a failure-free system?",
+    "answer": "The unique token visits every process in ring order, and a process may enter only once per token visit. Therefore, every requester eventually receives permission and no process can retain repeated priority."
+  },
+  {
+    "question": "What are the performance and failure limitations of Token-Ring mutual exclusion?",
+    "answer": "A requester may wait for up to $n-1$ transfers, with an average of about half a ring. The token consumes bandwidth even when idle, a failed member can break the ring, token loss stops progress, and token duplication violates mutual exclusion."
+  },
+  {
+    "question": "Compare the message costs and main failure problems of the four mutual-exclusion algorithms.",
+    "answer": "| Algorithm | Entry cost | Main failure problem |\n|---|---:|---|\n| Centralized Coordinator | `3` messages | Coordinator failure |\n| RA permission-based | $2(n-1)$ messages | Any missing reply |\n| RA token-based | About $n$ messages when transfer is needed | Token loss or holder failure |\n| Token Ring | `0` to $n-1$ transfers | Broken ring or invalid token count |"
+  },
+  {
+    "question": "What is a distributed election, and when is one needed?",
+    "answer": "A distributed election selects exactly one active process as leader or coordinator. It is needed after coordinator or token-holder failure, at startup without a known coordinator, or when policy allows a recovered higher-priority process to replace the current leader."
+  },
+  {
+    "question": "What correctness properties should a distributed election algorithm provide?",
+    "answer": "- **Safety:** Correct processes do not accept two coordinators.\n- **Liveness:** The election eventually finishes when enough processes communicate.\n- **Agreement:** All correct processes learn the same coordinator.\n- **Validity:** The winner is active and eligible."
+  },
+  {
+    "question": "What assumptions are common to the Bully and Ring election algorithms?",
+    "answer": "They assume unique process identifiers and select the active process with the highest ID. Timeouts are used to suspect failures, so unreliable failure detection may start unnecessary elections."
+  },
+  {
+    "question": "How does the Bully election algorithm work?",
+    "answer": "1. A detector sends `ELECTION` to all higher-ID processes.\n2. Higher processes reply `OK` and start their own elections.\n3. A process receiving no higher reply declares itself coordinator.\n4. The highest active process sends `COORDINATOR` to lower-ID processes.\n5. A participant that receives `OK` but no coordinator announcement before timeout starts another election."
+  },
+  {
+    "question": "How does the Bully election proceed when `P_5` fails and `P_2` initiates among processes `P_1` to `P_5`?",
+    "answer": "`P_2` sends `ELECTION` to `P_3`, `P_4`, and failed `P_5`. Processes `P_3` and `P_4` reply `OK` and start higher-level elections. Because `P_4` receives no response from `P_5`, it becomes coordinator and sends `COORDINATOR(4)` to the surviving lower-ID processes."
+  },
+  {
+    "question": "How does recovery affect leadership in the Bully algorithm?",
+    "answer": "A recovered process starts an election. If its identifier is higher than the current coordinator's identifier, it eventually replaces the lower-ID coordinator—hence the name **Bully**."
+  },
+  {
+    "question": "What are the message cost and limitations of the Bully algorithm?",
+    "answer": "The best case is linear when a high-ID process starts. The worst case is **$O(n^2)$** when a low-ID process triggers many higher processes. Every process must know all members, and failures or false suspicions can cause heavy traffic."
+  },
+  {
+    "question": "How does the Ring-based election algorithm select its winner?",
+    "answer": "Processes form a unidirectional logical ring, and each knows its active successor. An `ELECTION(k)` candidate circulates:\n\n- If $k>j$, process $P_j$ forwards $k$.\n- If $k<j$ and $P_j$ is not participating, it replaces $k$ with $j$.\n- If $k<j$ and $P_j$ already participates, it discards the message.\n- If $k=j$, that identifier completed the ring, so $P_j$ is the highest active process and wins."
+  },
+  {
+    "question": "What is the purpose of the `PARTICIPANT` flag in Ring-based election?",
+    "answer": "It records that a process is already involved in an election and prevents it from repeatedly forwarding or replacing lower-priority concurrent election messages."
+  },
+  {
+    "question": "How is the winner announced in the Ring-based election algorithm?",
+    "answer": "The winner sends `ELECTED(winnerID)` around the ring. Each process records the winner, clears its `PARTICIPANT` flag, and forwards the announcement. Completion occurs when it returns to the winner."
+  },
+  {
+    "question": "What are the cost and limitations of the Ring-based election algorithm?",
+    "answer": "One election uses a linear number of messages, while concurrent initiators can approach **$O(n^2)$**. It stores little membership information, but election can be slow in a large ring and a failed member requires path repair or successor replacement."
+  },
+  {
+    "question": "Compare the Bully and Ring-based election algorithms.",
+    "answer": "| Bully | Ring-based |\n|---|---|\n| Knows all processes | Mainly knows its successor |\n| Sends directly to higher IDs | Sends through a logical ring |\n| Can be quick when a high ID starts | One election normally takes a full ring |\n| Worst case $O(n^2)$ | $O(n)$ normally; concurrent elections may reach $O(n^2)$ |\n| Main issue: traffic and membership knowledge | Main issue: ring repair after failure |"
+  },
+  {
+    "question": "How do unicast, multicast, and broadcast differ?",
+    "answer": "- **Unicast:** One sender to one receiver.\n- **Multicast:** One sender to members of a selected group.\n- **Broadcast:** One sender to every process in the system or network scope."
+  },
+  {
+    "question": "Why is group communication useful in distributed systems?",
+    "answer": "It reduces repeated link transmissions, permits parallel delivery through a tree, and provides common group-wide delivery guarantees. Applications include replicated servers, notifications, collaboration, cluster membership, and replicated state machines."
+  },
+  {
+    "question": "What is reliable multicast, and why is it needed above basic network multicast?",
+    "answer": "**Reliable multicast** adds protocol rules so group members obtain a consistent delivery result despite losses and crashes. Basic network multicast may lose, duplicate, or reorder packets."
+  },
+  {
+    "question": "What are the main reliable multicast properties?",
+    "answer": "- **Validity:** A correct sender eventually delivers its own multicast.\n- **Integrity:** Deliver at most once and only a genuinely multicast message.\n- **Agreement:** If one correct member delivers, all correct members eventually deliver.\n- **Uniform agreement:** Delivery by any member, even one that later fails, implies eventual delivery by all correct members."
+  },
+  {
+    "question": "What ordering guarantees may be added to reliable multicast?",
+    "answer": "- **FIFO order:** Preserves each sender's sending order.\n- **Causal order:** Delivers a cause before its effect.\n- **Total order:** Every member delivers all messages in the same order.\nReliable total-order multicast is also called **atomic multicast**."
+  },
+  {
+    "question": "How does reliable group communication commonly detect and recover missing messages?",
+    "answer": "Messages carry unique IDs and sequence numbers. Receivers discard recorded duplicates; acknowledgements confirm receipt or negative acknowledgements request gaps. The sender or another member retransmits missing messages."
+  },
+  {
+    "question": "What are message stability and a membership view in reliable multicast?",
+    "answer": "A message is **stable** when the required members have received it, allowing retransmission copies to be deleted. A membership **view** defines the current group so delivery guarantees refer to a clear set across joins, leaves, and failures."
+  },
+  {
+    "question": "How does eager reliable multicast work, and what is its cost?",
+    "answer": "A process forwards each newly seen message to every group member before delivery and discards later duplicates. A correct receiver can continue dissemination after sender failure, but traffic may reach **$O(n^2)$**."
+  },
+  {
+    "question": "What is consensus in a distributed system?",
+    "answer": "**Consensus** makes processes irreversibly decide one common value from their proposals. The value may be `commit`/`abort`, a leader, configuration, log entry, or command."
+  },
+  {
+    "question": "What are the four requirements of consensus?",
+    "answer": "- **Agreement:** No two correct processes decide differently.\n- **Validity:** The decision was proposed by some process.\n- **Termination:** Every correct process eventually decides under the algorithm's assumptions.\n- **Integrity:** Each process decides at most once.\n\n**Agreement, validity, and integrity are safety properties; termination is a liveness property.**"
+  },
+  {
+    "question": "Where is consensus used, and how is election related to it?",
+    "answer": "Consensus supports leader selection, replicated state machines and logs, membership views, transaction commit decisions, and unique system-wide actions. Election is a special agreement problem whose decided value is a process ID."
+  },
+  {
+    "question": "What are the main phases of leader-and-quorum consensus?",
+    "answer": "1. **Propose:** Processes submit candidate values.\n2. **Select leader:** A leader coordinates a numbered round.\n3. **Prepare:** The leader reads previously accepted proposals from a majority.\n4. **Accept:** It sends the safe value; a process accepts only if it has not promised a higher round.\n5. **Decide:** After a majority accepts, the leader announces the decision.\n6. **Recover:** After leader failure, a higher-numbered round preserves any safely accepted value."
+  },
+  {
+    "question": "How must a consensus leader choose a value during the prepare phase?",
+    "answer": "If responses contain accepted proposals, it must choose the value with the **highest reported round number**. It may choose a new valid proposal only when no response reports a previously accepted value."
+  },
+  {
+    "question": "Why do majority quorums preserve agreement across consensus leader failures?",
+    "answer": "Any two majorities intersect in at least one process. Persistent round and accepted-value state lets a new leader discover an earlier chosen value and prevents it from safely choosing a conflicting value."
+  },
+  {
+    "question": "What is required for progress in leader-and-quorum consensus?",
+    "answer": "A communicating majority must be available, and eventually one leader must remain reachable long enough to complete a round. A minority side of a partition cannot safely decide independently."
+  },
+  {
+    "question": "In a five-replica consensus group, why do three accepted copies protect a chosen value?",
+    "answer": "Three replicas form a majority. Any future majority of three overlaps it, so a new leader discovers the accepted value and cannot safely decide a conflicting value for the same instance."
+  },
+  {
+    "question": "What failure and timing challenges make distributed consensus difficult?",
+    "answer": "Timeouts cannot distinguish a crash from delay, partitions separate processes, and leaders may fail after reaching only part of the group. Quorums, round numbers, and persistent accepted state preserve safety during these uncertainties."
+  },
+  {
+    "question": "What does the FLP impossibility result state, and how do practical consensus protocols obtain liveness?",
+    "answer": "In a completely asynchronous message-passing system, deterministic consensus cannot guarantee termination if even one process may crash. Practical protocols assume partial synchrony, use failure detectors, or apply randomized techniques while preserving safety during delays."
+  },
+  {
+    "question": "Why do Byzantine failures require stronger consensus protocols than crash failures?",
+    "answer": "A Byzantine process may send conflicting or dishonest messages, whereas an ordinary crash-failure model assumes a failed process merely stops or becomes unreachable."
+  },
+  {
+    "question": "How do mutual exclusion, election, reliable multicast, and consensus differ in their main goals?",
+    "answer": "| Problem | Main goal |\n|---|---|\n| Mutual exclusion | Choose who enters the critical section now |\n| Election | Select one active coordinator |\n| Reliable multicast | Give group-wide message delivery guarantees |\n| Consensus | Make all correct processes decide one proposed value |"
+  }
+]
