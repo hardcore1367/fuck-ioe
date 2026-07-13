@@ -120,7 +120,7 @@ New content must be simple, clear, and exam-worthy. It should be neither a vague
 - Group related features, functions, advantages, disadvantages, requirements, and applications under clear headings.
 - Use numbered steps for mechanisms, algorithms, procedures, and working processes.
 - Use Markdown tables for comparisons when they make differences easier to reproduce in an exam.
-- Use LaTeX/KaTeX for formulas and define every symbol needed to use the formula.
+- Use GitHub-compatible Markdown math for formulas: `$...$` for inline math and `$$...$$` on separate lines for display math. Never use `\(...\)` or `\[...\]` delimiters.
 - Include a small example when it materially improves an exam answer.
 - Stay within the subject scope. Add prerequisite context only when it is needed for an `imp.md` topic.
 - Do not add a summary, encouragement, transition paragraph, or meta-commentary.
@@ -168,7 +168,7 @@ Create flashcards from the completed chapter note, not directly from `imp.md` or
 - Keep answers concise but complete enough that their meaning is unambiguous.
 - Test recall with direct questions such as “What is...?”, “How does... work?”, “Why...?”, “List...”, “Compare...”, or “What are the steps...?”.
 - Include definitions, formulas, functions, comparisons, mechanisms, algorithms, examples, and diagram-related concepts when present in the note.
-- Use Markdown, bullets, tables, fenced blocks, and LaTeX inside strings only when they improve clarity.
+- Use Markdown, bullets, tables, fenced blocks, and GitHub-compatible math inside strings only when they improve clarity. Use `$...$` for inline math and `$$...$$` for display math; never use `\(...\)` or `\[...\]` delimiters.
 - Reuse an image only when it already appears in the note and is genuinely useful for recall.
 - Create enough cards to cover the note well, but prioritize retention-to-review-time ratio over card count.
 
