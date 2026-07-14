@@ -1,150 +1,58 @@
 [
   {
     "question": "What is a distributed heterogeneous application?",
-    "answer": "A **distributed heterogeneous application** has components running on different hardware, operating systems, networks, programming languages, or data formats while still exchanging data and using one another's services correctly. Middleware provides the common layer that makes this cooperation possible."
-  },
-  {
-    "question": "What are the main sources of heterogeneity in a distributed system?",
-    "answer": "- **Hardware:** Different instruction sets, word sizes, byte orders, and memory organizations\n- **Operating systems:** Different process, file, security, and communication interfaces\n- **Networks:** Different technologies and protocols\n- **Programming languages:** Different type systems and calling conventions\n- **Data representation:** Different numeric, character, structure, and byte-order formats\n- **Databases and services:** Different APIs and data models\n- **Capabilities and devices:** Different processing power, storage, peripherals, and services"
-  },
-  {
-    "question": "Why is heterogeneity common, and what must a distributed system do about it?",
-    "answer": "Heterogeneity is common because no platform is best for every task, organizations reuse legacy systems, and users choose different devices and vendors. The system must preserve the meaning of exchanged data and provide uniform service access despite platform differences."
-  },
-  {
-    "question": "How can an online banking system illustrate a heterogeneous distributed application?",
-    "answer": "It may combine a Kotlin/Android client, browser clients on several operating systems, a Java/Linux application server, a C++ mainframe transaction service, and a database from another vendor. Middleware lets all components use the same banking operations by locating services and translating requests, data, and results."
+    "answer": "A **distributed heterogeneous application** has components running on different hardware, operating systems, networks, programming languages, or data formats while still cooperating as one system. **Middleware** provides the common communication layer between them."
   },
   {
     "question": "Compare homogeneous and heterogeneous distributed applications.",
-    "answer": "| Basis | Homogeneous | Heterogeneous |\n|---|---|---|\n| Platform | Same or compatible hardware and OS | Different processors and OSs |\n| Programming | Usually one language/runtime | Different languages/runtimes |\n| Data | Usually compatible representation | Requires marshalling to a common form |\n| Communication | Platform-specific protocol may work | Standard protocol and language-neutral interface needed |\n| Interoperability | Naturally easier | Middleware hides and translates differences |\n| Trade-off | Simpler but platform-dependent | More complex but integrates legacy systems and supports platform choice |"
+    "answer": "| S.N. | Homogeneous distributed application | Heterogeneous distributed application |\n|---:|---|---|\n| 1 | Its components use the same or compatible hardware and operating systems. | Its components may use different hardware and operating systems. |\n| 2 | Its components usually use compatible languages, runtimes, and data formats. | Its components may use different languages, runtimes, and data representations. |\n| 3 | Communication is comparatively simple because the components follow similar conventions. | Standard interfaces and data conversion are required for interoperability. |\n| 4 | An example is a set of Java services running on similar Linux machines. | An example is a Java/Linux client using a C++/Windows server. |"
   },
   {
     "question": "What is middleware, and where is it placed in a distributed system?",
-    "answer": "**Middleware** is a common software layer between distributed applications and the underlying operating systems and networks. It exposes uniform interfaces and services so applications do not handle platform-specific communication details directly."
+    "answer": "**Middleware** is a software layer between distributed applications and the underlying operating systems and networks. It provides uniform interfaces and common services so components can communicate without handling platform-specific details directly."
   },
   {
-    "question": "What major roles does middleware perform in a distributed system?",
-    "answer": "- Masks platform, language, protocol, and data differences\n- Provides distribution transparency and high-level communication\n- Marshals and unmarshals parameters and results\n- Supplies naming and service discovery\n- Reuses services such as security, transactions, persistence, time, concurrency, and failure handling\n- Improves portability and interoperability\n- Reduces repeated networking and distributed-system code"
+    "question": "What are the main roles of middleware in a distributed system?",
+    "answer": "- **Interoperability:** Provides standard interfaces and data representations across platforms.\n- **Communication:** Supplies remote invocation and messaging mechanisms.\n- **Transparency and discovery:** Locates remote services and hides communication details.\n- **Common services:** Reuses facilities such as naming, security, transactions, and events.\n- **Portability and reuse:** Separates application logic from a specific operating system or network."
   },
   {
-    "question": "How does middleware hide heterogeneity during a remote operation?",
-    "answer": "1. The client calls a uniform, platform-independent interface.\n2. Client middleware marshals the operation and arguments into a common representation.\n3. Middleware discovers the remote component and sends a standard request.\n4. Server middleware converts and dispatches the request to the service.\n5. The result follows the reverse path and is reconstructed in the client's native representation."
+    "question": "What is CORBA, and what independence does it provide?",
+    "answer": "**Common Object Request Broker Architecture (CORBA)** is an open distributed-object standard defined by the **Object Management Group (OMG)**. It lets a client invoke a remote object without depending on the object's location, programming language, operating system, or hardware."
   },
   {
-    "question": "What is an object, and what makes an object distributed?",
-    "answer": "An **object** combines state in attributes with behavior in methods. It is a **distributed object** when it resides in one process but clients in other processes can invoke its methods through a remote object reference."
-  },
-  {
-    "question": "What are the central elements of the distributed object model?",
-    "answer": "- **Servant/service provider:** Implements the object's operations on the server\n- **Client:** Obtains a remote reference and requests operations\n- **Interface:** Declares visible operations, types, results, and exceptions without exposing implementation\n- **Remote object reference:** Uniquely identifies and addresses the object\n- **Stub and skeleton:** Represent the object locally and dispatch requests on the server\n- **ORB and object services:** Connect participants and provide facilities such as naming, security, and transactions"
-  },
-  {
-    "question": "What is an Interface Definition Language (IDL), and why is it used in CORBA?",
-    "answer": "**IDL** is a language-neutral notation for defining a distributed object's public operations and data types. It acts as the client-server contract, separates interface from implementation, provides common CORBA types, and lets an IDL compiler generate language-specific client stubs and server skeletons."
-  },
-  {
-    "question": "How does CORBA IDL enable components written in different languages to interoperate?",
-    "answer": "The same language-neutral IDL interface can generate, for example, a Java client stub and a C++ server skeleton. The generated code maps CORBA types to each language, handles data conversion, and connects both sides to the ORB without changing the interface contract."
-  },
-  {
-    "question": "What is CORBA, and what transparency does it provide?",
-    "answer": "**Common Object Request Broker Architecture (CORBA)** is an open OMG standard for communication between distributed objects. It lets a client invoke a remote object's operation regardless of the object's location, hardware, operating system, or implementation language."
-  },
-  {
-    "question": "What client-server approach does CORBA follow?",
-    "answer": "The client depends on an **IDL-defined interface**, while a server-side **servant** implements that interface. The **ORB** carries requests and replies between them, providing location and communication transparency."
+    "question": "What is CORBA IDL, and what does its compiler generate?",
+    "answer": "**Interface Definition Language (IDL)** defines remote operations and data types independently of programming language. The IDL compiler generates language-specific **client stubs** and **server skeletons** that connect application code to the ORB."
   },
   {
     "question": "How should the complete CORBA architecture diagram be reconstructed?",
-    "answer": "Draw the main path as:\n\n**Client Application → Client Stub or DII → Client ORB Core → GIOP/IIOP → Server ORB Core → POA/Object Adapter → Server Skeleton or DSI → Servant**\n\nAlso show the **IDL compiler** generating stubs/skeletons, the client's **remote object reference**, the **Interface Repository**, the **Implementation Repository**, and reusable **CORBA services** connected through the ORB."
+    "answer": "Draw the request path as:\n\n**Client Application → Client Stub or DII → Client ORB Core → GIOP/IIOP → Server ORB Core → Object Adapter/POA → Server Skeleton or DSI → Servant**\n\nAlso show **IDL and the IDL compiler**, the **Interface Repository**, the **Implementation Repository**, and **CORBA services** such as Naming, Transaction, and Security."
   },
   {
-    "question": "What are the roles of the client application, CORBA object, and servant?",
-    "answer": "- **Client application:** Obtains an object reference and invokes remote operations\n- **CORBA object:** The distributed object visible through its IDL interface\n- **Servant:** The language-specific server object that actually implements the interface's operations"
+    "question": "What do the client stub, DII, server skeleton, and DSI do in CORBA?",
+    "answer": "- **Client stub:** Marshals a statically defined request and unmarshals the reply.\n- **DII:** Constructs a client request dynamically at run time without a generated stub.\n- **Server skeleton:** Unmarshals a statically defined request and invokes the servant.\n- **DSI:** Lets a server receive and dispatch requests dynamically without a generated skeleton."
   },
   {
-    "question": "Compare the client stub and server skeleton in CORBA.",
-    "answer": "| Component | Role |\n|---|---|\n| **Client stub/proxy** | Presents a normal local method call, marshals arguments, and unmarshals results or exceptions |\n| **Server skeleton** | Unmarshals request arguments, invokes the correct servant method, and marshals the result or exception |\n\nBoth are generated from IDL in the language of their respective side."
+    "question": "What are the roles of the servant and CORBA repositories?",
+    "answer": "- **Servant:** Implements the operations declared in the IDL interface.\n- **Interface Repository:** Stores run-time IDL information used for dynamic invocation.\n- **Implementation Repository:** Stores server location and activation information used to find or start an implementation."
   },
   {
-    "question": "Compare CORBA's Dynamic Invocation Interface (DII) and Dynamic Skeleton Interface (DSI).",
-    "answer": "- **DII:** Client-side facility for constructing and invoking requests at run time without a compiled stub for the interface\n- **DSI:** Server-side facility for receiving requests without a statically generated skeleton\n\nThey support dynamic clients and servers whose interfaces may not be fully known at compile time."
+    "question": "Compare the roles of the ORB and Object Adapter in CORBA.",
+    "answer": "| S.N. | Object Request Broker (ORB) | Object Adapter/POA |\n|---:|---|---|\n| 1 | It is CORBA's communication bus between clients and servers. | It is the server-side bridge between the ORB and servants. |\n| 2 | It interprets object references, locates target servers, and transports requests and replies. | It registers servants, creates object references, and maps requests to the correct servant. |\n| 3 | It handles communication and routing across address spaces or machines. | It handles servant activation and request dispatch on the server. |"
   },
   {
-    "question": "Compare the Interface Repository and Implementation Repository in CORBA.",
-    "answer": "| Repository | Stores | Main use |\n|---|---|---|\n| **Interface Repository** | IDL metadata such as operations, parameters, results, and exceptions | Lets DII clients and tools inspect interfaces at run time |\n| **Implementation Repository** | Server location, implementation, and activation details | Helps the ORB locate or start the required server |"
-  },
-  {
-    "question": "What is the Object Request Broker (ORB)?",
-    "answer": "The **ORB** is CORBA's central communication component. It acts as a software bus between clients and object implementations, hiding their location, language, operating system, and communication mechanism."
-  },
-  {
-    "question": "What functions does the CORBA ORB perform?",
-    "answer": "- Interprets object references and binds clients to target objects\n- Accepts requests from stubs or the DII\n- Locates or activates servers with repository support\n- Transfers requests and replies across address spaces\n- Preserves operation names, types, results, and exceptions across language mappings\n- Cooperates with the Object Adapter to dispatch requests\n- Uses standard protocols to interoperate with other ORBs"
-  },
-  {
-    "question": "What is an Object Adapter, and what is the standard CORBA adapter called?",
-    "answer": "An **Object Adapter** is the server-side bridge between the ORB's language-independent object model and language-specific servant implementations. The commonly used standard adapter is the **Portable Object Adapter (POA)**."
-  },
-  {
-    "question": "What responsibilities does the CORBA Object Adapter perform?",
-    "answer": "- Registers servants and assigns CORBA object identities\n- Creates remote object references\n- Maps incoming references to the correct servant and dispatch path\n- Activates and deactivates servants according to policy\n- Controls policies for persistence, servant retention, request processing, and object identity"
-  },
-  {
-    "question": "How do the ORB and Object Adapter differ?",
-    "answer": "The **ORB** transports and routes invocations between clients and servers. The **Object Adapter** receives a server-side request from the ORB, maps its object reference to an actual servant, manages that servant, and dispatches the operation."
-  },
-  {
-    "question": "What are the steps in a complete CORBA request?",
-    "answer": "1. Define the remote interface in IDL and generate static stubs/skeletons if needed.\n2. Implement the servant, register it with the Object Adapter, and publish its object reference.\n3. The client obtains the reference and invokes through a stub or DII.\n4. The client side marshals the operation and arguments for its ORB.\n5. The ORBs transfer the request, normally using IIOP across TCP/IP.\n6. The server Object Adapter identifies or activates the servant.\n7. A skeleton or DSI unmarshals and invokes the method.\n8. The result or exception is marshalled back through the ORBs to the client."
-  },
-  {
-    "question": "What are GIOP and IIOP, and how are they related?",
-    "answer": "**GIOP (General Inter-ORB Protocol)** defines standard CORBA message formats and rules for requests, replies, object location, and errors. **IIOP (Internet Inter-ORB Protocol)** maps GIOP onto TCP/IP, allowing ORBs from different vendors to communicate over an intranet or the Internet."
-  },
-  {
-    "question": "What is static invocation in CORBA, and how does it work?",
-    "answer": "In **static invocation**, the IDL interface is known at compile time. The client calls a generated stub; the stub performs type-checked marshalling and sends the request through the ORB; the generated skeleton unmarshals it and invokes the servant; then the result returns along the reverse path."
-  },
-  {
-    "question": "What are the advantages and limitation of static CORBA invocation?",
-    "answer": "Static invocation is **simple, fast, and compile-time type-safe**, making it suitable for stable interfaces. Its limitation is that an interface change requires affected stubs or skeletons to be regenerated and recompiled."
-  },
-  {
-    "question": "What is dynamic invocation in CORBA, and when is it useful?",
-    "answer": "In **dynamic invocation**, a client builds a request at run time through the DII instead of calling a generated stub. It is useful for generic tools, gateways, browsers, or clients that did not know the target interface when compiled."
-  },
-  {
-    "question": "How does a CORBA client perform a dynamic invocation?",
-    "answer": "1. Obtain the target object's reference.\n2. Discover operation and parameter metadata from the Interface Repository or run-time information.\n3. Build a request with the operation name, arguments and types, expected result, and exceptions.\n4. Submit it through the DII to the ORB.\n5. Examine the returned generic reply at run time.\n\nThe server may use a normal skeleton or the DSI."
+    "question": "What are the steps of a complete CORBA request?",
+    "answer": "1. Define the interface in IDL and generate the client stub and server skeleton.\n2. Implement the servant, register it with the Object Adapter, and publish its object reference.\n3. The client obtains the reference and invokes through a stub or the DII.\n4. The client side marshals the arguments, and the ORB sends the request.\n5. The server ORB passes the request through the Object Adapter and skeleton or DSI to the servant.\n6. The result or exception returns through the same components in reverse order."
   },
   {
     "question": "Compare static and dynamic invocation in CORBA.",
-    "answer": "| Basis | Static invocation | Dynamic invocation |\n|---|---|---|\n| Interface | Known at compile time | May be discovered at run time |\n| Client mechanism | Generated stub | DII-built request |\n| Type checking | Mainly compile time | Mainly run time |\n| Interface Repository | Normally unnecessary during invocation | Commonly used |\n| Performance | Simpler and generally faster | More complex and generally slower |\n| Best use | Stable, known interfaces | Generic or changing/unknown interfaces |"
+    "answer": "| S.N. | Static invocation | Dynamic invocation |\n|---:|---|---|\n| 1 | The interface must be known at compile time. | The interface may be discovered at run time. |\n| 2 | The client invokes the object through an IDL-generated stub. | The client invokes the object through the Dynamic Invocation Interface. |\n| 3 | The client makes a normal method call on the generated stub. | The client supplies the operation name, arguments, and types at run time. |\n| 4 | Type checking is performed mainly at compile time. | Type checking is performed mainly at run time. |\n| 5 | The Interface Repository is usually unnecessary during invocation. | The Interface Repository is commonly used to obtain operation and type information. |\n| 6 | It is simpler and generally faster. | It is more flexible but also more complex and slower. |\n| 7 | It is suitable for stable and known interfaces. | It is suitable for generic clients, gateways, and unknown interfaces. |"
   },
   {
     "question": "What are CORBA services?",
-    "answer": "**CORBA services** are standard reusable object interfaces for common distributed-system needs. Applications access them through the ORB instead of independently reimplementing facilities such as naming, security, transactions, time, and object life-cycle management."
+    "answer": "**CORBA services** are standard reusable object interfaces for common distributed-system functions. Applications access them through the ORB instead of implementing facilities such as naming, transactions, security, and event handling separately."
   },
   {
-    "question": "Compare the CORBA Naming Service and Trading Service.",
-    "answer": "- **Naming Service:** Maps a meaningful hierarchical name to a specific object reference, allowing lookup by name\n- **Trading Service:** Lets providers advertise service objects and properties, then lets clients search by required service type and properties"
-  },
-  {
-    "question": "What do the CORBA Transaction and Concurrency Control Services provide?",
-    "answer": "- **Transaction Service:** Coordinates recoverable operations on multiple objects as one atomic transaction, using protocols such as two-phase commit\n- **Concurrency Control Service:** Provides locks and coordination so concurrent transactions or threads do not leave shared objects inconsistent"
-  },
-  {
-    "question": "What do the CORBA Security and Time Services provide?",
-    "answer": "- **Security Service:** Authentication, authorization, access control, confidentiality, integrity, delegation, and auditing\n- **Time Service:** Common time values, clock-error bounds, time intervals, and support for time-triggered events"
-  },
-  {
-    "question": "What do the CORBA Life Cycle, Query, and Externalization Services provide?",
-    "answer": "- **Life Cycle Service:** Standard factories and operations to create, copy, move, and delete objects while preserving valid references and storage needs\n- **Query Service:** Declaratively selects objects from collections using specified conditions\n- **Externalization Service:** Marshals object state for transfer or storage and later reconstructs it"
-  },
-  {
-    "question": "How do CORBA Event and Notification Services support asynchronous communication?",
-    "answer": "They use **event channels** so suppliers and consumers can exchange events asynchronously without being directly coupled to each other."
+    "question": "What are the purposes of the main CORBA services?",
+    "answer": "| Service | Purpose |\n|---|---|\n| **Naming** | Maps a meaningful name to an object reference. |\n| **Trading** | Finds services by their type and advertised properties. |\n| **Event/Notification** | Supports asynchronous communication between suppliers and consumers. |\n| **Transaction** | Coordinates operations on several objects as one atomic transaction. |\n| **Security** | Provides authentication, authorization, confidentiality, integrity, and auditing. |\n| **Concurrency Control** | Coordinates simultaneous access to shared objects using mechanisms such as locks. |\n| **Life Cycle** | Defines common operations for creating, copying, moving, and deleting CORBA objects. |"
   }
 ]
